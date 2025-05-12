@@ -3,7 +3,6 @@ import "../pagecss/profilesetuppage.css";
 import "../componentscss/formcss/profilesetupform.css"
 import MainSideBar from "../sidebar/mainsidebar.js";
 import ProfileSetupForm from "../components/profilesetupform.js";
-import { Link } from "react-router-dom";
 
 function ProfileSetupPage() {
     return (

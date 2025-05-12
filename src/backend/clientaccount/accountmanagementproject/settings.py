@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'registeraccountapp',
     'corsheaders',
+    'loginaccountapp'
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+AUTH_USER_MODEL = 'registeraccountapp.AccountDatabase'
 
 
 # Password validation

@@ -40,7 +40,7 @@ function RegisterForm() {
             });
 
             if (response.ok) {
-                navigate("/loginpage", {state: {successfulRegistration: true } })
+                navigate("/loginpage", {state: {successfulRegistration: true } });
             } else {
                 const error = await response.json();
                 let errorMessage = "Registration failed";
@@ -54,7 +54,7 @@ function RegisterForm() {
             };
         } catch (error) {
             console.error("Fetch Error:", error); //network or fetch error
-            alert("An error occurred during registration");
+            alert("A network error occurred during registration");
         };
     };
 
