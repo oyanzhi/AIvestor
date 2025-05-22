@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import "../componentscss/formcss/loginform.css";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
     const [formData, setFormData] = useState({ username: '', password: '' });
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState(""); //have not used errorMessage
 
     const navigate = useNavigate();
 

@@ -17,16 +17,9 @@ class RegisterAccountLogic(serializers.ModelSerializer):
         user = AccountDatabase.objects.create(**validated_data)
         return user
 
-    def update(self, instance, validated_data): # updates an existing user account - unused until settings are changed to allow user to update their account
-        instance.username = validated_data.get('username', instance.username)
-        if 'password' in validated_data:
-            instance.set_password(validated_data.get('password', instance.password))
-        instance.save()
-        return instance
-    
     def validate_username(self, value):
-        if AccountDatabase.objects.filter(username=value).exists(): # forces unqiueness of username
-            raise serializers.ValidationError("Username already exists.")
+        if AccountDatabase.objects.filter(username=value).exists(): # forces unqiueness of username already done in managing databse (to consider drop or keep)
+            raise serializers.ValidationError("Username already exists.") # currently used due to the uniqueness in database which forces that message but needs to look for ways to force this message
         return value
     
     def validate_email(self, value):

@@ -5,15 +5,11 @@ body, html {
     height: 100%;
 }
 
-.content {
+#introsection {
     display: flex;
-    height: 76vh;
-    width: 100%;
-    justify-content: center;
     align-items: center;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
+    background-color: var(--deepblue);
+    height: 90vh;
 }
 
 .lefttext-container {
@@ -26,11 +22,10 @@ body, html {
 }
 
 #lefttext {
-    font-family: "Tienne", sans-serif;
+    font-family: var(--commonfont);
     font-size: 125%;
     font-weight: 500;
-    padding: 20% 0 0 5%;
-    color: black;
+    margin: 50% 0 0 5%;
 }
 
 .rightpicture-container {
@@ -55,11 +50,19 @@ body, html {
 
 #description {
     margin: 0 0 5% 0;
-    color: rgba(75, 75, 75, 0.952);
+    color: rgba(201, 201, 201, 0.952);
 }
 
 #welcome {
     margin: 0 0 1% 0;
+    background: linear-gradient(to right, #78fdff, 20%, white);
+    
+    /* can fine tune the font weight */
+    font-weight: 800; 
+    
+    /* transpareent text that is covered by the background "image" */
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
 }
 
 @media (max-width: 768px) {
@@ -94,48 +97,6 @@ body, html {
     #description {
         margin: 0 0 5% 0;
         text-align: center;
-    }
-
-    .navbuttons {
-        padding: 0;
-        margin: 0;
-    }
-
-    .footer {
-        flex-direction: column;
-        margin: 5% 0 0 0;
-        height: 15vh;
-        width: 100%;
-        padding: 10px;
-    }
-
-    .login-form
-    .register-form {
-        width: 90%;
-    }
-
-    .login-form input[type="text"],
-    .login-form input[type="password"],
-    .register-form input[type="text"],
-    .register-form input[type="password"] {
-        width: 80%;
-    }
-
-    .login-form button[type="submit"],
-    .register-form button[type="submit"],
-    .profile-form button[type="submit"] {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-size: clamp(0.7rem, 2.5vw, 1.5rem);
-    }
-
-    #login-text,
-    #profile-text,
-    #register-text {
-        font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     }
 
 }

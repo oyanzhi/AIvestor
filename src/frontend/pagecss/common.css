@@ -1,9 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Tienne:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap'");
+
+:root {
+    --deepblue: #1A1A40;
+    --contrastdeepblue: #0D0D2B;
+    --buttonblue: #4A6CF7;
+    --buttonhoverblue: #3b5ad8;
+    --commonfont: "Poppins", sans-serif;
+}
 
 .html, body {
     margin: 0;
     padding: 0;
-    font-family: "Tienne", sans-serif;
+    font-family: var(--commonfont);
     background-color: #f4f4f4;
     box-sizing: border-box;
 }

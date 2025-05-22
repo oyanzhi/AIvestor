@@ -1,13 +1,12 @@
 #login-button {
-    background-color: black;
+    background-color: var(--buttonblue);
     color: #ffffff;
-    border-radius: 10px;
+    width: 200%;
 }
 
 #login-button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    border-radius: 10px;
+    background-color: var(--buttonhoverblue);
+    transition-duration: 0.5s;
 }
 
 @media (max-width: 768px) {

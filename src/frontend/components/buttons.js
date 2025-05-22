@@ -10,7 +10,7 @@ import Routings from "../routing/routing.js";
 function HomeButton() {
     return (
         <div id="home-button-container">
-            <button id="home-button" className="navbuttons" onClick={Routings.ToLandingPage()}>AIvestor</button>
+            <button id="home-button" className="navbuttons" onClick={Routings.ToLandingPage()}><span id="colorsplit">AI</span>vestor</button>
         </div>
     );
 }
@@ -34,7 +34,7 @@ function LoginButton() {
 function CenterLoginButton() {
     return (
         <div id="center-login-button-container">
-            <button id="center-login-button" className="navbuttons" onClick={Routings.ToLoginPage()}>Login</button>
+            <button id="center-login-button" className="navbuttons" onClick={Routings.ToLoginPage()}>Get Started</button>
         </div>
     );
 }

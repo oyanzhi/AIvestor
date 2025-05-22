@@ -1,17 +1,16 @@
 #center-login-button {
-    background-color: black;
+    background-color: var(--buttonblue);
     color: white;
-    border-radius: 10px;
-    padding: 5% 10%;
+    border-radius: 25px;
+    padding: 5% 7%;
     margin: 0 0 0 5%;
     display: flex;
     justify-content: center;
 }
 
 #center-login-button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    border-radius: 10px;
+    background-color: var(--buttonhoverblue);
+    transition-duration: 0.5s;
 }
 
 @media (max-width: 768px) {

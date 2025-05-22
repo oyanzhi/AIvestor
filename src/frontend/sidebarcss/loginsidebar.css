@@ -5,12 +5,21 @@ body, html {
     height: 100%;
 }
 
-.loginsidebar-header {
+#loginsidebar {
     display: flex;
     height: 5vh;
+    width: 100%;
     padding: 20px;
+
     align-items: center;
     justify-content: space-between;
+
+    background-color: var(--contrastdeepblue);
+    border-bottom: 1px solid rgb(0, 6, 53);
+
+    /* for sticky navigation bar */
+    position: fixed;
+    top: 0;
 }
 
 .loginsidebar-header-containers {
@@ -41,15 +50,18 @@ body, html {
     justify-content: flex-end;
     align-items: center;
     text-align: center;
+    
     width: 30%;
-    margin: 0 3%; /* Top/Bottom: 0, Left/Right: 1% */
+
+    margin: 0 5%; /* Top/Bottom: 0, Left/Right: 1% */
     padding: 0;
     gap: 10%;
+
 }
 
 
 @media (max-width: 768px) {
-    .loginsidebar-header {
+    #loginsidebar {
         flex-direction: column;
         padding: 0;
         align-items: center;

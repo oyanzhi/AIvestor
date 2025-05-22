@@ -3,19 +3,19 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-family: "Tienne", sans-serif;
+    font-family: var(--commonfont);
+    font-weight: bold;
     cursor: pointer;
     background-color: transparent;
-    color: black;
+    color: white;
     font-size: 100%;
-    transition: background-color 0.3s ease;
     padding: 30% 30%;
+    border-radius: 30px;
 }
 
 .navbuttons:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: black;
-    border-radius: 10px;
+    background-color: var(--buttonhoverblue);
+    transition-duration: 0.5s;
 }
 
 @media(max-width: 768px) {
