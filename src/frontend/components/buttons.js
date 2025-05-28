@@ -64,6 +64,7 @@ function SettingsButton() {
 }
 
 function LogoutButton() {
+    localStorage.removeItem("token");
     return (
         <div id="logout-button-container">
             <button id="logout-button" className="navbuttons" onClick={Routings.ToLandingPage()}>Logout</button>
