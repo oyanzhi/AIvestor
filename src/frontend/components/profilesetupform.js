@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 function ProfileSetupForm() {
-    const authToken = localStorage.getItem("token");
+    const authToken = sessionStorage.getItem("token");
 
     const [formData, setFormData] = useState(
         { displayname: "", email: "" }

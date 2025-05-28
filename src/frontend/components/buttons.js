@@ -5,12 +5,13 @@ import "../componentscss/buttoncontainercss/logoutbutton.css";
 import "../componentscss/buttoncontainercss/homebutton.css";
 import "../componentscss/buttoncontainercss/dashboardbutton.css";
 import "../routing/routing.js";
-import Routings from "../routing/routing.js";
+import AllRoutings from "../routing/routing.js";
 
 function HomeButton() {
+    const toLanding = AllRoutings().Landing;
     return (
         <div id="home-button-container">
-            <button id="home-button" className="navbuttons" onClick={Routings.ToLandingPage()}><span id="colorsplit">AI</span>vestor</button>
+            <button id="home-button" className="navbuttons" onClick={toLanding}><span id="colorsplit">AI</span>vestor</button>
         </div>
     );
 }
@@ -24,17 +25,19 @@ function AboutButton() {
 }
 
 function LoginButton() {
+    const toLogin = AllRoutings().Login;
     return (
         <div id="login-button-container">
-            <button id="login-button" className="navbuttons" onClick={Routings.ToLoginPage()}>Login</button>
+            <button id="login-button" className="navbuttons" onClick={toLogin}>Login</button>
         </div>
     );
 }
 
 function CenterLoginButton() {
+    const toLogin = AllRoutings().Login;
     return (
         <div id="center-login-button-container">
-            <button id="center-login-button" className="navbuttons" onClick={Routings.ToLoginPage()}>Get Started</button>
+            <button id="center-login-button" className="navbuttons" onClick={toLogin}>Get Started</button>
         </div>
     );
 }
@@ -64,10 +67,14 @@ function SettingsButton() {
 }
 
 function LogoutButton() {
-    localStorage.removeItem("token");
+    const toLanding = AllRoutings().Landing;
+    const clear = () => {
+        sessionStorage.removeItem("token");
+        toLanding();
+    };
     return (
         <div id="logout-button-container">
-            <button id="logout-button" className="navbuttons" onClick={Routings.ToLandingPage()}>Logout</button>
+            <button id="logout-button" className="navbuttons" onClick={clear}>Logout</button>
         </div>
     );
 }

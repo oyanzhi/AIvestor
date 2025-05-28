@@ -16,7 +16,7 @@ function LoginForm() {
         e.preventDefault(); //prevents empty submission of form
         
         try {
-            const response = await fetch("http://127.0.0.1:8000/loginaccountapp/loginpage/", {
+            const response = await fetch("http://localhost:8000/loginaccountapp/loginpage/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,7 +30,7 @@ function LoginForm() {
             });
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem("token", data.token);
+                sessionStorage.setItem("token", data.token);
                 navigate("/profilesetuppage"); //add implementation for skipping displayName after once done before 
             } else {
                 const errorData = await response.json(); //error data
