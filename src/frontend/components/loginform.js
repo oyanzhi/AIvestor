@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
     const [formData, setFormData] = useState({ username: '', password: '' });
-    const [errorMessage, setErrorMessage] = useState(""); //have not used errorMessage
 
     const navigate = useNavigate();
 
@@ -15,8 +14,6 @@ function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //prevents empty submission of form
-
-        setErrorMessage(''); //no error by default
         
         try {
             const response = await fetch("http://127.0.0.1:8000/loginaccountapp/loginpage/", {
