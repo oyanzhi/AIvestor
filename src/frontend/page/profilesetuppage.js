@@ -3,8 +3,17 @@ import "../pagecss/profilesetuppage.css";
 import "../componentscss/formcss/profilesetupform.css"
 import MainSideBar from "../sidebar/mainsidebar.js";
 import ProfileSetupForm from "../components/profilesetupform.js";
+import { Navigate } from 'react-router-dom';
+
 
 function ProfileSetupPage() {
+
+    const authToken = sessionStorage.getItem("token");
+
+    if (!authToken) {
+        return <Navigate to ="/loginpage" replace />;
+    }
+
     return (
         <div className="profilesetup-page">
             <div><MainSideBar noshow={["dashboard", "market", "settings"]} /></div>

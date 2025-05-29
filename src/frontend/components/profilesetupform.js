@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 
 function ProfileSetupForm() {
-    const authToken = sessionStorage.getItem("token");
 
     const [formData, setFormData] = useState(
         { displayname: "", email: "" }
@@ -17,10 +15,6 @@ function ProfileSetupForm() {
         e.preventDefault(); //prevents empty submission of form
         console.log('Profile Details:', formData); //to replace with actual register logic
     };
-
-    if (!authToken) {
-        return <Navigate to ="/loginpage" replace />;
-    }
 
     return (
         <form className="entryfields" onSubmit={handleSubmit}>
