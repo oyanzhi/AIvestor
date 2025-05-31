@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.8",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -11,13 +12,15 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3",
     "react-scripts": "5.0.1",
+    "tailwindcss": "^4.1.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npm-run-all --parallel start-frontend start-backend",
+    "start": "npm-run-all --parallel dev start-frontend start-backend",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "dev" : "npx @tailwindcss/cli -i ./src/frontend/pagecss/input.css -o ./src/frontend/pagecss/common.css --watch",
     "start-frontend": "react-scripts start",
     "start-backend": "cd ./src/backend/clientaccount && py manage.py runserver"
   },
