@@ -16,7 +16,7 @@ function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //prevents empty submission of form
-        
+
         try {
             const response = await fetch("http://localhost:8000/loginaccountapp/loginpage/", {
                 method: "POST",
@@ -49,23 +49,41 @@ function LoginForm() {
     };
 
     return (
-        <form className="entryfields" onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                required />
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required />
-            <button type="submit">Login</button>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+                <label className="block text-white mb-1">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label className="block text-white mb-1">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <button
+                type="submit"
+                className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
+            >
+                Login
+            </button>
         </form>
+
+
+
     );
 }
 
