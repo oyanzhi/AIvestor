@@ -16,8 +16,6 @@ class LoginAccountAppView(APIView):
             login(request, user)
 
             token, created = Token.objects.get_or_create(user=user)
-
-            print(f"{token}")
             
             return Response({"message": "Login Successful", "token": token.key}, status=status.HTTP_200_OK)
         

@@ -1,3 +1,5 @@
+"use client"
+
 import "../styles/componentcss/buttoncss/navigationbuttons.css";
 import "../styles/componentcss/buttoncss/loginbutton.css";
 import "../styles/componentcss/buttoncss/centerloginbutton.css";
@@ -5,6 +7,7 @@ import "../styles/componentcss/buttoncss/logoutbutton.css";
 import "../styles/componentcss/buttoncss/homebutton.css";
 import "../styles/componentcss/buttoncss/dashboardbutton.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function HomeButton() {
     return (
@@ -69,8 +72,10 @@ function SettingsButton() {
 }
 
 function LogoutButton() {
+    const router = useRouter();
     const clear = () => {
         sessionStorage.removeItem("token");
+        router.replace("/");
     };
     return (
         <div id="logout-button-container">

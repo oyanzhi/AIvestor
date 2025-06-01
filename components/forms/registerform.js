@@ -20,7 +20,7 @@ function RegisterForm() {
         e.preventDefault(); //prevents empty submission of form
         //additional front end password validation
 
-        if (formData.password !== formData.confirm_password) {
+        if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match");
             return;
         }
@@ -36,13 +36,13 @@ function RegisterForm() {
                         username: formData.username,
                         email: formData.email,
                         password: formData.password,
-                        confirm_password: formData.confirm_password
+                        confirm_password: formData.confirmPassword
                     }
                 ),
             });
 
             if (response.ok) {
-                router.push("/login", {state: {successfulRegistration: true } });
+                router.push("/login?successfulRegistration=true");
             } else {
                 const error = await response.json();
                 let errorMessage = "Registration failed";
@@ -88,9 +88,9 @@ function RegisterForm() {
 
             <input
                 type="password"
-                name="confirm_password"
+                name="confirmPassword"
                 placeholder="Confirm Password"
-                value={formData.confirm_password}
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 required />    
             <button type="submit">Register</button>

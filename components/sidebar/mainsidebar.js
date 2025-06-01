@@ -1,6 +1,6 @@
-import "../pagecss/common.css";
-import "../sidebarcss/mainsidebar.css";
-import { DashboardButton, MarketButton, SettingsButton, LogoutButton } from "../components/buttons.js";
+import "../../styles/globals.css"
+import "../../styles/sidebarcss//mainsidebar.css";
+import { DashboardButton, MarketButton, SettingsButton, LogoutButton } from "../buttons.js";
 
 function MainSidebar({ noshow = [] }) {
   const somehide = noshow.length !== 0;

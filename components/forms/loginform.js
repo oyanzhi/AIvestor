@@ -33,7 +33,7 @@ function LoginForm() {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem("token", data.token);
-                router.push("/profilesetup"); //add implementation for skipping displayName after once done before 
+                router.push("/profilesetup"); //add implementation for skipping displayName after once done before // allows going back to login page
             } else {
                 const errorData = await response.json(); //error data
                 if (errorData.non_field_errors) {
