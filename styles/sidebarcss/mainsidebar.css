@@ -5,6 +5,23 @@ body, html {
     height: 100%;
 }
 
+#mainbar {
+    display: flex;
+    height: 7vh;
+    width: 100%;
+    padding: 20px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--contrastdeepblue);
+    border-bottom: 1px solid rgb(0, 6, 53);
+
+    /* for sticky navigation bar */
+    position: fixed;
+    top: 0;
+}
+
 .mainsidebar-header {
     display: flex;
     height: 5vh;
@@ -37,14 +54,16 @@ body, html {
 }
 
 #mainsidebar-button-container {
-    justify-content: center;
+    display: flex;
+    justify-content: flex-end;
     align-items: right;
     text-align: right;
-    margin: 0 1%; /* Top/Bottom: 0, Left/Right: 1% */
-    padding: 0;
+    
     width: 30%;
-    height: 5vh;
-    justify-content: space-evenly;;
+
+    margin: 0 5%; /* Top/Bottom: 0, Left/Right: 1% */
+    padding: 0;
+    gap: 10%;
 }
 
 #mainsidebar-button-container.somehide {
