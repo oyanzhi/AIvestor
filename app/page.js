@@ -1,6 +1,8 @@
 import "../styles/pagecss/landingpage.css";
 import LogInsideBar from "../components/sidebar/loginsidebar.js";
+import Link from "next/link";
 import Footer from "../components/sidebar/footer.jsx";
+
 import {
     CpuChipIcon,
     AdjustmentsHorizontalIcon,
@@ -63,12 +65,9 @@ function LandingPage() {
                 <p className="text-lg md:text-xl mb-8 text-white">
                     AI-powered stock insights and personalized investment strategies for everyone.
                 </p>
-                <a
-                    href="/signup"
-                    className="bg-buttonblue text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-buttonhoverblue transition"
-                >
+                <Link href="/signup" className="bg-buttonblue text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-buttonhoverblue transition">
                     Get Started
-                </a>
+                </Link>
             </section>
 
 
@@ -125,12 +124,9 @@ function LandingPage() {
             <section className="bg-deepblue py-16 px-6 text-center text-white">
                 <h2 className="text-3xl font-bold mb-4">Ready to invest smarter with AI?</h2>
                 <p className="mb-8 text-lg">Join AIvestor and start making informed decisions today.</p>
-                <a
-                    href="/register"
-                    className="bg-buttonblue px-6 py-3 rounded-xl font-semibold hover:bg-buttonhoverblue"
-                >
+                <Link href="/register" className="bg-buttonblue px-6 py-3 rounded-xl font-semibold hover:bg-buttonhoverblue">
                     Create Your Free Account
-                </a>
+                </Link>
             </section>
 
             {/* Footer */}
