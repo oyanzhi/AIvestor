@@ -29,9 +29,9 @@ function MainSidebar({ noshow = [] }) {
           <NavButton href="/market" icon={ChartBarIcon} label="Market" />
         )}
         {!noshow.includes('settings') && (
-          <NavButton href="/settings" icon={Cog6ToothIcon} label="Settings" />
+          <NavButton href="/profilesetup" icon={Cog6ToothIcon} label="Settings" />
         )}
-        <NavButton href="/logout" icon={ArrowRightEndOnRectangleIcon} label="Logout" />
+        <NavButton href="/" icon={ArrowRightEndOnRectangleIcon} label="Logout" />
       </nav>
     </aside>
   );
