@@ -1,0 +1,16 @@
+#login-button {
+    background-color: var(--buttonblue);
+    color: #ffffff;
+    width: 200%;
+}
+
+#login-button:hover {
+    background-color: var(--buttonhoverblue);
+    transition-duration: 0.5s;
+}
+
+@media (max-width: 768px) {
+    #login-button {
+        display: none !important;
+    }
+}

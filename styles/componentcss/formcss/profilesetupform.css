@@ -1,0 +1,79 @@
+.profile-container {
+    display: flex;
+    height: 76vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 70%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(78, 78, 78, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#profile-text {
+    font-family: "Tienne", sans-serif;
+    font-size: 200%;
+    font-weight: 500;
+    color: black;
+    text-align: center;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="email"] {
+    font-family: "Tienne", sans-serif;
+    width: 100%;
+    padding: 1%;
+    margin: 2% 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.profile-form button[type="submit"] {
+    font-family: "Tienne", sans-serif;
+    background-color: black;
+    color: white;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    margin: 10px auto;
+    display: block;
+    display: flex;
+}
+
+.profile-form button[type="submit"]:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        margin-top: 5%;
+    }
+
+    .profile-form {
+        width: 90%;
+        height: auto;
+    }
+}
+
