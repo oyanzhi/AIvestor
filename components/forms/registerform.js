@@ -10,7 +10,7 @@ function RegisterForm() {
     const [formData, setFormData] = useState(
         { username: "", email: "", password: "", confirmPassword: "" }
     );
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -61,39 +61,65 @@ function RegisterForm() {
     };
 
     return (
-        <form className="entryfields" onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                required />
+        <form className="space-y-4">
+            <div>
+                <label className="block text-white mb-1">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="JaneDoe0923"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
 
-            <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required />
+            <div>
+                <label className="block text-white mb-1">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required />
+            <div>
+                <label className="block text-white mb-1">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="Create a password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
 
-            <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required />    
-            <button type="submit">Register</button>
+            <div>
+                <label className="block text-white mb-1">Confirm Password</label>
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                    placeholder="Confirm your Password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+
+            <button
+                type="submit"
+                className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
+            >
+                Register
+            </button>
         </form>
     );
 }

@@ -1,21 +1,28 @@
-"use client"
+'use client';
 
 import "../../styles/componentcss/formcss/registerform.css";
 import LoginSideBar from "../../components/sidebar/loginsidebar.js";
 import RegisterForm from "../../components/forms/registerform.js";
 import Link from "next/link";
+import Footer from "../../components/sidebar/footer.jsx";
 
 function RegisterPage() {
     return (
-        <div className="register-page">
-            <div><LoginSideBar/></div>
-            
-            <div className="register-container">
-                <div className="register-form">
-                    <h1 id="register-text">Register</h1>
-                    <div><RegisterForm/></div>
-                    <p id="register">Already have an account? <Link href="/login">Login here</Link> </p>
-                </div>
+        <div>
+            <LoginSideBar />
+
+            <div className="flex flex-col min-h-screen bg-deepblue">
+                {/* Page Content */}
+                <main className="flex-grow flex items-center justify-center pt-20">
+                    <div className="bg-bluebox p-8 rounded-2xl shadow-lg w-96">
+                        <h1 className="text-3xl font-bold text-center text-cyan-400 mb-6">Create Your AIvestor Account</h1>
+                        <div><RegisterForm /></div>
+                        <p className="text-sm text-center text-gray-300 mt-4">
+                            Already have an account? <Link href="/login" className="text-cyan-400 hover:underline">Login here</Link>
+                        </p>
+                    </div>
+                </main>
+                <Footer />
             </div>
         </div>
     );

@@ -1,6 +1,5 @@
 'use client';
 
-import "../../styles/pagecss/loginpage.css";
 import LoginSideBar from "../../components/sidebar/loginsidebar.js";
 import footer from "../../components/sidebar/footer.jsx";
 import LoginForm from "../../components/forms/loginform.js";
