@@ -24,3 +24,7 @@ yarn-error.log*
 
 # python cache
 **/*.pyc
+
+# next
+.next
+next-env.d.ts
