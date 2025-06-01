@@ -42,7 +42,7 @@ function RegisterForm() {
             });
 
             if (response.ok) {
-                router.push("/loginpage", {state: {successfulRegistration: true } });
+                router.push("/login", {state: {successfulRegistration: true } });
             } else {
                 const error = await response.json();
                 let errorMessage = "Registration failed";

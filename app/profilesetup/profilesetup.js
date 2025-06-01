@@ -10,7 +10,7 @@ function ProfileSetupPage() {
     const authToken = sessionStorage.getItem("token");
 
     if (!authToken) {
-        return <Navigate to ="/loginpage" replace />;
+        return <Navigate to ="/login" replace />;
     }
 
     return (
