@@ -14,11 +14,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
     "starttest": "npx serve@latest ./build",
     "start": "npm-run-all --parallel start-frontend start-backend",
-    "start-frontend": "react-scripts start",
+    "start-frontend": "next dev --turbopack",
     "start-backend": "cd ./src/backend/clientaccount && py manage.py runserver"
   },
   "eslintConfig": {
