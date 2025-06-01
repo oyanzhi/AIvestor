@@ -1,8 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap'");
 @import "tailwindcss";
 
+
+@theme {
+    --color-deepblue: #1A1A40;
+    --color-bluebox: #1f1f49;
+    --color-contrastdeepblue: #0D0D2B;
+    --color-buttonblue: #4A6CF7;
+    --color-buttonhoverblue: #3b5ad8;
+}
+
 :root {
-    --deepblue: #1A1A40;
     --contrastdeepblue: #0D0D2B;
     --buttonblue: #4A6CF7;
     --buttonhoverblue: #3b5ad8;
