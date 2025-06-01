@@ -1,0 +1,10 @@
+#home-button {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    padding: 1% 10%;
+}
+
+#colorsplit {
+    color: var(--buttonblue)
+}
