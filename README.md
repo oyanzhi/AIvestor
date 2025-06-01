@@ -47,12 +47,9 @@ Retail investors often lack access to advanced financial analysis tools due to t
 3. On Powershell - `Set-ExecutionPolicy -ExecutionPolicy Unrestricted`
 
 4. Install Dependencies
-    - `npm install npm-run-all --save-dev`
+    - `npm install`
     - `py -m pip install --upgrade pip`
-    - `py -m pip install Django`
-    - `py -m pip install djangorestframework`
-    - `py -m pip install django-cors-headers`
-    - `py -m pip install psycopg2`
+    - `py -m pip install -r requirements.txt`
 
 5. `cd` to the [backend/clientaccount](/src/backend/clientaccount) directory 
     - py manage.py makemigrations
@@ -66,7 +63,7 @@ Retail investors often lack access to advanced financial analysis tools due to t
     - Port: 5432
 
 ## Development
-Run `npm start-all` which starts both the frontend and backend servers\
+Run `npm start` which starts both the frontend and backend servers\
 **Frontend running on `localhost:3000`**\
 **Backend running on `localhost:8000`**
 
