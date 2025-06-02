@@ -15,7 +15,7 @@ function LoginPage() {
 
             <main className="flex-grow flex items-center justify-center pt-2">
                 <div className="bg-bluebox p-8 rounded-2xl shadow-lg w-96">
-                    {successfulRegistration && (<div id="successfulregistration">Successful Registration. Please Login.</div>)}
+                    {successfulRegistration && (<div className="text-1xl font-bold text-center text-cyan-400 mb-6">Successful Registration. Please Login.</div>)}
                     <h1 className="text-3xl font-bold text-center text-cyan-400 mb-6">Login to AIvestor</h1>
                     <div><LoginForm /></div>
                     <p className="text-sm text-center text-gray-300 mt-4">

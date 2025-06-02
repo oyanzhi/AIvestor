@@ -117,6 +117,7 @@ function RegisterForm() {
             <button
                 type="submit"
                 className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
+                onClick={handleSubmit}
             >
                 Register
             </button>

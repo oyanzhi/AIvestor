@@ -10,3 +10,6 @@ class RegisterAccountAppView(APIView):
             serializer.save()
             return Response({"Registration Successful!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        return Response({"GET not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
