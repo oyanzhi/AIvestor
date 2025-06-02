@@ -1,7 +1,6 @@
 'use client';
 
 import LoginSideBar from "../../components/sidebar/loginsidebar.js";
-import footer from "../../components/sidebar/footer.jsx";
 import LoginForm from "../../components/forms/loginform.js";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -20,7 +19,7 @@ function LoginPage() {
                     <h1 className="text-3xl font-bold text-center text-cyan-400 mb-6">Login to AIvestor</h1>
                     <div><LoginForm /></div>
                     <p className="text-sm text-center text-gray-300 mt-4">
-                        Don’t have an account? <a href="/register" className="text-cyan-400 hover:underline">Register here</a>
+                        Don’t have an account? <Link href="/register" className="text-cyan-400 hover:underline">Register here</Link>
                     </p>
                 </div>
             </main>

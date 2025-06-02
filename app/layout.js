@@ -2,6 +2,10 @@ import "../styles/globals.css";
 
 export const metadata = {
   title: "AIvestor",
+  icons: {
+    icon: '/logo circle.png',
+  },
+  
   description: "AI-Powered Financial Investor",
 }
  
