@@ -1,9 +1,8 @@
 "use client"
 
-import "../../styles/pagecss/profilesetuppage.css";
 import "../../styles/componentcss/formcss/profilesetupform.css"
-import MainSideBar from "../../components/sidebar/mainsidebar.js";
-import ProfileSetupForm from "../../components/forms/profilesetupform.js";
+import MainSideBar from "../../components/sidebar/mainnavbar";
+import ProfileSetupForm from "../../components/forms/profilesetupform";
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -24,9 +23,11 @@ function ProfileSetupPage() {
         return; //empty waiting - maybe can add a temp
     }
 
+    const hidden: string[] = ["dashboard", "market", "settings"];
+
     return (
         <div className="profilesetup-page">
-            <div><MainSideBar noshow={["dashboard", "market", "settings"]} /></div>
+            <div><MainSideBar noshow={hidden} /></div>
 
             <div className="profile-container">
                 <div className="profile-form">

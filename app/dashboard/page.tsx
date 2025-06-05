@@ -1,7 +1,7 @@
 'use client';
 
-import MainSidebar from '../../components/sidebar/mainsidebar.js';
-import Footer from '../../components/sidebar/footer.jsx';
+import MainSidebar from '../../components/sidebar/mainnavbar';
+import Footer from '../../components/sidebar/footer';
 
 function DashboardPage() {
   return (

@@ -1,10 +1,10 @@
 'use client';
 
-import LoginSideBar from "../../components/sidebar/loginsidebar.js";
-import LoginForm from "../../components/forms/loginform.js";
+import LoginSideBar from "../../components/sidebar/loginnavbar";
+import LoginForm from "../../components/forms/loginform";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import Footer from "../../components/sidebar/footer.jsx";
+import Footer from "../../components/sidebar/footer";
 
 function LoginPage() {
     const searchParams = useSearchParams();

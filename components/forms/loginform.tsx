@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import "../../styles/componentcss/formcss/loginform.css";
 import { useRouter } from 'next/navigation';
 
 function LoginForm() {
@@ -9,12 +8,12 @@ function LoginForm() {
 
     const router = useRouter();
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents empty submission of form
 
         try {
