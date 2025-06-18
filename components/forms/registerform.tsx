@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import "../../styles/componentcss/formcss/registerform.css";
 
 function RegisterForm() {
     const router = useRouter();
@@ -11,12 +10,12 @@ function RegisterForm() {
         { username: "", email: "", password: "", confirmPassword: "" }
     );
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents empty submission of form
         //additional front end password validation
 
@@ -61,7 +60,7 @@ function RegisterForm() {
     };
 
     return (
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit} >
             <div>
                 <label className="block text-white mb-1">Username</label>
                 <input
@@ -117,7 +116,6 @@ function RegisterForm() {
             <button
                 type="submit"
                 className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
-                onClick={handleSubmit}
             >
                 Register
             </button>

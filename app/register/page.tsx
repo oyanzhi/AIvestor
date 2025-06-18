@@ -1,10 +1,9 @@
 'use client';
 
-import "../../styles/componentcss/formcss/registerform.css";
-import LoginSideBar from "../../components/sidebar/loginsidebar.js";
-import RegisterForm from "../../components/forms/registerform.js";
+import LoginSideBar from "../../components/sidebar/loginnavbar";
+import RegisterForm from "../../components/forms/registerform";
 import Link from "next/link";
-import Footer from "../../components/sidebar/footer.jsx";
+import Footer from "../../components/sidebar/footer";
 
 function RegisterPage() {
     return (

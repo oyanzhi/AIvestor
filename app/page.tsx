@@ -1,7 +1,7 @@
-import "../styles/pagecss/landingpage.css";
-import LogInsideBar from "../components/sidebar/loginsidebar.js";
+import LogInsideBar from "../components/sidebar/loginnavbar";
 import Link from "next/link";
-import Footer from "../components/sidebar/footer.jsx";
+import Footer from "../components/sidebar/footer";
+import { FC, SVGProps } from "react";
 
 import {
     CpuChipIcon,
@@ -10,7 +10,13 @@ import {
     ChartBarIcon,
 } from '@heroicons/react/24/outline';
 
-const features = [
+interface featureObj {
+    icon: FC<SVGProps<SVGSVGElement>>;
+    title: string;
+    description: string;
+}
+
+const features: featureObj[] = [
     {
         icon: CpuChipIcon,
         title: "AI Stock Analysis",
@@ -65,7 +71,7 @@ function LandingPage() {
                 <p className="text-lg md:text-xl mb-8 text-white">
                     AI-powered stock insights and personalized investment strategies for everyone.
                 </p>
-                <Link href="/signup" className="bg-buttonblue text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-buttonhoverblue transition">
+                <Link href="/register" className="bg-buttonblue text-white px-6 py-3 rounded-xl font-semibold shadow hover:bg-buttonhoverblue transition">
                     Get Started
                 </Link>
             </section>
