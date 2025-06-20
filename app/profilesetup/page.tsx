@@ -1,6 +1,5 @@
 "use client"
 
-import "../../styles/componentcss/formcss/profilesetupform.css"
 import MainSideBar from "../../components/sidebar/mainnavbar";
 import ProfileSetupForm from "../../components/forms/profilesetupform";
 import { useRouter } from "next/navigation"
@@ -23,18 +22,12 @@ function ProfileSetupPage() {
         return; //empty waiting - maybe can add a temp
     }
 
-    const hidden: string[] = ["dashboard", "market", "settings"];
+    const hidden: string[] = [];
 
     return (
-        <div className="profilesetup-page">
-            <div><MainSideBar noshow={hidden} /></div>
-
-            <div className="profile-container">
-                <div className="profile-form">
-                    <h1 id="profile-text">Setup Profile</h1>
-                    <div><ProfileSetupForm /></div>
-                </div>
-            </div>
+        <div className="flex flex-col min-h-screen bg-deepblue">
+            <MainSideBar noshow={hidden} />
+            <ProfileSetupForm />
         </div>
     );
 }

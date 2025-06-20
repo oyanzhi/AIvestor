@@ -58,7 +58,7 @@ function LandingPage() {
                     </p>
 
                     <video controls className="w-full rounded-lg shadow-lg">
-                        <source src="/sourcefiles/introductionvideo.mp4" type="video/mp4" />
+                        <source src="/introductionvideo.mp4" type="video/mp4" />
                     </video>
                 </div>
             </section>

@@ -2,23 +2,34 @@
 
 import Link from "next/link";
 import { SVGProps } from "react";
+import { QuestionMarkCircleIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 
 type NavButtonProps = {
   href: string;
   Icon?: React.FC<SVGProps<SVGSVGElement>>;
   label: string;
   side?: () => void;
+  iconposition?: "left" | "right";
   customdesign?: string;
 }
 
-function NavButton({ href, Icon, label, side = () => {},
+function NavButton({ href, Icon, label, side = () => {}, iconposition = "left",
   customdesign = "flex items-center gap-2 text-white hover:text-cyan-400 transition"}: NavButtonProps) {
   return (
     <Link href={href} className={customdesign} onNavigate={side}>
-      {Icon && <Icon className="h-5 w-5" />}
-      <span className="hidden md:inline">{label}</span>
+      {Icon && iconposition === "left" && <Icon className="h-5 w-5" />}
+      <span className="hidden md:inline font-bold">{label}</span>
+      {Icon && iconposition === "right" && <Icon className="h-5 w-5" />}
     </Link>
   );
+}
+
+function AboutButton() {
+  return <NavButton href="/" label="About" Icon={QuestionMarkCircleIcon} iconposition="right"/>
+}
+
+function LoginButton() {
+  return <NavButton href="/login" label="Login" Icon={ChevronDoubleRightIcon} iconposition="right"/>
 }
 
 type HomeButtonProps = {
@@ -33,4 +44,4 @@ function HomeButton({todashboard}: HomeButtonProps) {
     );
 }
 
-export { NavButton, HomeButton };
+export { NavButton, AboutButton, LoginButton, HomeButton };

@@ -1,7 +1,6 @@
-import "../../styles/globals.css"
+import "../../app/(globals)/globals.css"
 import { NavButton, HomeButton } from "../navbutton";
 import { useRouter } from "next/navigation";
-
 
 import { HomeIcon, ChartBarIcon, Cog6ToothIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
 
@@ -19,7 +18,7 @@ function Logout() {
 
 function MainNavBar({noshow = []}: MainNavBarProps) {
     return (
-    <aside className="fixed top-0 w-full h-16 bg-deepblue border-b border-[#000635] flex items-center justify-between px-6 z-50 shadow">
+    <aside className="fixed w-full h-16 bg-deepblue border-b border-[#000635] flex items-center justify-between px-6 shadow">
       {/* Left: Brand */}
       <HomeButton todashboard={true} />
 
