@@ -5,9 +5,9 @@ import { useState } from 'react';
 function ProfileSetupForm() {
 
     const [formData, setFormData] = useState(
-        { displayname: "", username: "", password: "", confirmpassword: "", risktolerance: undefined, notification: undefined }
+        { displayName: "", username: "", password: "", confirmpassword: "", risktolerance: undefined, alertThreshold: undefined }
     );
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -22,93 +22,106 @@ function ProfileSetupForm() {
     const inputStyle = "px-5 py-2 mb-10 w-full rounded-lg bg-gray-800 text-white focus:outline-none";
 
     return (
-        <form className="space-y-16 w-full mt-24 w-full flex flex-col items-center" onSubmit={handleSubmit}>
-            <div className="flex py-10">
-                <div className="text-white font-bold w-1/4 mr-60">Public Information</div>
-                <div className="flex flex-col justify-between w-3/5 px-20">
-                    <label className={labelStyle}>Displayed Name</label>
-                    <input
-                    className={inputStyle}
-                    type="text"
-                    name="displayname"
-                    placeholder="Displayed Name"
-                    value={formData.displayname}
-                    onChange={handleChange}
-                    required />
-                </div>
-            </div>
+        <div className="flex flex-col min-h-screen bg-deepblue text-white">
+            <main className="flex-grow flex items-center justify-center pt-20">
+                <div className="bg-bluebox p-8 rounded-2xl shadow-lg w-full max-w-xl">
+                    <h1 className="text-3xl font-bold text-cyan-400 text-center mb-6">Profile Settings</h1>
+                    <form onSubmit={handleSubmit} className="space-y-6">
 
-            <hr className="w-300 text-white s" />
-
-            <div className="flex py-10">
-                <div className="text-white font-bold w-1/3 mr-60">Personal Information</div>
-                <div className="flex flex-col justify-between w-3/5 px-20">
-                    <label className={labelStyle}>Username</label>
-                    <input
-                    className={inputStyle}
-                    type="text"
-                    name="username"
-                    placeholder="New Username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required />
-
-                    <label className={labelStyle}>Change Password</label>
-                    <input
-                    className="px-5 py-2 mb-2 w-full rounded-lg bg-gray-800 text-white focus:outline-none"
-                    type="password"
-                    name="password"
-                    placeholder="New Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required />
-
-                    <input
-                    className={inputStyle}
-                    type="password"
-                    name="confirmpassword"
-                    placeholder="Confirm Password"
-                    value={formData.confirmpassword}
-                    onChange={handleChange}
-                    required />
-
-                    <label className={labelStyle}>Risk Tolerance: {formData.risktolerance} (%)</label>
-                    <input
-                    className="py-2 mb-10 w-full rounded-lg bg-gray-800 text-white focus:outline-none"
-                    type="range"
-                    name="risktolerance"
-                    min="0"
-                    max="100"
-                    value={formData.risktolerance}
-                    onChange={handleChange}
-                    required />
-
-                    <label className={labelStyle}>Notifications</label>
-                    <div className="flex mt-1 ml-1 gap-15">
-                        <label className="text-white font-medium flex gap-3">Yes
+                        {/* Display name */}
+                        <div>
+                            <label className="block mb-1">Display Name</label>
                             <input
-                            className="accent-blue-500"
-                            type="radio"
-                            name="notification"
-                            value={formData.notification}
-                            onChange={handleChange}
-                            required />
-                        </label>
-                        <label className="text-white font-medium flex gap-3">No
+                                type="text"
+                                name="displayName"
+                                placeholder="Displayed Name"
+                                value={formData.displayName}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                            />
+                        </div>
+
+                        {/* Username */}
+                        <div>
+                            <label className="block mb-1">Change Username</label>
                             <input
-                            type="radio"
-                            name="notification"
-                            value={formData.notification}
-                            onChange={handleChange}
-                            required />
-                        </label>
-                    </div>
+                                type="text"
+                                name="username"
+                                placeholder="New Username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                            />
+                        </div>
 
+                        {/* Password */}
+                        <div>
+                            <label className="block mb-1">Change Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="New Password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                            />
+                        </div>
+
+                        {/* confirm Password */}
+                        <div>
+                            <label className="block mb-1">Confirm new Password</label>
+                            <input
+                                type="password"
+                                name="confirmpassword"
+                                placeholder="Confirm Password"
+                                value={formData.confirmpassword}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                            />
+                        </div>
+
+                        {/* Risk Tolerance */}
+                        <div>
+                            <label className="block mb-1">Risk Tolerance: {formData.risktolerance} (%)</label>
+                            <input
+                                type="range"
+                                name="risktolerance"
+                                min="0"
+                                max="100"
+                                value={formData.risktolerance}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                required />
+
+                        </div>
+                        
+                        {/* Alert Threshold */}
+                        <div>
+                            <label className="block mb-1">Alert Threshold (%)</label>
+                            <input
+                                type="number"
+                                name="alertThreshold"
+                                placeholder="10"
+                                value={formData.alertThreshold}
+                                onChange={handleChange}
+                                min={1}
+                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                            />
+                            <p className="text-sm text-gray-300 mt-1">
+                                You’ll receive alerts if a stock changes more than this amount.
+                            </p>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
+                        >
+                            Save Changes
+                        </button>
+                    </form>
                 </div>
-            </div>
-            
-
-        </form>
+            </main >
+        </div >
     );
 }
 

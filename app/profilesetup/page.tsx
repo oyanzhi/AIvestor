@@ -2,6 +2,8 @@
 
 import MainSideBar from "../../components/sidebar/mainnavbar";
 import ProfileSetupForm from "../../components/forms/profilesetupform";
+import Footer from "../../components/sidebar/footer";
+
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -28,6 +30,7 @@ function ProfileSetupPage() {
         <div className="flex flex-col min-h-screen bg-deepblue">
             <MainSideBar noshow={hidden} />
             <ProfileSetupForm />
+            <Footer />
         </div>
     );
 }
