@@ -8,7 +8,7 @@ function ProfileSetupForm() {
         { displayName: "", username: "", password: "", confirmpassword: "", risktolerance: undefined, alertThreshold: undefined }
     );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
@@ -16,10 +16,11 @@ function ProfileSetupForm() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents empty submission of form
         console.log('Profile Details:', formData);
+        alert("Profile updated successfully!");
     };
 
     const labelStyle = "block text-white font-bold ml-1 mb-1";
-    const inputStyle = "px-5 py-2 mb-10 w-full rounded-lg bg-gray-800 text-white focus:outline-none";
+    const inputStyle = "w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none";
 
     return (
         <div className="flex flex-col min-h-screen bg-deepblue text-white">
@@ -37,7 +38,7 @@ function ProfileSetupForm() {
                                 placeholder="Displayed Name"
                                 value={formData.displayName}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                className= {inputStyle}
                             />
                         </div>
 
@@ -50,7 +51,7 @@ function ProfileSetupForm() {
                                 placeholder="New Username"
                                 value={formData.username}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                className= {inputStyle}
                             />
                         </div>
 
@@ -63,7 +64,7 @@ function ProfileSetupForm() {
                                 placeholder="New Password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                className= {inputStyle}
                             />
                         </div>
 
@@ -76,23 +77,23 @@ function ProfileSetupForm() {
                                 placeholder="Confirm Password"
                                 value={formData.confirmpassword}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                className= {inputStyle}
                             />
                         </div>
 
                         {/* Risk Tolerance */}
                         <div>
-                            <label className="block mb-1">Risk Tolerance: {formData.risktolerance} (%)</label>
-                            <input
-                                type="range"
-                                name="risktolerance"
-                                min="0"
-                                max="100"
+                            <label className="block mb-1">Risk Tolerance</label>
+                            <select
+                                name="riskAppetite"
                                 value={formData.risktolerance}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
-                                required />
-
+                            >
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
                         </div>
                         
                         {/* Alert Threshold */}
@@ -105,7 +106,7 @@ function ProfileSetupForm() {
                                 value={formData.alertThreshold}
                                 onChange={handleChange}
                                 min={1}
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+                                className= {inputStyle}
                             />
                             <p className="text-sm text-gray-300 mt-1">
                                 You’ll receive alerts if a stock changes more than this amount.
