@@ -16,7 +16,7 @@ function RegisterForm() {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); //prevents empty submission of form
+        e.preventDefault(); //prevents cancelling of form
         //additional front end password validation
 
         if (formData.password !== formData.confirmPassword) {

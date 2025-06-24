@@ -14,7 +14,7 @@ function ProfileSetupForm() {
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); //prevents empty submission of form
+        e.preventDefault(); //prevents cancelling of form
         console.log('Profile Details:', formData);
         alert("Profile updated successfully!");
     };

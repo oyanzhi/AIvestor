@@ -14,7 +14,7 @@ function LoginForm() {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); //prevents empty submission of form
+        e.preventDefault(); //prevents cancelling of form
 
         try {
             const response = await fetch("http://localhost:8000/loginaccountapp/loginpage/", {
