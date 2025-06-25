@@ -25,7 +25,7 @@ function RegisterForm() {
         }
         // Perform registration logic here
         try {
-            const response = await fetch("http://localhost:8000/registeraccountapp/registerpage/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/registeraccountapp/registerpage/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

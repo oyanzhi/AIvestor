@@ -17,7 +17,7 @@ function LoginForm() {
         e.preventDefault(); //prevents cancelling of form
 
         try {
-            const response = await fetch("http://localhost:8000/loginaccountapp/loginpage/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/loginaccountapp/loginpage/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
