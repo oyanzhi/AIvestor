@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    "https://aivestor-git-main-yan-zhis-projects.vercel.app"
 ]
 
 ROOT_URLCONF = 'coreproject.urls'
