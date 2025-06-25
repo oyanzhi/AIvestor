@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,14 +90,20 @@ WSGI_APPLICATION = 'coreproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+user= os.getenv("user")
+password=os.getenv("password")
+host=os.getenv("host")
+port=os.getenv("port")
+dbname=os.getenv("dbname")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'orbital25account',
-        'USER': 'postgres',
-        'PASSWORD': 'default',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': dbname,
+        'USER': user,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
     }
 }
 
