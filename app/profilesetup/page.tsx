@@ -18,7 +18,7 @@ function ProfileSetupPage() {
         } else {
             setAuthCheck(true);
         }
-    }, []);
+    }, [router]);
 
     if (!authCheck) {
         return; //empty waiting - maybe can add a temp
