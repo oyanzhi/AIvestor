@@ -29,7 +29,6 @@ function LoginForm() {
                     }
                 ),
             });
-            console.log("hi")
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem("token", data.token);
