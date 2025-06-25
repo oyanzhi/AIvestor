@@ -1,4 +1,4 @@
-import LogInsideBar from "../components/sidebar/loginnavbar";
+import LoginNavBar from "../components/sidebar/loginnavbar";
 import Link from "next/link";
 import Footer from "../components/sidebar/footer";
 import { FC, SVGProps } from "react";
@@ -43,7 +43,7 @@ function LandingPage() {
     return (
         <div>
             {/* LogInsideBar */}
-            <LogInsideBar />
+            <LoginNavBar/>
 
             {/* Introduction Section */}
             <section className="flex flex-col items-center justify-center bg-deepblue min-h-screen pt-20">
