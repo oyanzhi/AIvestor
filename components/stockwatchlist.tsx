@@ -49,7 +49,7 @@
                 </div>
 
                 {/* Table */}
-                <div className="w-full flex justify-center">
+                <div className="w-full flex justify-center border-spacing-x-5 border-spacing-y-2">
                     <table className="divide-y divide-gray-600">
                         <thead>
                             <tr className="text-gray-400">
