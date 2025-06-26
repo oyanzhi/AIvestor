@@ -17,7 +17,7 @@
             const trimticker = input.trim().toUpperCase();
             if (!tickerlist.some((s) => s.ticker === trimticker)) {
                 try {
-                    const response = await fetch("", {
+                    const response = await fetch("https://aivestor-wnxv.onrender.com/stockmodelrequest/predictstocklist", {
                         method: "POST",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify({ tickersymbol : [trimticker]})
