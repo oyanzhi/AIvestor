@@ -8,23 +8,23 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
 function DashboardPage() {
-const router = useRouter();
-    const [authCheck, setAuthCheck] = useState(false);
+// const router = useRouter();
+//     const [authCheck, setAuthCheck] = useState(false);
 
-    useEffect(() => {
-        const authToken = sessionStorage.getItem("token");
-        if (!authToken) {
-            router.replace("/login");
-        } else {
-            setAuthCheck(true);
-        }
-    }, [router]);
+//     useEffect(() => {
+//         const authToken = sessionStorage.getItem("token");
+//         if (!authToken) {
+//             router.replace("/login");
+//         } else {
+//             setAuthCheck(true);
+//         }
+//     }, [router]);
 
-    if (!authCheck) {
-        return; //empty waiting - maybe can add a temp
-    }
+//     if (!authCheck) {
+//         return; //empty waiting - maybe can add a temp
+//     }
 
-    const hidden: string[] = [];
+//     const hidden: string[] = [];
 
     return (
     <div className="flex flex-col min-h-screen bg-deepblue text-white">
