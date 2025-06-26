@@ -14,7 +14,8 @@
         const addTicker = () => {
             const trimticker = input.trim();
             if (!tickerlist.includes(trimticker)) {
-                setTickerList((prev) => [...prev, trimticker])
+                setTickerList((prev) => [...prev, trimticker]);
+                setInput("");
             }
         }
 
@@ -22,6 +23,7 @@
             const trimticker = input.trim();
             if (tickerlist.includes(trimticker)) {
                 setTickerList((prev) => prev.filter(x => x !== trimticker));
+                setInput("");
             }
         }
 
@@ -32,6 +34,7 @@
                 alert("Input is Empty")
                 return;
             }
+            addTicker();
         }
 
         return (
@@ -39,7 +42,7 @@
                 <form onSubmit={handleSubmit} className="flex items-center space-x-4">
                     <input placeholder="Enter Ticker" required value={input} name="ticker" className="w-64 px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none" type="text" onChange={handleChange} />
                     <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit" onClick={addTicker} >Add</button>
-                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit" onClick={removeTicker}>Remove</button> 
+                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" onClick={removeTicker}>Remove</button> 
                 </form>
             </div>
         )
