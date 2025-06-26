@@ -8,12 +8,12 @@ import StockSearchBar from '../../components/stocksearchbar';
 function AIPicks() {
 
     return (
-        <div className="flex flex-col min-h-screen bg-deepblue pt-16">
+        <div className="flex flex-col min-h-screen bg-deepblue">
             {/* NavBar */}
             <MainNavBar/>
 
             {/* Content */}
-            <div className="w-full h-16">
+            <div className="w-full h-16 mt-16">
                 <StockSearchBar/>
             </div>
         </div>
