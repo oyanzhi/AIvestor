@@ -1,6 +1,6 @@
 'use client';
 
-import LoginSideBar from "../../components/sidebar/loginnavbar";
+import LoginNavBar from "../../components/sidebar/loginnavbar";
 import LoginForm from "../../components/forms/loginform";
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -11,7 +11,7 @@ function LoginPage() {
     const successfulRegistration = searchParams.get('successfulRegistration') === 'true';
     return (
         <div className="flex flex-col min-h-screen bg-deepblue">
-            <LoginSideBar />
+            <LoginNavBar />
 
             <main className="flex-grow flex items-center justify-center pt-2">
                 <div className="bg-bluebox p-8 rounded-2xl shadow-lg w-96">
