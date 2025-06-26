@@ -39,12 +39,25 @@
 
         return (
             <div className="w-full min-h-screen mt-16">
-                <div className="flex justify-center items-center h-16 bg-gray-700">
+                {/* SearchBar */}
+                <div className="flex justify-center items-center h-16">
                     <form onSubmit={handleSubmit} className="flex items-center space-x-4">
                         <input placeholder="Enter Ticker" required value={input} name="ticker" className="w-64 px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none" type="text" onChange={handleChange} />
                         <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit" onClick={addTicker} >Add</button>
                         <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" onClick={removeTicker}>Remove</button> 
                     </form>
+                </div>
+
+                {/* Table */}
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col" className="px-6 py-3">Ticker</th>
+                                <th scope="col">Predicted Next-Day Closing Price</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
 
