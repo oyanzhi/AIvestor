@@ -49,14 +49,19 @@
                 </div>
 
                 {/* Table */}
-                <div>
-                    <table>
+                <div className="w-full flex justify-center">
+                    <table className="divide-y divide-gray-600">
                         <thead>
-                            <tr>
+                            <tr className="text-gray-400">
                                 <th scope="col" className="px-6 py-3">Ticker</th>
                                 <th scope="col">Predicted Next-Day Closing Price</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr>
+                                <td>test</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
