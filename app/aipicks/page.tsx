@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import MainNavBar from '../../components/sidebar/mainnavbar';
-import StockSearchBar from '../../components/stocksearchbar';
+import StockWatchList from '../../components/stockwatchlist';
 
 function AIPicks() {
 
@@ -13,9 +13,8 @@ function AIPicks() {
             <MainNavBar/>
 
             {/* Content */}
-            <div className="w-full h-16 mt-16">
-                <StockSearchBar/>
-            </div>
+            <StockWatchList/>
+
         </div>
     )
 }
