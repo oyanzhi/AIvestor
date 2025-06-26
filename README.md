@@ -11,7 +11,6 @@ Ong Yan Zhi & Aloysius Pek
 - [Features](#features)
 - [Motivations](#motivations)
 - [Tech Stack](#tech-stack)
-- [Setup](#setup)
 - [Development](#development)
 
 ## Features
