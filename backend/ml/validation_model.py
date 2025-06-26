@@ -19,9 +19,9 @@ torch.set_default_device(device)
 key = ["Open", "Close", "High", "Low", "Volume"]
 
 
-full_scaleddata = pd.read_csv("backend/ml/datasets/training_fulldata.csv")
+full_scaleddata = pd.read_csv("./ml/datasets/training_fulldata.csv")
 training_fulldata = StockDataset(full_scaleddata, key=key)
-test_indices = np.load("backend/ml/datasets/test_indices.npy")
+test_indices = np.load("./ml/datasets/test_indices.npy")
 
 test_set = Subset(training_fulldata, test_indices)
 
@@ -51,12 +51,12 @@ def validation(model, dataset_loader, criterion=nn.MSELoss()):
     return predictedresult, true_targets
 
 model = StocksLSTM(hidden_size=128, num_layers=2, input_size=len(key))
-model = torch.load("backend/ml/models/modelv1.pt", map_location=device, weights_only=False)
+model = torch.load("./ml/models/modelv1.pt", map_location=device, weights_only=False)
 predictedresult, true_targets = validation(model=model, dataset_loader=test_loader, criterion=nn.MSELoss())
 
 predictedresult = torch.cat(predictedresult).detach().numpy()
 true_targets = torch.cat(true_targets).detach().cpu().numpy()
-scaler = joblib.load("backend/ml/minmax_scalerv1.save")
+scaler = joblib.load("./ml/minmax_scalerv1.save")
 
 def unscale(predictions, scaler):
     temp = np.zeros((len(predictions), len(key)))
