@@ -16,7 +16,7 @@ Ong Yan Zhi & Aloysius Pek
 
 ## Features
 - **Core**
-  - [ ] AI Stock Analysis
+  - [X] AI Stock Analysis
   - [ ] Personalised Investment Insights
   - [ ] Risk Assessment Dashboard
 - **Extended**
@@ -34,37 +34,11 @@ Retail investors often lack access to advanced financial analysis tools due to t
 - NodeJS
 - React
 - Django
+- Pytorch
 - PostgreSQL
+- Render/ Supabase/ Vercel
 
-## Setup
-1. Ensure NodeJS, PostgreSQL, Python installed
-    - [NodeJS](https://nodejs.org/en)
-    - [PostgreSQL](https://www.postgresql.org/)
-    - [Python](https://www.python.org/)
-
-2. Clone Repository - `git clone git@github.com:oyanzhi/AIvestor.git`
-
-3. On Powershell - `Set-ExecutionPolicy -ExecutionPolicy Unrestricted`
-
-4. Install Dependencies
-    - `npm install`
-    - `py -m pip install --upgrade pip`
-    - `py -m pip install -r requirements.txt`
-
-5. `cd` to the [backend/clientaccount](/src/backend/clientaccount) directory 
-    - py manage.py makemigrations
-    - py manage.py migrate
-
-6. Ensure that Local PostgreSQL has the following settings as in [Django Account Management Project](/src/backend/clientaccount/accountmanagementproject/)
-    - Database Name: orbital25account
-    - User: postgres
-    - Password: default
-    - Host: localhost
-    - Port: 5432
-
-## Development
-Run `npm start` which starts both the frontend and backend servers\
-**Frontend running on `localhost:3000`**\
-**Backend running on `localhost:8000`**
+## Deployment
+Ensure frontend and backend are deployed respectively on Render and Vercel
 
 
