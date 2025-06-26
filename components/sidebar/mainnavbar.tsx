@@ -37,7 +37,7 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
           <NavButton href="/dashboard" Icon={HomeIcon} label="Dashboard" />
         )}
         {!noshow.includes("recommendations") && (
-          <NavButton href="/recommendations" Icon={SparklesIcon} label="AI Picks" />
+          <NavButton href="/aipicks" Icon={SparklesIcon} label="AI Picks" />
         )}
         {!noshow.includes("portfolio") && (
           <NavButton href="/portfolio" Icon={RectangleStackIcon} label="Portfolio" />
