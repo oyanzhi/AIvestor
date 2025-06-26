@@ -49,8 +49,8 @@
                 </div>
 
                 {/* Table */}
-                <div className="w-full flex justify-center border-spacing-x-5 border-spacing-y-2">
-                    <table className="divide-y divide-gray-600">
+                <div className="w-full flex justify-center">
+                    <table className="divide-y divide-gray-600 border-spacing-x-5 border-spacing-y-2">
                         <thead>
                             <tr className="text-gray-400">
                                 <th scope="col" className="px-6 py-3">Ticker</th>
