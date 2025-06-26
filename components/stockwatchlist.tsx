@@ -49,12 +49,13 @@
                 </div>
 
                 {/* Table */}
+
                 <div className="w-full flex justify-center">
-                    <table className="divide-y divide-gray-600 border-spacing-x-5 border-spacing-y-2">
+                    <table className="table-auto border-separate border-spacing-y-2">
                         <thead>
                             <tr className="text-gray-400">
-                                <th scope="col" className="px-6 py-3">Ticker</th>
-                                <th scope="col">Predicted Next-Day Closing Price</th>
+                                <th scope="col" className="px-10 py-3 border-t border-b">Ticker</th>
+                                <th scope="col" className="px-10 py-3 border-t border-b">Predicted Next-Day Closing Price</th>
                             </tr>
                         </thead>
                         <tbody>
