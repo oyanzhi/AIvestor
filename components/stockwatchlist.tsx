@@ -95,7 +95,7 @@
                         </thead>
                         <tbody>
                             {tickerlist.map(({ticker, predictedclosing}) => (
-                                <tr className="text-gray-400">
+                                <tr key={ticker} className="text-gray-400">
                                     <td className="px-25 py-3 border-t border-b">{ticker}</td>
                                     <td className="px-25 py-5 border-t border-b">{predictedclosing}</td>
                                 </tr>
