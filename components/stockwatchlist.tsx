@@ -84,8 +84,8 @@
                 </div>
 
                 {/* Disclaimer */}
-                <div className='w-full h-6'>
-                    <p className="text-base text-white">
+                <div className='w-full h-6 flex justify-center'>
+                    <p className="text-xs text-white">
                         Disclaimer: The following predictions are for informational purposes only. Please conduct your own research and make investment decisions responsibly.
                     </p>
                 </div>
