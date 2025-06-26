@@ -83,8 +83,14 @@
                     </form>
                 </div>
 
-                {/* Table */}
+                {/* Disclaimer */}
+                <div className='w-full h-6 flex justify-center'>
+                    <p className="text-xs text-white">
+                        Disclaimer: The following predictions are for informational purposes only. Please conduct your own research and make investment decisions responsibly.
+                    </p>
+                </div>
 
+                {/* Table */}
                 <div className="w-full flex justify-center">
                     <table className="table-auto border-separate border-spacing-y-2">
                         <thead>
