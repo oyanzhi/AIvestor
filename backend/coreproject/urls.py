@@ -16,10 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+
+def redirect_root(request):
+    return redirect("https://aivestor.vercel.app")
 
 urlpatterns = [
+    path('', redirect_root),
     path('admin/', admin.site.urls),
     path('registeraccountapp/', include('registeraccountapp.urls')),
     path('loginaccountapp/', include('loginaccountapp.urls')),
-    path('stockmodelrequest', include('stockmodelrequest.urls'))
+    path('stockmodelrequest/', include('stockmodelrequest.urls'))
 ]
