@@ -5,7 +5,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 
-from customclass import StocksLSTM
+from .customclass import StocksLSTM
 
 import datetime as DT
 
@@ -36,6 +36,9 @@ class StockPredict:
 
         seq = seq.tail(7)
 
+        if seq.empty:
+            raise ValueError("No Data Found")
+
         if isinstance(seq.columns, pd.MultiIndex):
             seq.columns = [col[0] for col in seq.columns]
 
@@ -62,6 +65,11 @@ class StockPredict:
         return ret
     
     def final(self, ticker):
-        unscaled = self.predict(ticker)
-        scaled = self.unscale(unscaled)
-        return scaled
+        try:
+            unscaled = self.predict(ticker)
+            scaled = self.unscale(unscaled)
+            return scaled[0]
+        except ValueError:
+            return None
+    
+# print(StockPredict().final("AAPL"))

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'registeraccountapp',
     'corsheaders',
-    'loginaccountapp'
+    'loginaccountapp',
+    'stockmodelrequest'
 ]
 
 MIDDLEWARE = [
