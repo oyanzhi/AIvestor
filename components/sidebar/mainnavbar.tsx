@@ -2,7 +2,16 @@ import "../../app/(globals)/globals.css"
 import { NavButton, HomeButton } from "../navbutton";
 import { useRouter } from "next/navigation";
 
-import { HomeIcon, ChartBarIcon, Cog6ToothIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
+import {
+  HomeIcon,
+  Cog6ToothIcon,
+  ArrowRightEndOnRectangleIcon,
+  RectangleStackIcon,
+  BellAlertIcon,
+  ChatBubbleLeftRightIcon,
+  UserGroupIcon,
+  SparklesIcon
+} from '@heroicons/react/24/outline';
 
 interface MainNavBarProps {
   noshow?: string[];
@@ -27,11 +36,25 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
         {!noshow.includes('dashboard') && (
           <NavButton href="/dashboard" Icon={HomeIcon} label="Dashboard" />
         )}
-        {!noshow.includes('market') && (
-          <NavButton href="/market" Icon={ChartBarIcon} label="Market" />
+        {!noshow.includes("recommendations") && (
+          <NavButton href="/recommendations" Icon={SparklesIcon} label="AI Picks" />
+        )}
+        {!noshow.includes("portfolio") && (
+          <NavButton href="/portfolio" Icon={RectangleStackIcon} label="Portfolio" />
+        )}
+        {!noshow.includes("alerts") && (
+          <NavButton href="/alerts" Icon={BellAlertIcon} label="Alerts" />
+        )}
+        {/* Extra feature, to be implemented for ms3 */}
+        {!noshow.includes("forum") && (
+          <NavButton href="/forum" Icon={ChatBubbleLeftRightIcon} label="Forum" />
         )}
         {!noshow.includes('settings') && (
           <NavButton href="/profilesetup" Icon={Cog6ToothIcon} label="Settings" />
+        )}
+        {/* Extra feature, to be implemented for ms3 */}
+        {!noshow.includes("admin") && (
+          <NavButton href="/admin" Icon={UserGroupIcon} label="Admin" />
         )}
         <NavButton href="/" Icon={ArrowRightEndOnRectangleIcon} label="Logout" side={Logout()} />
       </nav>
