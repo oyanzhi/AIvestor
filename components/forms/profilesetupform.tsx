@@ -1,11 +1,13 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 function ProfileSetupForm() {
+    const router = useRouter();
 
     const [formData, setFormData] = useState(
-        { displayName: "", username: "", password: "", confirmpassword: "", risktolerance: undefined, alertThreshold: undefined }
+        { displayName: "", username: "", password: "", confirmPassword: "", risktolerance: undefined, alertThreshold: undefined }
     );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -13,11 +15,51 @@ function ProfileSetupForm() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents cancelling of form
-        console.log('Profile Details:', formData);
-        alert("Profile updated successfully!");
+        //additional front end password validation
+
+        if (formData.password !== formData.confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        // Perform registration logic here
+        try {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                    {   displayName: formData.displayName,
+                        username: formData.username,
+                        password: formData.password,
+                        confirm_password: formData.confirmPassword,
+                        risktolerance: formData.risktolerance,
+                        alertThreshold: formData.alertThreshold
+                    }
+                ),
+            });
+
+            if (response.ok) {
+                router.push("/dashboard?successfulUpdate=true");
+            } else {
+                const error = await response.json();
+                let errorMessage = "Update Particulars failed";
+                Object.keys(error).forEach((field) => {
+                    const specificError = error[field];
+                    if (Array.isArray(specificError)) {
+                        errorMessage += `\n${specificError.join(", ")}`;
+                    }
+                });
+                alert(errorMessage);
+            };
+        } catch (error) {
+            console.error("Fetch Error:", error); //network or fetch error
+            alert("A network error occurred during registration");
+        };
     };
+
 
     const labelStyle = "block text-white font-bold ml-1 mb-1";
     const inputStyle = "w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none";
@@ -75,7 +117,7 @@ function ProfileSetupForm() {
                                 type="password"
                                 name="confirmpassword"
                                 placeholder="Confirm Password"
-                                value={formData.confirmpassword}
+                                value={formData.confirmPassword}
                                 onChange={handleChange}
                                 className= {inputStyle}
                             />
