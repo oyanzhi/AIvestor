@@ -35,11 +35,11 @@
         }
 
         return (
-            <div className="flex justify-center items-center min-h-screen bg-gray-900">
+            <div className="flex justify-center items-center min-h-full bg-gray-900">
                 <form onSubmit={handleSubmit} className="flex items-center space-x-4">
                     <input placeholder="Enter Ticker" required value={input} name="ticker" className="w-64 px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none" type="text" onChange={handleChange} />
-                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit">Add</button>
-                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit">Remove</button> 
+                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit" onClick={addTicker} >Add</button>
+                    <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit" onClick={removeTicker}>Remove</button> 
                 </form>
             </div>
         )

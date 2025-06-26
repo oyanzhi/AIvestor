@@ -13,8 +13,9 @@ function AIPicks() {
             <MainNavBar/>
 
             {/* Content */}
-            <StockSearchBar/>
-
+            <div className="w-full h-16">
+                <StockSearchBar/>
+            </div>
         </div>
     )
 }
