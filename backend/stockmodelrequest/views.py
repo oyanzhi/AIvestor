@@ -4,8 +4,12 @@ from rest_framework import status
 
 from .postreceivelogic import PostReceiveLogic
 
+from rest_framework.permissions import AllowAny
+
 # Create your views here.
 class PredictStockAppView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = PostReceiveLogic(data=request.data)
 
