@@ -127,7 +127,7 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Confirm new Password</label>
                             <input
                                 type="password"
-                                name="confirmpassword"
+                                name="confirmPassword"
                                 placeholder="Confirm Password"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
