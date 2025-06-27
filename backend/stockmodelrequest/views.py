@@ -1,14 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .postreceivelogic import PostReceiveLogic
 
-from rest_framework.permissions import AllowAny
 
 # Create your views here.
 class PredictStockAppView(APIView):
-    permission_classes = [AllowAny]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = PostReceiveLogic(data=request.data)

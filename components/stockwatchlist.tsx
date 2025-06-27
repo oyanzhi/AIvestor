@@ -13,13 +13,22 @@
             setInput(e.target.value);
         };
 
+        const token = sessionStorage.getItem("token")
+
         const addTicker = async () => {
             const trimticker = input.trim().toUpperCase();
+            if (!token) {
+                alert("You're not loggined in. Feature Only Available on Login.");
+                return;
+            }
             if (!tickerlist.some((s) => s.ticker === trimticker)) {
                 try {
                     const response = await fetch("https://aivestor-wnxv.onrender.com/stockmodelrequest/predictstocklist/", {
                         method: "POST",
-                        headers: { "Content-Type": "application/json"},
+                        headers: { 
+                            "Authorization": `Token ${token}`,
+                            "Content-Type": "application/json"
+                        },
                         body: JSON.stringify({ tickersymbol : [trimticker]})
                     })
 

@@ -6,6 +6,8 @@ import { useState } from 'react';
 function ProfileSetupForm() {
     const router = useRouter();
 
+    const token = sessionStorage.getItem("token")
+
     const [formData, setFormData] = useState(
         { displayName: "", username: "", password: "", confirmPassword: "", risktolerance: undefined, alertThreshold: undefined }
     );
@@ -19,6 +21,11 @@ function ProfileSetupForm() {
         e.preventDefault(); //prevents cancelling of form
         //additional front end password validation
 
+        if (!token) {
+            alert("You're not loggined in. Feature Only Available on Login.");
+            return;
+        }
+
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match");
             return;
@@ -28,6 +35,7 @@ function ProfileSetupForm() {
             const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
                 method: "POST",
                 headers: {
+                    "Authorization": `Token ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(
