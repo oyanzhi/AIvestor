@@ -29,7 +29,7 @@ function AIPicks() {
             <MainNavBar/>
 
             {/* Content */}
-            <StockWatchList/>
+            <StockWatchList token = {sessionStorage.getItem("token")}/>
 
         </div>
     )

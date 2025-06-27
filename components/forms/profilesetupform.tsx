@@ -3,15 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-function ProfileSetupForm() {
+function ProfileSetupForm({ token }: {token: string| null}) {
     const router = useRouter();
 
-    const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        setToken(sessionStorage.getItem("token"));
-    })
-
+   
     const [formData, setFormData] = useState(
         { display_name: "", username: "", password: "", confirmpassword: "", risk_tolerance: undefined, alert_threshold: undefined }
     );
@@ -88,7 +83,7 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Display Name</label>
                             <input
                                 type="text"
-                                name="displayName"
+                                name="display_name"
                                 placeholder="Displayed Name"
                                 value={formData.display_name}
                                 onChange={handleChange}
@@ -127,7 +122,7 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Confirm new Password</label>
                             <input
                                 type="password"
-                                name="confirmPassword"
+                                name="confirmpassword"
                                 placeholder="Confirm Password"
                                 value={formData.confirmpassword}
                                 onChange={handleChange}
@@ -139,7 +134,7 @@ function ProfileSetupForm() {
                         <div>
                             <label className="block mb-1">Risk Tolerance</label>
                             <select
-                                name="riskAppetite"
+                                name="risk_tolerance"
                                 value={formData.risk_tolerance}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
@@ -155,7 +150,7 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Alert Threshold (%)</label>
                             <input
                                 type="number"
-                                name="alertThreshold"
+                                name="alert_threshold"
                                 placeholder="10"
                                 value={formData.alert_threshold}
                                 onChange={handleChange}

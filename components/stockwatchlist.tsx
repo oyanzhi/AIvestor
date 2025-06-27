@@ -7,15 +7,9 @@
         predictedclosing: number;
     }
 
-    export default function StockWatchList() {
+    export default function StockWatchList({ token }: {token: string | null}) {
         const [tickerlist, setTickerList] = useState<Stock[]>([]);
         const [input, setInput] = useState("");
-
-        const [token, setToken] = useState<string | null>(null);
-        
-        useEffect(() => {
-            setToken(sessionStorage.getItem("token"));
-        })
         
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setInput(e.target.value);

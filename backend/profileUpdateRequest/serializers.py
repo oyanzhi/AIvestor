@@ -23,16 +23,17 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             if len(password) < 8: # current simple check for password
                 raise serializers.ValidationError("Password must be at least 8 characters long.")
         
-            if password and password != confirmpassword:
+            if password != confirmpassword:
                 raise serializers.ValidationError("Passwords do not match.")
 
         return data
 
     def update(self, instance, validated_data):
-        if 'password' in validated_data:
-            instance.password = make_password(validated_data.pop("password"))
+        password = validated_data.pop('password', None)
+        validated_data.pop('confirmpassword', None)
 
-        validated_data.pop("confirmpassword", None)  # Remove confirm password
+        if password:
+            instance.password = make_password(password)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

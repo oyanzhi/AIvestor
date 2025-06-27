@@ -9,9 +9,6 @@ from .postreceivelogic import PostReceiveLogic
 
 # Create your views here.
 class PredictStockAppView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def post(self, request):
         serializer = PostReceiveLogic(data=request.data)
 
