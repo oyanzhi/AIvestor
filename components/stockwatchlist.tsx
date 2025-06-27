@@ -1,4 +1,6 @@
-    import { useState } from 'react';
+    "use client";
+    
+    import { useState, useEffect } from 'react';
 
     type Stock = {
         ticker: string;
@@ -9,11 +11,15 @@
         const [tickerlist, setTickerList] = useState<Stock[]>([]);
         const [input, setInput] = useState("");
 
+        const [token, setToken] = useState<string | null>(null);
+        
+        useEffect(() => {
+            setToken(sessionStorage.getItem("token"));
+        })
+        
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setInput(e.target.value);
         };
-
-        const token = sessionStorage.getItem("token")
 
         const addTicker = async () => {
             const trimticker = input.trim().toUpperCase();

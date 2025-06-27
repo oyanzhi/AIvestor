@@ -1,12 +1,16 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function ProfileSetupForm() {
     const router = useRouter();
 
-    const token = sessionStorage.getItem("token")
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        setToken(sessionStorage.getItem("token"));
+    })
 
     const [formData, setFormData] = useState(
         { displayName: "", username: "", password: "", confirmPassword: "", risktolerance: undefined, alertThreshold: undefined }
