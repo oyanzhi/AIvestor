@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registeraccountapp/', include('registeraccountapp.urls')),
     path('loginaccountapp/', include('loginaccountapp.urls')),
-    path('stockmodelrequest/', include('stockmodelrequest.urls'))
+    path('stockmodelrequest/', include('stockmodelrequest.urls')),
+    path('profileUpdateRequest/', include('profileUpdateRequest.urls'))
 ]
