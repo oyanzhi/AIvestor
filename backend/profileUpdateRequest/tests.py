@@ -10,7 +10,7 @@ class ProfileUpdateTestCase(APITestCase):
     def setUp(self):
         self.user = AccountDatabase.objects.create_user(
             username="test",
-            email="test@example.com",
+            email="aloysius7m@gmail.com",
             password="testpassword123"
         )
         self.url = '/profileUpdateRequest/update/'  

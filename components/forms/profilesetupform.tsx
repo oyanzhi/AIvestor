@@ -13,7 +13,7 @@ function ProfileSetupForm() {
     })
 
     const [formData, setFormData] = useState(
-        { displayName: "", username: "", password: "", confirmPassword: "", risktolerance: undefined, alertThreshold: undefined }
+        { display_name: "", username: "", password: "", confirmpassword: "", risk_tolerance: undefined, alert_threshold: undefined }
     );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -30,7 +30,7 @@ function ProfileSetupForm() {
             return;
         }
 
-        if (formData.password !== formData.confirmPassword) {
+        if (formData.password !== formData.confirmpassword) {
             alert("Passwords do not match");
             return;
         }
@@ -43,12 +43,12 @@ function ProfileSetupForm() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(
-                    {   displayName: formData.displayName,
+                    {   display_name: formData.display_name,
                         username: formData.username,
                         password: formData.password,
-                        confirm_password: formData.confirmPassword,
-                        risktolerance: formData.risktolerance,
-                        alertThreshold: formData.alertThreshold
+                        confirmpassword: formData.confirmpassword,
+                        risk_tolerance: formData.risk_tolerance,
+                        alert_threshold: formData.alert_threshold
                     }
                 ),
             });
@@ -90,7 +90,7 @@ function ProfileSetupForm() {
                                 type="text"
                                 name="displayName"
                                 placeholder="Displayed Name"
-                                value={formData.displayName}
+                                value={formData.display_name}
                                 onChange={handleChange}
                                 className= {inputStyle}
                             />
@@ -129,7 +129,7 @@ function ProfileSetupForm() {
                                 type="password"
                                 name="confirmPassword"
                                 placeholder="Confirm Password"
-                                value={formData.confirmPassword}
+                                value={formData.confirmpassword}
                                 onChange={handleChange}
                                 className= {inputStyle}
                             />
@@ -140,7 +140,7 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Risk Tolerance</label>
                             <select
                                 name="riskAppetite"
-                                value={formData.risktolerance}
+                                value={formData.risk_tolerance}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
                             >
@@ -157,7 +157,7 @@ function ProfileSetupForm() {
                                 type="number"
                                 name="alertThreshold"
                                 placeholder="10"
-                                value={formData.alertThreshold}
+                                value={formData.alert_threshold}
                                 onChange={handleChange}
                                 min={1}
                                 className= {inputStyle}
