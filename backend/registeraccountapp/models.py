@@ -25,7 +25,7 @@ class AccountDatabase(AbstractBaseUser):
     username = models.CharField(null=False, unique=True)  # Unique username for the account/ uniqueness checked at registration for custom message
     email = models.EmailField(null=False)  # Unique email address for the account/ uniqueness checked at registration for custom message
     password = models.CharField()  # Password for the account
-    display_name = models.CharField(max_length=100, blank=True, verbose_name="Display Name")
+    display_name = models.CharField(max_length=100, blank=True, verbose_name="Display Name", default="")
     risk_tolerance = models.CharField(max_length=10, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")], default="Medium")
     alert_threshold = models.IntegerField(default=10)
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp of when the account was created
