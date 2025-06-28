@@ -1,11 +1,16 @@
 "use client"
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import LoadingIndicator from '../loadingIndicator';
 
-function ProfileSetupForm() {
+function ProfileSetupForm({ token }: {token: string| null}) {
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState(
-        { displayName: "", username: "", password: "", confirmpassword: "", risktolerance: undefined, alertThreshold: undefined }
+        { display_name: "", username: "", password: "", confirmpassword: "", risk_tolerance: undefined, alert_threshold: undefined }
     );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -13,11 +18,72 @@ function ProfileSetupForm() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents cancelling of form
-        console.log('Profile Details:', formData);
-        alert("Profile updated successfully!");
+        //additional front end password validation
+
+        if (!token) {
+            alert("You're not loggined in. Feature Only Available on Login.");
+            return;
+        }
+
+        //check password with confirmpassword only if either is not empty
+        if (formData.password || formData.confirmpassword) {
+            if (formData.password !== formData.confirmpassword) {
+                alert("Passwords do not match");
+                return;
+            }
+        }
+
+
+        // Perform profile update logic here
+
+        //adding data if user input something to be change
+        const updateData: any = {};
+
+        if (formData.display_name.trim() !== "") updateData.display_name = formData.display_name;
+        if (formData.username.trim() !== "") updateData.username = formData.username;
+        if (formData.risk_tolerance) updateData.risk_tolerance = formData.risk_tolerance;
+        if (formData.alert_threshold !== undefined && formData.alert_threshold !== null && formData.alert_threshold !== "") updateData.alert_threshold = formData.alert_threshold;
+
+        if (formData.password && formData.confirmpassword) {
+            updateData.password = formData.password;
+            updateData.confirmpassword = formData.confirmpassword;
+        }
+        
+        setLoading(true);
+        try {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Token ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updateData),
+            });
+
+            if (response.ok) {
+                router.push("/dashboard?successfulUpdate=true");
+                alert("Your profile was updated successfully!");
+            } else {
+                const error = await response.json();
+                let errorMessage = "Update Particulars failed";
+                Object.keys(error).forEach((field) => {
+                    const specificError = error[field];
+                    if (Array.isArray(specificError)) {
+                        errorMessage += `\n${specificError.join(", ")}`;
+                    }
+                });
+                alert(errorMessage);
+            };
+        } catch (error) {
+            console.error("Fetch Error:", error); //network or fetch error
+            alert("A network error occurred during registration");
+        } finally{
+            setLoading(false);
+        };
     };
+
 
     const labelStyle = "block text-white font-bold ml-1 mb-1";
     const inputStyle = "w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none";
@@ -34,9 +100,9 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Display Name</label>
                             <input
                                 type="text"
-                                name="displayName"
+                                name="display_name"
                                 placeholder="Displayed Name"
-                                value={formData.displayName}
+                                value={formData.display_name}
                                 onChange={handleChange}
                                 className= {inputStyle}
                             />
@@ -85,8 +151,8 @@ function ProfileSetupForm() {
                         <div>
                             <label className="block mb-1">Risk Tolerance</label>
                             <select
-                                name="riskAppetite"
-                                value={formData.risktolerance}
+                                name="risk_tolerance"
+                                value={formData.risk_tolerance}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
                             >
@@ -101,9 +167,9 @@ function ProfileSetupForm() {
                             <label className="block mb-1">Alert Threshold (%)</label>
                             <input
                                 type="number"
-                                name="alertThreshold"
+                                name="alert_threshold"
                                 placeholder="10"
-                                value={formData.alertThreshold}
+                                value={formData.alert_threshold}
                                 onChange={handleChange}
                                 min={1}
                                 className= {inputStyle}
@@ -117,7 +183,7 @@ function ProfileSetupForm() {
                             type="submit"
                             className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
                         >
-                            Save Changes
+                            {loading ? <LoadingIndicator text="Saving..." /> : "Save Changes"}
                         </button>
                     </form>
                 </div>

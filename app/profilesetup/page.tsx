@@ -29,7 +29,7 @@ function ProfileSetupPage() {
     return (
         <div className="flex flex-col min-h-screen bg-deepblue">
             <MainSideBar noshow={hidden} />
-            <ProfileSetupForm />
+            <ProfileSetupForm token = {sessionStorage.getItem("token")}/>
             <Footer />
         </div>
     );

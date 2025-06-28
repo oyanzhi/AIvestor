@@ -1,0 +1,7 @@
+Hi {{ user.display_name|default:user.username }},
+
+Your profile was successfully updated.
+
+If you have any questions, contact us at {{ support_email }}.
+
+– The AIvestor Team

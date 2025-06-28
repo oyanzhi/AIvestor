@@ -1,0 +1,7 @@
+{% extends "emails/base.html" %}
+
+{% block content %}
+    <p>Hi {{ user.display_name|default:user.username }},</p>
+    <p>Your profile was successfully updated.</p>
+    <p>Thanks for using AIvestor!</p>
+{% endblock %}

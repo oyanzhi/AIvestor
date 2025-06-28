@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import LoadingIndicator from '../loadingIndicator';
 
 function LoginForm() {
     const [formData, setFormData] = useState({ username: '', password: '' });
 
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -16,6 +18,7 @@ function LoginForm() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); //prevents cancelling of form
 
+        setLoading(true)
         try {
             const response = await fetch("https://aivestor-wnxv.onrender.com/loginaccountapp/loginpage/", {
                 method: "POST",
@@ -33,6 +36,7 @@ function LoginForm() {
                 const data = await response.json();
                 sessionStorage.setItem("token", data.token);
                 router.replace("/dashboard");
+                alert("You have successfully log in!");
             } else {
                 const errorData = await response.json(); //error data
                 if (errorData.non_field_errors) {
@@ -44,6 +48,8 @@ function LoginForm() {
         } catch (error) {
             console.error("Fetch Error:", error); //network or fetch error
             alert("A network error has occured during login.");
+        } finally {
+            setLoading(false)
         };
     };
 
@@ -77,7 +83,7 @@ function LoginForm() {
                 type="submit"
                 className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
             >
-                Login
+                {loading ? <LoadingIndicator text="Login..." /> : "Login"}
             </button>
         </form>
 

@@ -46,8 +46,20 @@ INSTALLED_APPS = [
     'registeraccountapp',
     'corsheaders',
     'loginaccountapp',
-    'stockmodelrequest'
+    'stockmodelrequest',
+    'profileUpdateRequest',
+    'notifications'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -85,6 +97,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'coreproject.wsgi.application'
 
+# EMAIL SETTINGS    
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("emailAddress")
+EMAIL_HOST_PASSWORD = os.getenv("emailPassword")
+DEFAULT_FROM_EMAIL = 'AIvestor ' + os.getenv("emailAddress")
+DEFAULT_SUPPORT_EMAIL = os.getenv("emailAddress")
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

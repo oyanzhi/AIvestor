@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import AccountDatabase
-from django.contrib.auth.hashers import make_password
 
 class RegisterAccountLogic(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) # password field is write only to prevent it from being exposed in API responses
@@ -12,9 +11,9 @@ class RegisterAccountLogic(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at'] # fields that are read only and cannot be modified by the user
 
     def create(self, validated_data): # creates a new user account
-        validated_data['password'] = make_password(validated_data['password']) # hashes the password before saving it to the database
-        validated_data.pop('confirm_password') # removes the confirm password field from the validated data
-        user = AccountDatabase.objects.create(**validated_data)
+        validated_data.pop('confirm_password')
+        password = validated_data.pop('password')
+        user = AccountDatabase.objects.create_user(password=password, **validated_data)
         return user
 
     def validate_username(self, value):

@@ -1,0 +1,7 @@
+{% extends "emails/base.html" %}
+
+{% block content %}
+    <p>Hi {{ user.display_name|default:user.username }},</p>
+    <p>You have successfully created an account with us!</p>
+    <p>Let's start investing!</p>
+{% endblock %}
