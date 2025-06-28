@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'loginaccountapp',
     'stockmodelrequest',
-    'profileUpdateRequest'
+    'profileUpdateRequest',
+    'notifications'
 ]
 
 REST_FRAMEWORK = {

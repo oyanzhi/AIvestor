@@ -11,6 +11,8 @@ class ProfileUpdateView(APIView):
         serializer = ProfileUpdateSerializer(instance=request.user, data=request.data, partial=True, context={'request': request})
 
         if serializer.is_valid():
+            serializer.save()
+            
             send_mail(
                 subject='AIvestor Profile Update Confirmation',
                 message=f"Hi {request.user.display_name or request.user.username},\n\nYour profile was updated successfully.",
@@ -19,7 +21,6 @@ class ProfileUpdateView(APIView):
                 fail_silently=True,
             )
 
-            serializer.save()
             return Response({"message": "Profile updated successfully"}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

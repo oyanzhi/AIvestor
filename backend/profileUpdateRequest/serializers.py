@@ -19,10 +19,13 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     def validate(self, data):#password validation
         password = data.get("password")
         confirmpassword = data.get("confirmpassword")
-        if password:
+        if password is not None and password != "":
             if len(password) < 8: # current simple check for password
                 raise serializers.ValidationError("Password must be at least 8 characters long.")
-        
+            
+            if confirmpassword is None or confirmpassword == "":
+                raise serializers.ValidationError("Please confirm your password.")
+            
             if password != confirmpassword:
                 raise serializers.ValidationError("Passwords do not match.")
 

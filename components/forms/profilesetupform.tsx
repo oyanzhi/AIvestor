@@ -25,11 +25,30 @@ function ProfileSetupForm({ token }: {token: string| null}) {
             return;
         }
 
-        if (formData.password !== formData.confirmpassword) {
-            alert("Passwords do not match");
-            return;
+        //check password with confirmpassword only if either is not empty
+        if (formData.password || formData.confirmpassword) {
+            if (formData.password !== formData.confirmpassword) {
+                alert("Passwords do not match");
+                return;
+            }
         }
-        // Perform registration logic here
+
+
+        // Perform profile update logic here
+
+        //adding data if user input something to be change
+        const updateData: any = {};
+
+        if (formData.display_name.trim() !== "") updateData.display_name = formData.display_name;
+        if (formData.username.trim() !== "") updateData.username = formData.username;
+        if (formData.risk_tolerance) updateData.risk_tolerance = formData.risk_tolerance;
+        if (formData.alert_threshold !== undefined && formData.alert_threshold !== null && formData.alert_threshold !== "") updateData.alert_threshold = formData.alert_threshold;
+
+        if (formData.password && formData.confirmpassword) {
+            updateData.password = formData.password;
+            updateData.confirmpassword = formData.confirmpassword;
+        }
+        
         try {
             const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
                 method: "POST",
@@ -37,15 +56,7 @@ function ProfileSetupForm({ token }: {token: string| null}) {
                     "Authorization": `Token ${token}`,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(
-                    {   display_name: formData.display_name,
-                        username: formData.username,
-                        password: formData.password,
-                        confirmpassword: formData.confirmpassword,
-                        risk_tolerance: formData.risk_tolerance,
-                        alert_threshold: formData.alert_threshold
-                    }
-                ),
+                body: JSON.stringify(updateData),
             });
 
             if (response.ok) {
