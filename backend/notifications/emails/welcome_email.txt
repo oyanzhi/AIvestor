@@ -1,0 +1,9 @@
+Hi {{ user.display_name|default:user.username }},
+
+You have successfully created an account with us!
+
+Let's start investing!
+
+If you have any questions, contact us at {{ support_email }}.
+
+– The AIvestor Team
