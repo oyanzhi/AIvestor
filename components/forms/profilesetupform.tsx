@@ -2,11 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import LoadingIndicator from '../loadingIndicator';
 
 function ProfileSetupForm({ token }: {token: string| null}) {
     const router = useRouter();
 
-   
+    const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState(
         { display_name: "", username: "", password: "", confirmpassword: "", risk_tolerance: undefined, alert_threshold: undefined }
     );
@@ -49,6 +51,7 @@ function ProfileSetupForm({ token }: {token: string| null}) {
             updateData.confirmpassword = formData.confirmpassword;
         }
         
+        setLoading(true);
         try {
             const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
                 method: "POST",
@@ -76,6 +79,8 @@ function ProfileSetupForm({ token }: {token: string| null}) {
         } catch (error) {
             console.error("Fetch Error:", error); //network or fetch error
             alert("A network error occurred during registration");
+        } finally{
+            setLoading(false);
         };
     };
 
@@ -178,7 +183,7 @@ function ProfileSetupForm({ token }: {token: string| null}) {
                             type="submit"
                             className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
                         >
-                            Save Changes
+                            {loading ? <LoadingIndicator text="Saving..." /> : "Save Changes"}
                         </button>
                     </form>
                 </div>

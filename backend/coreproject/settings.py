@@ -106,7 +106,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("emailAddress")
 EMAIL_HOST_PASSWORD = os.getenv("emailPassword")
 DEFAULT_FROM_EMAIL = 'AIvestor ' + os.getenv("emailAddress")
-
+DEFAULT_SUPPORT_EMAIL = os.getenv("emailAddress")
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

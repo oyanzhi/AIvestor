@@ -43,18 +43,18 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
           <NavButton href="/portfolio" Icon={RectangleStackIcon} label="Portfolio" />
         )}
         {!noshow.includes("alerts") && (
-          <NavButton href="/alerts" Icon={BellAlertIcon} label="Alerts" />
+          <NavButton href="/dashboard" Icon={BellAlertIcon} label="Alerts" />
         )}
         {/* Extra feature, to be implemented for ms3 */}
         {!noshow.includes("forum") && (
-          <NavButton href="/forum" Icon={ChatBubbleLeftRightIcon} label="Forum" />
+          <NavButton href="/dashboard" Icon={ChatBubbleLeftRightIcon} label="Forum" />
         )}
         {!noshow.includes('settings') && (
           <NavButton href="/profilesetup" Icon={Cog6ToothIcon} label="Settings" />
         )}
         {/* Extra feature, to be implemented for ms3 */}
         {!noshow.includes("admin") && (
-          <NavButton href="/admin" Icon={UserGroupIcon} label="Admin" />
+          <NavButton href="/dashboard" Icon={UserGroupIcon} label="Admin" />
         )}
         <NavButton href="/" Icon={ArrowRightEndOnRectangleIcon} label="Logout" side={Logout()} />
       </nav>

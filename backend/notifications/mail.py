@@ -9,7 +9,7 @@ def send_profile_updated_email(user):
 
     context = {
         "user": user,
-        "support_email": settings.DEFAULT_FROM_EMAIL,
+        "support_email": settings.DEFAULT_SUPPORT_EMAIL,
     }
 
     text_content = render_to_string("emails/profile_updated.txt", context)
@@ -26,7 +26,7 @@ def send_welcome_email(user):
 
     context = {
         "user": user,
-        "support_email": settings.DEFAULT_FROM_EMAIL,
+        "support_email": settings.DEFAULT_SUPPORT_EMAIL,
     }
 
     text_content = render_to_string("emails/welcome_email.txt", context)
