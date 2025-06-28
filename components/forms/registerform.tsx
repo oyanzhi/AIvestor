@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import LoadingIndicator from '../loadingIndicator';
 
 function RegisterForm() {
     const router = useRouter();
@@ -9,6 +10,9 @@ function RegisterForm() {
     const [formData, setFormData] = useState(
         { username: "", email: "", password: "", confirmPassword: "" }
     );
+
+    const [loading, setLoading] = useState(false);
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -24,6 +28,8 @@ function RegisterForm() {
             return;
         }
         // Perform registration logic here
+        setLoading(true);
+
         try {
             const response = await fetch("https://aivestor-wnxv.onrender.com/registeraccountapp/registerpage/", {
                 method: "POST",
@@ -56,6 +62,8 @@ function RegisterForm() {
         } catch (error) {
             console.error("Fetch Error:", error); //network or fetch error
             alert("A network error occurred during registration");
+        } finally {
+            setLoading(false);
         };
     };
 
@@ -115,9 +123,10 @@ function RegisterForm() {
 
             <button
                 type="submit"
+                  disabled={loading}
                 className="w-full bg-buttonblue hover:bg-buttonhoverblue text-white py-2 rounded-xl font-semibold transition"
             >
-                Register
+                {loading ? <LoadingIndicator text="Registering..." /> : "Register"}
             </button>
         </form>
     );
