@@ -60,8 +60,8 @@ function ProfileSetupForm({ token }: {token: string| null}) {
             });
 
             if (response.ok) {
-                alert("Your profile was updated successfully!");
                 router.push("/dashboard?successfulUpdate=true");
+                alert("Your profile was updated successfully!");
             } else {
                 const error = await response.json();
                 let errorMessage = "Update Particulars failed";

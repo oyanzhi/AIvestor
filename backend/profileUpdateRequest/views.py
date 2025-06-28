@@ -2,9 +2,6 @@ from .serializers import ProfileUpdateSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
-from django.core.mail import send_mail
-from django.conf import settings
-from rest_framework.authentication import TokenAuthentication
 from notifications.mail import send_profile_updated_email
 
 
