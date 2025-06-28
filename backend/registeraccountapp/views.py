@@ -11,9 +11,9 @@ class RegisterAccountAppView(APIView):
     def post(self, request):
         serializer = RegisterAccountLogic(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
             
-            send_welcome_email(request.user)
+            send_welcome_email(user)
 
             return Response({"Registration Successful!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

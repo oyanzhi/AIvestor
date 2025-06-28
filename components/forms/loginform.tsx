@@ -32,8 +32,8 @@ function LoginForm() {
             if (response.ok) {
                 const data = await response.json();
                 sessionStorage.setItem("token", data.token);
-                alert("You have successfully log in!");
                 router.replace("/dashboard");
+                alert("You have successfully log in!");
             } else {
                 const errorData = await response.json(); //error data
                 if (errorData.non_field_errors) {
