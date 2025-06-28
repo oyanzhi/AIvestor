@@ -88,7 +88,7 @@
                     <form onSubmit={handleSubmit} className="flex items-center space-x-4">
                         <input placeholder="Enter Ticker" required value={input} name="ticker" className="w-64 px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none" type="text" onChange={handleChange} />
                         <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="submit">Add</button>
-                        <button className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition" type="button" onClick={removeTicker}>Remove</button> 
+                        <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition" type="button" onClick={removeTicker}>Remove</button> 
                     </form>
                 </div>
 

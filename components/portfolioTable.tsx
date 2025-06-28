@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LoadingIndicator from "./loadingIndicator";
 
 type PortfolioStock = {
   name: string;
-  symbol: string;
+  ticker: string;
   shares: number;
   boughtPrice: number;
   currentPrice: number;
@@ -13,87 +14,181 @@ type PortfolioStock = {
 export default function PortfolioTable() {
   const [portfolio, setPortfolio] = useState<PortfolioStock[]>([]);
   const [name, setName] = useState("");
-  const [symbol, setSymbol] = useState("");
+  const [ticker, setTicker] = useState("");
   const [shares, setShares] = useState<number>(0);
   const [boughtPrice, setBoughtPrice] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchCurrentPrice = async (symbol: string): Promise<number | null> => {
-    try {
-      const response = await fetch("https://aivestor-wnxv.onrender.com/stockmodelrequest/predictstocklist/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tickersymbol: [symbol] }),
-      });
-      if (!response.ok) return null;
-      const result = await response.json();
-      return result[symbol] ?? null;
-    } catch {
+  // Fetch portfolio and populate table when loaded
+  useEffect(() => {
+    async function fetchPortfolio() {
+      setLoading(true);
+      try {
+        const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/populate", {
+          method: "GET",
+          headers: {
+            // "Authorization": `Token ${token}`,
+            // "Content-Type": "application/json",
+          },
+        });
+        
+        if (!response.ok) {
+          throw new Error("Failed to load portfolio");
+        }
+
+        const data: PortfolioStock[] = await response.json();
+        setPortfolio(data);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : String(e));
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPortfolio();
+  }, []);
+
+ // You will need to implement these on backend or mock them for now
+  const getSymbolFromName = async (stockName: string): Promise<string | null> => {
+    // Call your backend endpoint to search symbol by name
+    // For example:
+    const res = await fetch(`https://aivestor-wnxv.onrender.com/search-symbol?name=${encodeURIComponent(stockName)}`);
+    if (!res.ok) return null;
+    const result = await res.json();
+    if (result.count > 1) {
+      alert("Multiple stocks found. Please be more specific.");
       return null;
     }
+    return result.symbol || null;
   };
 
-  const determineRiskLevel = (bought: number, current: number): "Low" | "Medium" | "High" => {
-    const drop = ((bought - current) / bought) * 100;
-    if (drop > 20) return "High";
-    if (drop > 10) return "Medium";
-    return "Low";
+  const getNameFromTicker = async (stockSymbol: string): Promise<string | null> => {
+    // Call your backend to get stock name from symbol
+    const res = await fetch(`https://aivestor-wnxv.onrender.com/search-name?symbol=${encodeURIComponent(stockSymbol)}`);
+    if (!res.ok) return null;
+    const result = await res.json();
+    return result.name || null;
   };
 
   const handleAdd = async () => {
-    const trimmed = symbol.trim().toUpperCase();
-    if (portfolio.some((s) => s.symbol === trimmed)) {
+    setError(null);
+
+    if (!name && !ticker) {
+      alert("Please enter either a stock name or ticker symbol.");
+      return;
+    }
+
+    let resolvedTicker = ticker.trim().toUpperCase();
+    let resolvedName = name.trim();
+
+     // User entered stock name only
+    if (name && !ticker) {
+      const tickerFromName = await getSymbolFromName(resolvedName);
+      if (!tickerFromName) {
+        alert("Could not find a symbol for this stock name.");
+        return;
+      }
+      resolvedTicker = tickerFromName.trim().toUpperCase();
+    }
+
+    // User enter stock ticker only
+    if (!name && ticker) {
+      const nameFromTicker = await getNameFromTicker(resolvedTicker);
+      if (!nameFromTicker) {
+        alert("Could not find a stock name for this symbol.");
+        return;
+      }
+      resolvedName = nameFromTicker.trim();
+    }
+
+    // Prevent duplicates
+    if (portfolio.some((s) => s.ticker === resolvedTicker)) {
       alert("Stock already in portfolio.");
       return;
     }
-    const current = await fetchCurrentPrice(trimmed);
-    if (current === null) {
-      alert("Failed to fetch current price.");
-      return;
+
+    setLoading(true);
+
+    try {
+      // Send add request to backend
+      const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/addstock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // if needed for auth
+        body: JSON.stringify({
+          ticker: resolvedTicker,
+          shares,
+          bought_price: boughtPrice,
+        }),
+      });
+      if (!response.ok) throw new Error("Failed to add stock");
+
+      // Backend returns updated holding or full portfolio - update state accordingly
+      const addedStock: PortfolioStock = await response.json();
+      setPortfolio((prev) => [...prev, addedStock]);
+
+      // Clear form
+      setName("");
+      setTicker("");
+      setShares(0);
+      setBoughtPrice(0);
+      alert("Stock added successfully!")
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
     }
-    const valuation = current * shares;
-    const risk = determineRiskLevel(boughtPrice, current);
-    const newStock: PortfolioStock = {
-      name,
-      symbol: trimmed,
-      shares,
-      boughtPrice,
-      currentPrice: current,
-      valuation,
-      riskLevel: risk,
-    };
-    setPortfolio((prev) => [...prev, newStock]);
-    setName(""); setSymbol(""); setShares(0); setBoughtPrice(0);
   };
 
-  const handleRemove = () => {
-    const trimmed = symbol.trim().toUpperCase();
-    if (!portfolio.some((s) => s.symbol === trimmed)) {
+  const handleRemove =  async () => {
+    setError(null);
+
+    if (!portfolio.some((s) => s.ticker === ticker)) {
       alert("Stock not found.");
       return;
     }
-    setPortfolio((prev) => prev.filter((s) => s.symbol !== trimmed));
-    setName(""); setSymbol(""); setShares(0); setBoughtPrice(0);
-  };
 
+    setLoading(true);
+    try {
+      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/${ticker}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to remove stock");
+
+      setPortfolio((prev) => prev.filter((s) => s.ticker !== ticker));
+
+      setName("");
+      setTicker("");
+      setShares(0);
+      setBoughtPrice(0);
+      alert("Stock removed successfully!")
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full min-h-screen mt-16 px-6">
+      
       {/* Form */}
-      <div className="mb-6">
+      <div className="flex justify-center items-center mb-6 mt-3">
         <form
           onSubmit={(e) => { e.preventDefault(); handleAdd(); }}
           className="flex flex-wrap gap-4 items-end"
         >
-          <input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" />
-          <input value={symbol} onChange={(e) => setSymbol(e.target.value)} required placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" />
+          <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
           <input type="number" value={shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
           <input type="number" step="0.01" value={boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
-          <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl">Add</button>
-          <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl">Remove</button>
+          <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Adding..." /> : "Add"}</button>
+          <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Removing..." /> : "Remove"}</button>
         </form>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto w-full">
         <table className="table-auto w-full border-separate border-spacing-y-2">
           <thead>
             <tr className="text-gray-400 text-left">
@@ -108,9 +203,9 @@ export default function PortfolioTable() {
           </thead>
           <tbody>
             {portfolio.map((stock) => (
-              <tr key={stock.symbol} className="text-white border-t border-gray-600">
+              <tr key={stock.ticker} className="text-white border-t border-gray-600">
                 <td className="px-4 py-2">{stock.name}</td>
-                <td className="px-4 py-2">{stock.symbol}</td>
+                <td className="px-4 py-2">{stock.ticker}</td>
                 <td className="px-4 py-2">{stock.shares}</td>
                 <td className="px-4 py-2">${stock.boughtPrice.toFixed(2)}</td>
                 <td className="px-4 py-2">${stock.currentPrice.toFixed(2)}</td>
