@@ -5,6 +5,8 @@ from rest_framework import permissions, status
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.authentication import TokenAuthentication
+from notifications.mail import send_profile_updated_email
+
 
 class ProfileUpdateView(APIView):
     def post(self, request):
@@ -12,14 +14,8 @@ class ProfileUpdateView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            
-            send_mail(
-                subject='AIvestor Profile Update Confirmation',
-                message=f"Hi {request.user.display_name or request.user.username},\n\nYour profile was updated successfully.",
-                from_email = settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[request.user.email],
-                fail_silently=True,
-            )
+
+            send_profile_updated_email(request.user)
 
             return Response({"message": "Profile updated successfully"}, status=status.HTTP_200_OK)
         

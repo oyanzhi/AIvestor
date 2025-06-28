@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from notifications.mail import send_welcome_email 
 
 class RegisterAccountAppView(APIView):
     permission_classes=[AllowAny]
@@ -11,6 +12,9 @@ class RegisterAccountAppView(APIView):
         serializer = RegisterAccountLogic(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            send_welcome_email(request.user)
+
             return Response({"Registration Successful!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
