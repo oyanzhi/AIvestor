@@ -160,7 +160,8 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     }
 
     const stockToSell = portfolio.find(
-      (s) => s.ticker.toUpperCase() === ticker.toUpperCase() || s.name.toLowerCase() === name.toLowerCase()
+      (s) => s.ticker.toUpperCase().includes(ticker.toUpperCase()) || 
+            s.name.toLowerCase().includes(name.toLowerCase())
     );
 
     if (!stockToSell) {

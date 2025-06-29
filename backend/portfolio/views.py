@@ -21,16 +21,21 @@ class SearchSymbolView(APIView):
 
         try:
             ticker = Ticker(stock_name)
-            symbols = ticker.symbols
+            summary_profile = ticker.summary_profile
 
-            if not symbols:
-                return Response({"error": "No symbol found for the given name"}, status=status.HTTP_404_NOT_FOUND)
+            if not summary_profile:
+                return Response({"error": f"No data found for stock name '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
+            
+            potential_symbols = [symbol for symbol in summary_profile.keys()]
 
+            if not potential_symbols:
+                return Response({"error": "No symbols found for the given stock name."}, status=status.HTTP_404_NOT_FOUND)
+            
+            if len(potential_symbols) > 1:
+                return Response({"error": f"Multiple companies found for '{stock_name}'. Please be more specific."}, status=status.HTTP_400_BAD_REQUEST)
             #ask user to be more specific if result not unique
-            if len(symbols) > 1:
-                return Response({"error": "Multiple company found. Please be more specific."}, status=status.HTTP_400_BAD_REQUEST)
-
-            symbol = symbols[0] 
+            symbol = potential_symbols[0]
+            
             return Response({"symbol": symbol}, status=status.HTTP_200_OK)
 
         except Exception as e:
