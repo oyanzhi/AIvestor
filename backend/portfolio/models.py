@@ -14,4 +14,4 @@ class stockHolding(models.Model):
         unique_together = ('user', 'stock') #prevent duplication of pair
     
     def __str__(self):
-        return f"{self.user.username} owns {self.quantity} of {self.stock.symbol}"
+        return f"{self.user.username} owns {self.quantity} of {self.stock.ticker}"

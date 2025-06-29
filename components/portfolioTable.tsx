@@ -7,11 +7,13 @@ type PortfolioStock = {
   shares: number;
   boughtPrice: number;
   currentPrice: number;
-  valuation: number;
+  totalCost: number;
+  marketValue: number;
+  valuation: "Undervalued" | "Fairly valued" | "Overvalued";
   riskLevel: "Low" | "Medium" | "High";
 };
 
-export default function PortfolioTable() {
+export default function PortfolioTable({ token }: {token: string| null}) {
   const [portfolio, setPortfolio] = useState<PortfolioStock[]>([]);
   const [name, setName] = useState("");
   const [ticker, setTicker] = useState("");
@@ -22,14 +24,15 @@ export default function PortfolioTable() {
 
   // Fetch portfolio and populate table when loaded
   useEffect(() => {
+    if (!token) return;
     async function fetchPortfolio() {
       setLoading(true);
       try {
         const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/populate", {
           method: "GET",
           headers: {
-            // "Authorization": `Token ${token}`,
-            // "Content-Type": "application/json",
+            "Authorization": `Token ${token}`,
+            "Content-Type": "application/json",
           },
         });
         
@@ -46,7 +49,7 @@ export default function PortfolioTable() {
       }
     }
     fetchPortfolio();
-  }, []);
+  }, [token]);
 
  // You will need to implement these on backend or mock them for now
   const getSymbolFromName = async (stockName: string): Promise<string | null> => {
@@ -55,10 +58,12 @@ export default function PortfolioTable() {
     const res = await fetch(`https://aivestor-wnxv.onrender.com/search-symbol?name=${encodeURIComponent(stockName)}`);
     if (!res.ok) return null;
     const result = await res.json();
-    if (result.count > 1) {
-      alert("Multiple stocks found. Please be more specific.");
+
+    if (!result.symbol) {
+      alert("No symbol found. Try being more specific.");
       return null;
     }
+
     return result.symbol || null;
   };
 
@@ -72,6 +77,16 @@ export default function PortfolioTable() {
 
   const handleAdd = async () => {
     setError(null);
+
+    if (!token) {
+      alert("You're not loggined in. Feature Only Available on Login.");
+      return;
+    }
+
+    if (shares <= 0 || boughtPrice <= 0) {
+      alert("Shares and bought price must be greater than zero.");
+      return;
+    }
 
     if (!name && !ticker) {
       alert("Please enter either a stock name or ticker symbol.");
@@ -113,7 +128,10 @@ export default function PortfolioTable() {
       // Send add request to backend
       const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/addstock", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Authorization": `Token ${token}`,
+          "Content-Type": "application/json",
+        },
         credentials: "include", // if needed for auth
         body: JSON.stringify({
           ticker: resolvedTicker,
@@ -142,6 +160,11 @@ export default function PortfolioTable() {
 
   const handleRemove =  async () => {
     setError(null);
+    if (!token) {
+      alert("You're not loggined in. Feature Only Available on Login.");
+      return;
+    }
+    if (!confirm(`Are you sure you want to remove ${ticker}?`)) return;
 
     if (!portfolio.some((s) => s.ticker === ticker)) {
       alert("Stock not found.");
@@ -150,8 +173,12 @@ export default function PortfolioTable() {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/${ticker}`, {
+      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/remove/${ticker}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Token ${token}`,
+          "Content-Type": "application/json",
+        },
         credentials: "include",
       });
       if (!response.ok) throw new Error("Failed to remove stock");
@@ -197,6 +224,8 @@ export default function PortfolioTable() {
               <th className="px-4 py-2 border-b">Shares</th>
               <th className="px-4 py-2 border-b">Bought Price</th>
               <th className="px-4 py-2 border-b">Current Price</th>
+              <th className="px-4 py-2 border-b">Total Cost</th>
+              <th className="px-4 py-2 border-b">Market Value</th>
               <th className="px-4 py-2 border-b">Valuation</th>
               <th className="px-4 py-2 border-b">Risk Level</th>
             </tr>
@@ -207,9 +236,13 @@ export default function PortfolioTable() {
                 <td className="px-4 py-2">{stock.name}</td>
                 <td className="px-4 py-2">{stock.ticker}</td>
                 <td className="px-4 py-2">{stock.shares}</td>
-                <td className="px-4 py-2">${stock.boughtPrice.toFixed(2)}</td>
-                <td className="px-4 py-2">${stock.currentPrice.toFixed(2)}</td>
-                <td className="px-4 py-2">${stock.valuation.toFixed(2)}</td>
+                <td className="px-4 py-2">${stock.boughtPrice.toFixed(2) ?? "N/A"}</td>
+                <td className="px-4 py-2">${stock.currentPrice.toFixed(2) ?? "N/A"}</td>
+                <td className="px-4 py-2">${stock.totalCost.toFixed(2) ?? "N/A"}</td>
+                <td className="px-4 py-2">${stock.marketValue.toFixed(2) ?? "N/A"}</td>
+                <td className={`px-4 py-2 font-semibold ${stock.valuation === "Overvalued" ? "text-red-500" : stock.valuation === "Fairly valued" ? "text-yellow-400" : "text-green-400"}`}>
+                  {stock.valuation}
+                </td>
                 <td className={`px-4 py-2 font-semibold ${stock.riskLevel === "High" ? "text-red-500" : stock.riskLevel === "Medium" ? "text-yellow-400" : "text-green-400"}`}>
                   {stock.riskLevel}
                 </td>

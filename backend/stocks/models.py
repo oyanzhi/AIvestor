@@ -14,12 +14,22 @@ class Stock(models.Model):
     pb_ratio = models.FloatField(blank=True, null=True) #this is price that you are paying per net asset value of company.Low pb ratio generally indicate undervaluation
     dividend_yield = models.FloatField(blank=True, null=True) # Generally, a higher dividend yield suggests a company is generating more profit.
     current_price = models.DecimalField(max_digits=12, decimal_places=2)
+    valuation = models.CharField(max_length=20, choices=[
+        ("Undervalued", "Undervalued"),
+        ("Fairly valued", "Fairly valued"),
+        ("Overvalued", "Overvalued"),
+    ], null=True, blank=True)
 
     # risk Metrics
     beta = models.FloatField(blank=True, null=True) # > 1 means more volatile than market hence HIGHER RISK
     volatility = models.FloatField(blank=True, null=True) # (must calculate from historical prices) Higher = HIGHER RISK
     debt_to_asset_ratio = models.FloatField(blank=True, null=True) # A high debt-to-asset ratio means a larger portion of the company's assets are financed by debt hence higher risk
-
+    risk_level = models.CharField(max_length=20, choices=[
+        ("Low", "Low"),
+        ("Medium", "Medium"),
+        ("High", "High"),
+    ], null=True, blank=True)
+    
     # Cash flow metrics
     free_cash_flow = models.BigIntegerField(blank=True, null=True) #help to do discounted cash flow (DCF)
 
