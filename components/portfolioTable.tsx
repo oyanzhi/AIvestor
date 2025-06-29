@@ -51,11 +51,9 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     fetchPortfolio();
   }, [token]);
 
- // You will need to implement these on backend or mock them for now
+
   const getSymbolFromName = async (stockName: string): Promise<string | null> => {
-    // Call your backend endpoint to search symbol by name
-    // For example:
-    const res = await fetch(`https://aivestor-wnxv.onrender.com/search-symbol?name=${encodeURIComponent(stockName)}`);
+    const res = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/search-symbol?name=${encodeURIComponent(stockName)}`);
     if (!res.ok) return null;
     const result = await res.json();
 
@@ -68,8 +66,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
   };
 
   const getNameFromTicker = async (stockSymbol: string): Promise<string | null> => {
-    // Call your backend to get stock name from symbol
-    const res = await fetch(`https://aivestor-wnxv.onrender.com/search-name?symbol=${encodeURIComponent(stockSymbol)}`);
+    const res = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/search-name?symbol=${encodeURIComponent(stockSymbol)}`);
     if (!res.ok) return null;
     const result = await res.json();
     return result.name || null;
@@ -132,7 +129,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
           "Authorization": `Token ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: "include", // if needed for auth
         body: JSON.stringify({
           ticker: resolvedTicker,
           shares,
@@ -179,7 +175,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
           "Authorization": `Token ${token}`,
           "Content-Type": "application/json",
         },
-        credentials: "include",
       });
       if (!response.ok) throw new Error("Failed to remove stock");
 
@@ -207,8 +202,8 @@ export default function PortfolioTable({ token }: {token: string| null}) {
         >
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" />
           <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
-          <input type="number" value={shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
-          <input type="number" step="0.01" value={boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
+          <input type="number" value={shares === 0 ? "" : shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
+          <input type="number" step="0.01" value={boughtPrice === 0 ? "" : boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
           <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Adding..." /> : "Add"}</button>
           <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Removing..." /> : "Remove"}</button>
         </form>
