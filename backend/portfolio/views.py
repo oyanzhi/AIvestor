@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from yahooquery import Ticker
 from decimal import Decimal
-
+from rest_framework.permissions import AllowAny
 from stocks.models import Stock
 from portfolio.models import stockHolding
 from stocks.services import get_valuation_status, get_risk_level
@@ -12,6 +12,7 @@ from portfolio.services import add_or_update_stock_holding
 
 
 class SearchSymbolView(APIView):
+    permission_classes=[AllowAny]
     def get(self, request):
         stock_name = request.GET.get("name", "").strip()
         if not stock_name:
@@ -35,6 +36,7 @@ class SearchSymbolView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class SearchNameView(APIView):
+    permission_classes=[AllowAny]
     def get(self, request):
         stock_symbol = request.GET.get("symbol", "").strip()
         if not stock_symbol:
