@@ -7,7 +7,7 @@ from notifications.mail import send_welcome_email
 
 class RegisterAccountAppView(APIView):
     permission_classes=[AllowAny]
-
+    
     def post(self, request):
         serializer = RegisterAccountLogic(data=request.data)
         if serializer.is_valid():

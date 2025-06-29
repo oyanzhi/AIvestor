@@ -19,14 +19,14 @@ export default function PortfolioTable({ token }: {token: string| null}) {
   const [ticker, setTicker] = useState("");
   const [shares, setShares] = useState<number>(0);
   const [boughtPrice, setBoughtPrice] = useState<number>(0);
-  const [loading, setLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  const [removeLoading, setRemoveLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch portfolio and populate table when loaded
   useEffect(() => {
     if (!token) return;
     async function fetchPortfolio() {
-      setLoading(true);
       try {
         const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/populate", {
           method: "GET",
@@ -45,7 +45,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       } catch (e) {
         setError(e instanceof Error ? e.message : String(e));
       } finally {
-        setLoading(false);
       }
     }
     fetchPortfolio();
@@ -113,13 +112,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       resolvedName = nameFromTicker.trim();
     }
 
-    // Prevent duplicates
-    if (portfolio.some((s) => s.ticker === resolvedTicker)) {
-      alert("Stock already in portfolio.");
-      return;
-    }
-
-    setLoading(true);
+    setAddLoading(true);
 
     try {
       // Send add request to backend
@@ -150,7 +143,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
-      setLoading(false);
+      setAddLoading(false);
     }
   };
 
@@ -160,14 +153,19 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       alert("You're not loggined in. Feature Only Available on Login.");
       return;
     }
-    if (!confirm(`Are you sure you want to remove ${ticker}?`)) return;
 
-    if (!portfolio.some((s) => s.ticker === ticker)) {
+    const stockToRemove = portfolio.find(
+      (s) => s.ticker.toUpperCase() === ticker.toUpperCase() || s.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (!stockToRemove) {
       alert("Stock not found.");
       return;
     }
 
-    setLoading(true);
+    if (!confirm(`Are you sure you want to remove ${stockToRemove.ticker}?`)) return;
+
+    setRemoveLoading(true);
     try {
       const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/remove/${ticker}`, {
         method: "DELETE",
@@ -188,7 +186,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setLoading(false);
+      setRemoveLoading(false);
     }
   };
   return (
@@ -204,8 +202,8 @@ export default function PortfolioTable({ token }: {token: string| null}) {
           <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
           <input type="number" value={shares === 0 ? "" : shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
           <input type="number" step="0.01" value={boughtPrice === 0 ? "" : boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
-          <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Adding..." /> : "Add"}</button>
-          <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Removing..." /> : "Remove"}</button>
+          <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{addLoading ? <LoadingIndicator text="Adding..." /> : "Add"}</button>
+          <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{removeLoading ? <LoadingIndicator text="Removing..." /> : "Remove"}</button>
         </form>
       </div>
 
