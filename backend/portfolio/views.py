@@ -10,6 +10,7 @@ from portfolio.models import stockHolding
 from stocks.services import get_valuation_status, get_risk_level
 from portfolio.services import add_or_update_stock_holding
 
+
 class SearchSymbolView(APIView):
     def get(self, request):
         stock_name = request.GET.get("name", "").strip()
