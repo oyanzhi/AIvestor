@@ -20,7 +20,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
   const [shares, setShares] = useState<number>(0);
   const [boughtPrice, setBoughtPrice] = useState<number>(0);
   const [addLoading, setAddLoading] = useState(false);
-  const [removeLoading, setRemoveLoading] = useState(false);
+  const [sellLoading, setSellLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch portfolio and populate table when loaded
@@ -132,7 +132,12 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
       // Backend returns updated holding or full portfolio - update state accordingly
       const addedStock: PortfolioStock = await response.json();
-      setPortfolio((prev) => [...prev, addedStock]);
+      setPortfolio((prev) => {
+        // Filter out old stock with same ticker
+        const filtered = prev.filter((s) => s.ticker !== addedStock.ticker);
+        // Add the updated stock returned by backend
+        return [...filtered, addedStock];
+      });
 
       // Clear form
       setName("");
@@ -147,46 +152,69 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     }
   };
 
-  const handleRemove =  async () => {
+  const handleSell =  async () => {
     setError(null);
     if (!token) {
       alert("You're not loggined in. Feature Only Available on Login.");
       return;
     }
 
-    const stockToRemove = portfolio.find(
+    const stockToSell = portfolio.find(
       (s) => s.ticker.toUpperCase() === ticker.toUpperCase() || s.name.toLowerCase() === name.toLowerCase()
     );
 
-    if (!stockToRemove) {
+    if (!stockToSell) {
       alert("Stock not found.");
       return;
     }
 
-    if (!confirm(`Are you sure you want to remove ${stockToRemove.ticker}?`)) return;
+    if (shares <= 0) {
+      alert("Please enter a valid number of shares to sell.");
+      return;
+    }
 
-    setRemoveLoading(true);
+    if (shares > stockToSell.shares) {
+      alert(`You only have ${stockToSell.shares} shares of ${stockToSell.ticker}.`);
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to Sell ${stockToSell.ticker}?`)) return;
+
+    setSellLoading(true);
     try {
-      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/remove/${ticker}`, {
-        method: "DELETE",
+      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/sell/${ticker}`, {
+        method: "POST",
         headers: {
           "Authorization": `Token ${token}`,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ shares }),
       });
-      if (!response.ok) throw new Error("Failed to remove stock");
+      if (!response.ok) throw new Error("Failed to sell stock");
 
-      setPortfolio((prev) => prev.filter((s) => s.ticker !== ticker));
+      const updatedHolding = await response.json();
+
+      setPortfolio((prev) => {
+        if (updatedHolding.message) {
+          // Holding was deleted after selling all shares
+          return prev.filter((s) => s.ticker !== stockToSell.ticker);
+        } else {
+          // Update holding in portfolio
+          return prev.map((s) =>
+            s.ticker === updatedHolding.ticker ? updatedHolding : s
+          );
+        }
+      });
 
       setName("");
       setTicker("");
       setShares(0);
       setBoughtPrice(0);
-      alert("Stock removed successfully!")
+      alert("Stock sold successfully!")
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
-      setRemoveLoading(false);
+      setSellLoading(false);
     }
   };
   return (
@@ -203,7 +231,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
           <input type="number" value={shares === 0 ? "" : shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
           <input type="number" step="0.01" value={boughtPrice === 0 ? "" : boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
           <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{addLoading ? <LoadingIndicator text="Adding..." /> : "Add"}</button>
-          <button type="button" onClick={handleRemove} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{removeLoading ? <LoadingIndicator text="Removing..." /> : "Remove"}</button>
+          <button type="button" onClick={handleSell} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold transition">{sellLoading ? <LoadingIndicator text="Selling..." /> : "Sell"}</button>
         </form>
       </div>
 
