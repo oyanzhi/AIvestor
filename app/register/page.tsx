@@ -1,6 +1,6 @@
 'use client';
 
-import LoginSideBar from "../../components/sidebar/loginnavbar";
+import LoginNavBar from "../../components/sidebar/loginnavbar";
 import RegisterForm from "../../components/forms/registerform";
 import Link from "next/link";
 import Footer from "../../components/sidebar/footer";
@@ -8,7 +8,7 @@ import Footer from "../../components/sidebar/footer";
 function RegisterPage() {
     return (
         <div>
-            <LoginSideBar />
+            <LoginNavBar />
 
             <div className="flex flex-col min-h-screen bg-deepblue">
                 {/* Page Content */}

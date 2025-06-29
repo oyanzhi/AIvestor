@@ -13,7 +13,14 @@ class AccountDatabaseManager(BaseUserManager):
         user.save(using=self.db)
         return user
     
-    #currently super users are not implemented - but database is able to accomodate with is_staff
+    #currently super users are not used yet but can be created
+    def create_superuser(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+
+        if not extra_fields.get('is_staff'):
+            raise ValueError('Superuser must have is_staff=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
 
     def get_by_natural_key(self, username):
         return self.get(username=username) #key differentiating is username
@@ -23,7 +30,7 @@ class AccountDatabase(AbstractBaseUser):
     #fields stored in database
     id = models.AutoField(primary_key=True, null=False, unique=True)  # Auto-incrementing primary key for the account
     username = models.CharField(null=False, unique=True)  # Unique username for the account/ uniqueness checked at registration for custom message
-    email = models.EmailField(null=False)  # Unique email address for the account/ uniqueness checked at registration for custom message
+    email = models.EmailField(null=False, unique=True)  # Unique email address for the account/ uniqueness checked at registration for custom message
     password = models.CharField()  # Password for the account
     display_name = models.CharField(max_length=100, blank=True, verbose_name="Display Name", default="")
     risk_tolerance = models.CharField(max_length=10, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")], default="Medium")

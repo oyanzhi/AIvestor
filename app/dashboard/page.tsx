@@ -1,6 +1,6 @@
 'use client';
 
-import MainSidebar from '../../components/sidebar/mainnavbar';
+import MainNavBar from '../../components/sidebar/mainnavbar';
 import Footer from '../../components/sidebar/footer';
 
 import { useRouter } from "next/navigation"
@@ -28,7 +28,7 @@ function DashboardPage() {
     return (
     <div className="flex flex-col min-h-screen bg-deepblue">
       {/* Top Navbar */}
-      <MainSidebar />
+      <MainNavBar />
 
       {/* Main Content */}
       <main className="flex-1 px-6 flex flex-col items-center justify-center">
