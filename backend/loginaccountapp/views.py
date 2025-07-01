@@ -23,3 +23,8 @@ class LoginAccountAppView(APIView):
             return Response({"message": "Login Successful", "token": token.key}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class Ping(APIView):
+    permission_classes=[AllowAny]
+    def get(self, request):
+        return Response(status=status.HTTP_200_OK)
