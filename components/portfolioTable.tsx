@@ -162,8 +162,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
 
     setStockToSell(portfolio.find(
-      (s) => s.ticker.toUpperCase().includes(ticker.toUpperCase()) || 
-            s.name.toLowerCase().includes(name.toLowerCase())
+      (s) => s.ticker.trim().toUpperCase().includes(ticker.trim().toUpperCase())
     ));
 
     if (!stockToSell) {
