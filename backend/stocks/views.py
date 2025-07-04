@@ -10,5 +10,5 @@ class UpdateStocksView(APIView):
     permission_classes=[AllowAny]
 
     def post(self, request):
-        update_all_stock_metrics()
+        update_all_stock_metrics(verbose=False)
         return Response({"message": "Stock metrics updated."}, status=status.HTTP_200_OK)

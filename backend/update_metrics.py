@@ -7,5 +7,5 @@ django.setup()
 from stocks.services import update_all_stock_metrics
 
 if __name__ == "__main__":
-    updated = update_all_stock_metrics()
+    updated = update_all_stock_metrics(verbose=True)
     print(f"✅ Updated {len(updated)} stocks: {updated}")

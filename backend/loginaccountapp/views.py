@@ -5,6 +5,7 @@ from rest_framework import status
 from django.contrib.auth import login
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
+from django.http import HttpResponse
 
 # Create your views here.
 class LoginAccountAppView(APIView):
@@ -27,4 +28,4 @@ class LoginAccountAppView(APIView):
 class Ping(APIView):
     permission_classes=[AllowAny]
     def get(self, request):
-        return Response(status=status.HTTP_200_OK)
+        return HttpResponse("OK", content_type="text/plain")

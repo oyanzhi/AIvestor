@@ -2,7 +2,7 @@ from .models import Stock
 from decimal import Decimal
 import yfinance as yf
 
-def update_all_stock_metrics():
+def update_all_stock_metrics(verbose=False):
     stocks = Stock.objects.all()
     updated = []
 
@@ -36,11 +36,16 @@ def update_all_stock_metrics():
             stock.risk_level = get_risk_level(stock)
 
             stock.save()
+            if verbose:
+                print(f"✅ Updated {stock.ticker}")
             updated.append(stock.ticker)
 
         except Exception as e:
-            print(f"[ERROR] Failed to update {stock.ticker}: {e}")
+            if verbose:
+                print(f"[ERROR] Failed to update {stock.ticker}: {e}")
 
+    if verbose:
+        print(f"Updated {len(updated)} stocks: {updated}")
     return updated
 
 def fetch_yfinance_info(ticker):

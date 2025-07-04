@@ -21,7 +21,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
   const [boughtPrice, setBoughtPrice] = useState<number>(0);
   const [addLoading, setAddLoading] = useState(false);
   const [sellLoading, setSellLoading] = useState(false);
-  const [stockToSell, setStockToSell] = useState<PortfolioStock | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch portfolio and populate table when loaded
@@ -161,11 +160,11 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     }
 
 
-    setStockToSell(portfolio.find(
+    const match = portfolio.find(
       (s) => s.ticker.trim().toUpperCase().includes(ticker.trim().toUpperCase())
-    ));
+    );
 
-    if (!stockToSell) {
+    if (!match) {
       alert("Stock not found.");
       return;
     }
@@ -175,12 +174,12 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       return;
     }
 
-    if (shares > stockToSell.shares) {
-      alert(`You only have ${stockToSell.shares} shares of ${stockToSell.ticker}.`);
+    if (shares > match.shares) {
+      alert(`You only have ${match.shares} shares of ${match.ticker}.`);
       return;
     }
 
-    if (!confirm(`Are you sure you want to Sell ${stockToSell.ticker}?`)) return;
+    if (!confirm(`Are you sure you want to Sell ${match.ticker}?`)) return;
 
     setSellLoading(true);
     try {
@@ -199,7 +198,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       setPortfolio((prev) => {
         if (updatedHolding.message) {
           // Holding was deleted after selling all shares
-          return prev.filter((s) => s.ticker !== stockToSell.ticker);
+          return prev.filter((s) => s.ticker !== match.ticker);
         } else {
           // Update holding in portfolio
           return prev.map((s) =>
@@ -212,7 +211,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       setTicker("");
       setShares(0);
       setBoughtPrice(0);
-      setStockToSell(undefined);
       alert("Stock sold successfully!")
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
