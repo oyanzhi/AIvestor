@@ -49,7 +49,6 @@ class SearchSymbolView(APIView):
             return Response({
                 "symbol": first_match["symbol"],
                 "name": first_match.get("shortname") or first_match.get("longname", ""),
-                "exchange": first_match.get("exchange", "")
             }, status=status.HTTP_200_OK)
 
         except requests.RequestException as req_err:
