@@ -40,35 +40,23 @@ class SearchSymbolView(APIView):
                 return Response({"error": "Yahoo returned invalid JSON"}, status=status.HTTP_502_BAD_GATEWAY)
 
             quotes = data.get("quotes", [])
-            if not quotes:
-                return Response({"error": f"No results found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
-
             equities = [q for q in quotes if q.get("quoteType") == "EQUITY"]
 
-            if len(equities) == 1:
-                return Response({"symbol": equities[0]["symbol"]}, status=status.HTTP_200_OK)
-
-            elif len(equities) > 1:
-                return Response({
-                    "message": f"Multiple matches found for '{stock_name}', please be more specific.",
-                    "matches": [
-                        {
-                            "symbol": q["symbol"],
-                            "name": q.get("shortname", q.get("longname", "")),
-                            "exchange": q.get("exchange"),
-                        }
-                        for q in equities
-                    ]
-                }, status=status.HTTP_200_OK)
-
-            else:
+            if not equities:
                 return Response({"error": f"No valid equity symbols found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
+
+            first_match = equities[0]
+            return Response({
+                "symbol": first_match["symbol"],
+                "name": first_match.get("shortname") or first_match.get("longname", ""),
+                "exchange": first_match.get("exchange", "")
+            }, status=status.HTTP_200_OK)
 
         except requests.RequestException as req_err:
             return Response({"error": f"Request failed: {str(req_err)}"}, status=status.HTTP_502_BAD_GATEWAY)
         except Exception as e:
             return Response({"error": f"Unexpected error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
 class SearchNameView(APIView):
     permission_classes=[AllowAny]
     def get(self, request):
