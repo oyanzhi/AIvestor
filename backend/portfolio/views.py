@@ -22,20 +22,31 @@ class SearchSymbolView(APIView):
             return Response({"error": "Stock name is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Fuzzy search using Yahoo's autocomplete API
-            response = requests.get(f"https://query2.finance.yahoo.com/v1/finance/search?q={stock_name}")
-            data = response.json()
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            }
+            response = requests.get(
+                f"https://query2.finance.yahoo.com/v1/finance/search?q={stock_name}",
+                headers=headers,
+                timeout=5
+            )
+
+            if response.status_code != 200:
+                return Response({"error": "Failed to fetch results from Yahoo Finance"}, status=status.HTTP_502_BAD_GATEWAY)
+
+            try:
+                data = response.json()
+            except Exception:
+                return Response({"error": "Yahoo returned invalid JSON"}, status=status.HTTP_502_BAD_GATEWAY)
 
             quotes = data.get("quotes", [])
             if not quotes:
                 return Response({"error": f"No results found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
 
-            # Filter to only equities if needed
             equities = [q for q in quotes if q.get("quoteType") == "EQUITY"]
 
             if len(equities) == 1:
-                symbol = equities[0]["symbol"]
-                return Response({"symbol": symbol}, status=status.HTTP_200_OK)
+                return Response({"symbol": equities[0]["symbol"]}, status=status.HTTP_200_OK)
 
             elif len(equities) > 1:
                 return Response({
@@ -51,10 +62,12 @@ class SearchSymbolView(APIView):
                 }, status=status.HTTP_200_OK)
 
             else:
-                return Response({"error": f"No valid stock symbols found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": f"No valid equity symbols found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
 
+        except requests.RequestException as req_err:
+            return Response({"error": f"Request failed: {str(req_err)}"}, status=status.HTTP_502_BAD_GATEWAY)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": f"Unexpected error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class SearchNameView(APIView):
     permission_classes=[AllowAny]
