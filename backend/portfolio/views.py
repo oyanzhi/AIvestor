@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,29 +15,43 @@ from .serializers import StockHoldingSerializer
 
 class SearchSymbolView(APIView):
     permission_classes=[AllowAny]
+
     def get(self, request):
         stock_name = request.GET.get("name", "").strip()
         if not stock_name:
             return Response({"error": "Stock name is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            ticker = Ticker(stock_name)
-            summary_profile = ticker.summary_profile
+            # Fuzzy search using Yahoo's autocomplete API
+            response = requests.get(f"https://query2.finance.yahoo.com/v1/finance/search?q={stock_name}")
+            data = response.json()
 
-            if not summary_profile:
-                return Response({"error": f"No data found for stock name '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
-            
-            potential_symbols = [symbol for symbol in summary_profile.keys()]
+            quotes = data.get("quotes", [])
+            if not quotes:
+                return Response({"error": f"No results found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
 
-            if not potential_symbols:
-                return Response({"error": "No symbols found for the given stock name."}, status=status.HTTP_404_NOT_FOUND)
-            
-            if len(potential_symbols) > 1:
-                return Response({"error": f"Multiple companies found for '{stock_name}'. Please be more specific."}, status=status.HTTP_400_BAD_REQUEST)
-            #ask user to be more specific if result not unique
-            symbol = potential_symbols[0]
-            
-            return Response({"symbol": symbol}, status=status.HTTP_200_OK)
+            # Filter to only equities if needed
+            equities = [q for q in quotes if q.get("quoteType") == "EQUITY"]
+
+            if len(equities) == 1:
+                symbol = equities[0]["symbol"]
+                return Response({"symbol": symbol}, status=status.HTTP_200_OK)
+
+            elif len(equities) > 1:
+                return Response({
+                    "message": f"Multiple matches found for '{stock_name}', please be more specific.",
+                    "matches": [
+                        {
+                            "symbol": q["symbol"],
+                            "name": q.get("shortname", q.get("longname", "")),
+                            "exchange": q.get("exchange"),
+                        }
+                        for q in equities
+                    ]
+                }, status=status.HTTP_200_OK)
+
+            else:
+                return Response({"error": f"No valid stock symbols found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
