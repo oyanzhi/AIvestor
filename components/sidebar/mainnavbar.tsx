@@ -10,7 +10,8 @@ import {
   BellAlertIcon,
   ChatBubbleLeftRightIcon,
   UserGroupIcon,
-  SparklesIcon
+  SparklesIcon,
+  NewspaperIcon
 } from '@heroicons/react/24/outline';
 
 interface MainNavBarProps {
@@ -38,6 +39,9 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
         )}
         {!noshow.includes("recommendations") && (
           <NavButton href="/aipicks" Icon={SparklesIcon} label="AI Picks" />
+        )}
+        {!noshow.includes("stock") && (
+          <NavButton href="/stockpage" Icon={NewspaperIcon} label="Stock" />
         )}
         {!noshow.includes("portfolio") && (
           <NavButton href="/portfolio" Icon={RectangleStackIcon} label="Portfolio" />
