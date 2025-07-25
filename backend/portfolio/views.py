@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,33 +15,47 @@ from .serializers import StockHoldingSerializer
 
 class SearchSymbolView(APIView):
     permission_classes=[AllowAny]
+
     def get(self, request):
         stock_name = request.GET.get("name", "").strip()
         if not stock_name:
             return Response({"error": "Stock name is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            ticker = Ticker(stock_name)
-            summary_profile = ticker.summary_profile
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+            }
+            response = requests.get(
+                f"https://query2.finance.yahoo.com/v1/finance/search?q={stock_name}",
+                headers=headers,
+                timeout=5
+            )
 
-            if not summary_profile:
-                return Response({"error": f"No data found for stock name '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
-            
-            potential_symbols = [symbol for symbol in summary_profile.keys()]
+            if response.status_code != 200:
+                return Response({"error": "Failed to fetch results from Yahoo Finance"}, status=status.HTTP_502_BAD_GATEWAY)
 
-            if not potential_symbols:
-                return Response({"error": "No symbols found for the given stock name."}, status=status.HTTP_404_NOT_FOUND)
-            
-            if len(potential_symbols) > 1:
-                return Response({"error": f"Multiple companies found for '{stock_name}'. Please be more specific."}, status=status.HTTP_400_BAD_REQUEST)
-            #ask user to be more specific if result not unique
-            symbol = potential_symbols[0]
-            
-            return Response({"symbol": symbol}, status=status.HTTP_200_OK)
+            try:
+                data = response.json()
+            except Exception:
+                return Response({"error": "Yahoo returned invalid JSON"}, status=status.HTTP_502_BAD_GATEWAY)
 
+            quotes = data.get("quotes", [])
+            equities = [q for q in quotes if q.get("quoteType") == "EQUITY"]
+
+            if not equities:
+                return Response({"error": f"No valid equity symbols found for '{stock_name}'."}, status=status.HTTP_404_NOT_FOUND)
+
+            first_match = equities[0]
+            return Response({
+                "symbol": first_match["symbol"],
+                "name": first_match.get("shortname") or first_match.get("longname", ""),
+            }, status=status.HTTP_200_OK)
+
+        except requests.RequestException as req_err:
+            return Response({"error": f"Request failed: {str(req_err)}"}, status=status.HTTP_502_BAD_GATEWAY)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            return Response({"error": f"Unexpected error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 class SearchNameView(APIView):
     permission_classes=[AllowAny]
     def get(self, request):

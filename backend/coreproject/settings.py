@@ -30,7 +30,11 @@ SECRET_KEY = 'django-insecure-k&9u%zbe@pd=j+!7!#tg$m85c(vnjks9j+(_ilo@8_cmo=gufs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["aivestor-wnxv.onrender.com"]
+ALLOWED_HOSTS = [
+    "aivestor-wnxv.onrender.com",
+    "127.0.0.1",
+    "localhost",
+]
 
 
 # Application definition
@@ -85,6 +89,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
     "https://aivestor-git-main-yan-zhis-projects.vercel.app",
     "https://aivestor.vercel.app"
 ]

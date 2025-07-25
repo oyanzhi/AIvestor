@@ -159,13 +159,24 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       return;
     }
 
+    let resolvedTicker = ticker.trim().toUpperCase();
+
+    // If ticker is not provided but name is
+    if (!ticker && name) {
+      const tickerFromName = await getSymbolFromName(name.trim());
+      if (!tickerFromName) {
+        alert("Could not resolve a ticker symbol from the provided name.");
+        return;
+      }
+      resolvedTicker = tickerFromName.trim().toUpperCase();
+    }
 
     const match = portfolio.find(
-      (s) => s.ticker.trim().toUpperCase().includes(ticker.trim().toUpperCase())
+      (s) => s.ticker.trim().toUpperCase() === resolvedTicker
     );
 
     if (!match) {
-      alert("Stock not found.");
+      alert("Stock not found in your portfolio.");
       return;
     }
 
@@ -183,7 +194,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
     setSellLoading(true);
     try {
-      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/sell/${ticker}`, {
+      const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/sell/${match.ticker}`, {
         method: "POST",
         headers: {
           "Authorization": `Token ${token}`,
@@ -227,7 +238,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
           onSubmit={(e) => { e.preventDefault(); handleAdd(); }}
           className="flex flex-wrap gap-4 items-end"
         >
-          {/* <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" /> */}
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" /> 
           <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
           <input type="number" value={shares === 0 ? "" : shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
           <input type="number" step="0.01" value={boughtPrice === 0 ? "" : boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
@@ -248,6 +259,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
               <th className="px-4 py-2 border-b">Current Price</th>
               <th className="px-4 py-2 border-b">Total Cost</th>
               <th className="px-4 py-2 border-b">Market Value</th>
+              <th className="px-4 py-2 border-b">P/L %</th>
               <th className="px-4 py-2 border-b">Valuation</th>
               <th className="px-4 py-2 border-b">Risk Level</th>
             </tr>
@@ -262,6 +274,10 @@ export default function PortfolioTable({ token }: {token: string| null}) {
                 <td className="px-4 py-2">${stock.currentPrice.toFixed(2) ?? "N/A"}</td>
                 <td className="px-4 py-2">${stock.totalCost.toFixed(2) ?? "N/A"}</td>
                 <td className="px-4 py-2">${stock.marketValue.toFixed(2) ?? "N/A"}</td>
+                <td className={`px-4 py-2 font-semibold ${stock.marketValue > stock.totalCost ? "text-green-500" : "text-red-500"}`}>
+                  
+                  {(((stock.marketValue - stock.totalCost) / stock.totalCost) * 100).toFixed(2)}%
+                </td>
                 <td className={`px-4 py-2 font-semibold ${stock.valuation === "Overvalued" ? "text-red-500" : stock.valuation === "Fairly valued" ? "text-yellow-400" : "text-green-400"}`}>
                   {stock.valuation}
                 </td>

@@ -19,7 +19,7 @@
     "starttest": "npx serve@latest ./build",
     "start": "npm-run-all --parallel start-frontend start-backend",
     "start-frontend": "next dev --turbopack",
-    "start-backend": "cd backend/clientaccount && py manage.py runserver"
+    "start-backend": "cd backend && py manage.py runserver"
   },
   "eslintConfig": {
     "extends": [
