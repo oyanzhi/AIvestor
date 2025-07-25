@@ -34,7 +34,9 @@ function LoginForm() {
             });
             if (response.ok) {
                 const data = await response.json();
-                sessionStorage.setItem("token", data.token);
+                const { message, access } = data;
+                console.log(message) 
+                sessionStorage.setItem("token", access);
                 router.replace("/dashboard");
                 alert("You have successfully log in!");
             } else {
