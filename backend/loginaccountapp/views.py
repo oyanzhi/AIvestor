@@ -23,6 +23,8 @@ class LoginAccountAppView(APIView):
             
             response = Response({"message": "Login Successful", "access": access_token}, status=status.HTTP_200_OK)
 
+            print("token:", access_token)
+
             response.set_cookie(
                 key="refresh_token",
                 value=refresh_token,

@@ -35,7 +35,7 @@ function LoginForm() {
             if (response.ok) {
                 const data = await response.json();
                 const { message, access } = data;
-                console.log(message) 
+                console.log(message)
                 sessionStorage.setItem("token", access);
                 router.replace("/dashboard");
                 alert("You have successfully log in!");
