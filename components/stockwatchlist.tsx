@@ -26,7 +26,7 @@
                     const response = await fetch("https://aivestor-wnxv.onrender.com/stockmodelrequest/predictstocklist/", {
                         method: "POST",
                         headers: { 
-                            "Authorization": `Token ${token}`,
+                            "Authorization": `Bearer ${token}`,
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({ tickersymbol : [trimticker]})

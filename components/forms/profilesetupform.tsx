@@ -56,7 +56,7 @@ function ProfileSetupForm({ token }: {token: string| null}) {
             const response = await fetch("https://aivestor-wnxv.onrender.com/profileUpdateRequest/update/", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Token ${token}`,
+                    "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(updateData),
