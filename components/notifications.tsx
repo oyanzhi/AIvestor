@@ -80,9 +80,10 @@ export default function NotificationList({ token }: { token: string | null }) {
                                     <td className="px-4 py-2">{new Date(noti.sent_at).toLocaleString()}</td>
                                     <td className="px-4 py-2">
                                         <button
-                                            className="text-blue-400 underline"
+                                            className="text-blue-400 underline hover:text-blue-200 transition"
                                             onClick={() => alert(noti.body_text)}
                                         >
+                                            View
                                         </button>
                                     </td>
                                 </tr>
