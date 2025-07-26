@@ -9,6 +9,7 @@ class StockSerializer(serializers.ModelSerializer):
             'ticker',
             'sector',
             'industry',
+            'dividend_yield',
 
             'current_price',
             'previous_close',

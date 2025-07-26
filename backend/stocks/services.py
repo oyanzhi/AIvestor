@@ -4,10 +4,12 @@ from decimal import Decimal
 import yfinance as yf
 import pandas as pd
 from decimal import Decimal, InvalidOperation
+from ml.predict import StockPredict
 
 def update_all_stock_metrics(verbose=False):
     stocks = Stock.objects.all()
     updated = []
+    predictor = StockPredict()
 
     for stock in stocks:
         try:
@@ -105,6 +107,10 @@ def update_all_stock_metrics(verbose=False):
             stock.valuation_score = valuation_score
             stock.risk_level = risk_level
             stock.risk_score = risk_score
+
+            predicted_price = predictor.final(ticker=stock.ticker)
+            if predicted_price is not None:
+                stock.predicted_closing_price = Decimal(str(predicted_price))
 
             stock.save()
             if verbose:

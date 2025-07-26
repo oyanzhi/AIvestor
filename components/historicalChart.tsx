@@ -31,10 +31,11 @@ export default function HistoricalChart({ data }: HistoricalChartProps) {
           />
           <Line
             type="monotone"
-            dataKey="price"
+            dataKey="close"
             stroke="#3b82f6"
             strokeWidth={2}
             dot={false}
+            isAnimationActive={true}
           />
         </LineChart>
       </ResponsiveContainer>

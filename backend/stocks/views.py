@@ -34,12 +34,15 @@ class GetStockView(APIView):
 class GetHistoricalDataView(APIView):
     def get(self, request):
         symbol = request.GET.get("symbol")
+        period = request.GET.get("period", "6mo")  # default to 6 months
+        interval = request.GET.get("interval", "1d")  # default to 1 day
+
         if not symbol:
             return Response({"error": "Symbol query param is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             stock = yf.Ticker(symbol)
-            hist = stock.history(period="6mo", interval="1d")  # or "1y", etc.
+            hist = stock.history(period=period, interval=interval)  # or "1y", etc.
             history_data = [
                 {
                     "date": date.strftime("%Y-%m-%d"),

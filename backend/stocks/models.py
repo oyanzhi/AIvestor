@@ -23,6 +23,7 @@ class Stock(models.Model):
 
     current_price = models.DecimalField(max_digits=12, decimal_places=2)
     previous_close = models.FloatField(null=True, blank=True)
+    predicted_closing_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     valuation_score = models.IntegerField(null=True, blank=True)
     valuation = models.CharField(max_length=20, choices=[
         ("Undervalued", "Undervalued"),
