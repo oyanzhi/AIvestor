@@ -76,6 +76,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
     const handleSearch = async () => {
         setError(null);
         setStock(null);
+        setLoading(true);
 
         if (!token) {
             alert("You're not loggined in. Feature Only Available on Login.");
@@ -110,7 +111,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
             resolvedName = nameFromTicker.trim();
         }
 
-        setLoading(true);
+        
 
         try {
             const res = await fetch(`https://aivestor-wnxv.onrender.com/stocks/getstock?symbol=${encodeURIComponent(resolvedTicker)}`, {
@@ -242,7 +243,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
                                     const arrow = isUp ? "▲" : isDown ? "▼" : "●";
 
                                     return (
-                                        <p className={`text-sm mt-1 ${colorClass} flex items-center gap-1`}>
+                                        <p className={`ml-2 text-lg mt-1 ${colorClass} flex items-center gap-1`}>
                                             Predicted Next-Day Close:{" "}
                                             <strong>${predicted.toFixed(2)}</strong>
                                             <span className="text-xs font-medium">

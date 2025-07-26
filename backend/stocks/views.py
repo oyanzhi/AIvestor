@@ -43,14 +43,18 @@ class GetHistoricalDataView(APIView):
         try:
             stock = yf.Ticker(symbol)
             if interval in ["1m", "5m"]:
-                end = datetime.datetime.now()
-                start = end - datetime.timedelta(days=7)
+                end = datetime.now()
+                start = end - timedelta(days=7)
                 hist = yf.Ticker(symbol).history(start=start, end=end, interval=interval)
             else:
                 hist = stock.history(period=period, interval=interval)
+
+            if hist.empty:
+                return Response({"error": "No historical data returned."}, status=status.HTTP_404_NOT_FOUND)
+            
             history_data = [
                 {
-                    "date": date.strftime("%Y-%m-%d"),
+                    "date": date.strftime("%Y-%m-%d %H:%M" if "m" in interval else "%Y-%m-%d"),
                     "close": round(row["Close"], 2) if not pd.isna(row["Close"]) else None
                 }
                 for date, row in hist.iterrows()
