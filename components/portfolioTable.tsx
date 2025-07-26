@@ -50,7 +50,6 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     fetchPortfolio();
   }, [token]);
 
-
   const getSymbolFromName = async (stockName: string): Promise<string | null> => {
     const res = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/search-symbol?name=${encodeURIComponent(stockName)}`);
     if (!res.ok) return null;
@@ -73,19 +72,23 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
   const handleAdd = async () => {
     setError(null);
+    setAddLoading(true);
 
     if (!token) {
       alert("You're not loggined in. Feature Only Available on Login.");
+      setAddLoading(false);
       return;
     }
 
     if (shares <= 0 || boughtPrice <= 0) {
       alert("Shares and bought price must be greater than zero.");
+      setAddLoading(false);
       return;
     }
 
     if (!name && !ticker) {
       alert("Please enter either a stock name or ticker symbol.");
+      setAddLoading(false);
       return;
     }
 
@@ -97,6 +100,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       const tickerFromName = await getSymbolFromName(resolvedName);
       if (!tickerFromName) {
         alert("Could not find a symbol for this stock name.");
+        setAddLoading(false);
         return;
       }
       resolvedTicker = tickerFromName.trim().toUpperCase();
@@ -107,12 +111,12 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       const nameFromTicker = await getNameFromTicker(resolvedTicker);
       if (!nameFromTicker) {
         alert("Could not find a stock name for this symbol.");
+        setAddLoading(false);
         return;
       }
       resolvedName = nameFromTicker.trim();
     }
 
-    setAddLoading(true);
 
     try {
       // Send add request to backend
@@ -154,8 +158,11 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
   const handleSell =  async () => {
     setError(null);
+    setSellLoading(true);
+
     if (!token) {
       alert("You're not loggined in. Feature Only Available on Login.");
+      setSellLoading(false);
       return;
     }
 
@@ -166,6 +173,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       const tickerFromName = await getSymbolFromName(name.trim());
       if (!tickerFromName) {
         alert("Could not resolve a ticker symbol from the provided name.");
+        setSellLoading(false);
         return;
       }
       resolvedTicker = tickerFromName.trim().toUpperCase();
@@ -177,27 +185,31 @@ export default function PortfolioTable({ token }: {token: string| null}) {
 
     if (!match) {
       alert("Stock not found in your portfolio.");
+      setSellLoading(false);
       return;
     }
 
     if (shares <= 0) {
       alert("Please enter a valid number of shares to sell.");
+      setSellLoading(false);
       return;
     }
 
     if (shares > match.shares) {
       alert(`You only have ${match.shares} shares of ${match.ticker}.`);
+      setSellLoading(false);
       return;
     }
 
-    if (!confirm(`Are you sure you want to Sell ${match.ticker}?`)) return;
-
-    setSellLoading(true);
+    if (!confirm(`Are you sure you want to Sell ${match.ticker}?`)) {
+      setSellLoading(false);
+      return;
+    }
     try {
       const response = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/sell/${match.ticker}`, {
         method: "POST",
         headers: {
-          "Authorization": `Token ${token}`,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ shares }),

@@ -42,7 +42,7 @@ export default function HistoricalChart({ data }: HistoricalChartProps) {
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis dataKey="date" stroke="#ccc" />
-          <YAxis domain={domain} stroke="#ccc" />
+          <YAxis domain={domain} stroke="#ccc" allowDecimals={false} tickFormatter={(value) => Math.round(value).toString()} />
           <Tooltip
             contentStyle={{ backgroundColor: "#1f2937", border: "none", color: "white" }}
             labelStyle={{ color: "#ccc" }}

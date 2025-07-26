@@ -115,8 +115,8 @@ class SellStockFromPortfolioView(APIView):
             current_price = stock.current_price
             total_cost = holding.quantity * holding.average_buy_price
             market_value = holding.quantity * current_price
-            valuation = get_valuation_status(stock)
-            risk_level = get_risk_level(stock)
+            valuation, valuation_score = get_valuation_status(stock)
+            risk_level, risk_score = get_risk_level(stock)
 
             return Response({
                 "name": stock.name,
@@ -147,8 +147,8 @@ class AddStockToPortfolioView(APIView):
             current_price = stock.current_price
             total_cost = holding.quantity * holding.average_buy_price
             market_value = holding.quantity * current_price
-            valuation = get_valuation_status(stock)
-            risk_level = get_risk_level(stock)
+            valuation, valuation_score = get_valuation_status(stock)
+            risk_level, risk_score = get_risk_level(stock)
 
             return Response({
                 "name": stock.name,
