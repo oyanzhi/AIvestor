@@ -21,7 +21,6 @@ type Notification = {
 
 export default function NotificationList({ token }: { token: string | null }) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [expandedIds, setExpandedIds] = useState<number[]>([]);
 
     useEffect(() => {
         if (!token) {
@@ -54,12 +53,6 @@ export default function NotificationList({ token }: { token: string | null }) {
         fetchNotifications();
     }, [token])
 
-    const toggleExpand = (id: number) => {
-        setExpandedIds(prev =>
-            prev.includes(id) ? prev.filter(n => n !== id) : [...prev, id]
-        );
-    };
-
     return (
         <div className="w-full min-h-screen mt-16">
             <div className="overflow-x-auto w-full">
@@ -88,9 +81,8 @@ export default function NotificationList({ token }: { token: string | null }) {
                                     <td className="px-4 py-2">
                                         <button
                                             className="text-blue-400 underline"
-                                            onClick={() => toggleExpand(noti.id)}
+                                            onClick={() => alert(noti.body_text)}
                                         >
-                                            {expandedIds.includes(noti.id) ? "Hide" : "View"}
                                         </button>
                                     </td>
                                 </tr>
