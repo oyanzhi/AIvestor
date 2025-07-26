@@ -96,6 +96,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
             const tickerFromName = await getSymbolFromName(resolvedName);
             if (!tickerFromName) {
                 alert("Could not find a symbol for this stock name.");
+                setLoading(false);
                 return;
             }
             resolvedTicker = tickerFromName.trim().toUpperCase();
@@ -106,12 +107,11 @@ export default function StockDisplay({ token }: {token: string| null}) {
             const nameFromTicker = await getNameFromTicker(resolvedTicker);
             if (!nameFromTicker) {
                 alert("Could not find a stock name for this symbol.");
+                setLoading(false);
                 return;
             }
             resolvedName = nameFromTicker.trim();
         }
-
-        
 
         try {
             const res = await fetch(`https://aivestor-wnxv.onrender.com/stocks/getstock?symbol=${encodeURIComponent(resolvedTicker)}`, {

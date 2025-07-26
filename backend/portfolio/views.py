@@ -65,16 +65,14 @@ class SearchNameView(APIView):
 
         try:
             ticker = Ticker(stock_symbol)
-            price_data = ticker.price
+            info = ticker.info
+            name = info.get("longName") or info.get("shortName") or None
 
             # Make sure data exists for the symbol
-            if stock_symbol not in price_data or 'longName' not in price_data[stock_symbol]:
+            if not name:
                 return Response({"error": "No name found for the given symbol"}, status=status.HTTP_404_NOT_FOUND)
-
-            name = price_data[stock_symbol]['longName']
-
             return Response({"name": name}, status=status.HTTP_200_OK)
-
+        
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
