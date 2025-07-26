@@ -47,7 +47,7 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
           <NavButton href="/portfolio" Icon={RectangleStackIcon} label="Portfolio" />
         )}
         {!noshow.includes("alerts") && (
-          <NavButton href="/dashboard" Icon={BellAlertIcon} label="Alerts" />
+          <NavButton href="/alerts" Icon={BellAlertIcon} label="Alerts" />
         )}
         {/* Extra feature, to be implemented for ms3 */}
         {!noshow.includes("forum") && (
