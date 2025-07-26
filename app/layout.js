@@ -1,4 +1,5 @@
 import "./(globals)/globals.css"
+import GoogleSignInWrapper from "./googlesigninwrapper"
 
 export const metadata = {
   title: "AIvestor",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div id="root">{children}</div>
+        <GoogleSignInWrapper>
+          <div id="root">{children}</div>
+        </GoogleSignInWrapper>
       </body>
     </html>
   )

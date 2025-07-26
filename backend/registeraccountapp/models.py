@@ -35,6 +35,9 @@ class AccountDatabase(AbstractBaseUser):
     display_name = models.CharField(max_length=100, blank=True, verbose_name="Display Name", default="")
     risk_tolerance = models.CharField(max_length=10, choices=[("Low", "Low"), ("Medium", "Medium"), ("High", "High")], default="Medium")
     alert_threshold = models.IntegerField(default=10)
+    is_oauth_user = models.BooleanField(default=False)
+    oauth_provider = models.CharField(max_length=50, blank=True, null=False)
+    oauth_provider_id = models.CharField(max_length=255, blank=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp of when the account was created
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="Last Login")
     is_active = models.BooleanField(default=True, verbose_name="Is Active")
