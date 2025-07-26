@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from .models import Stock
 from datetime import datetime, timedelta
 import yfinance as yf
+import pandas as pd
 
 # Create your views here.
 class UpdateStocksView(APIView):

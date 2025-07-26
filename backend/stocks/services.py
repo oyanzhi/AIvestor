@@ -24,6 +24,10 @@ def update_all_stock_metrics(verbose=False):
             if price is not None:
                 stock.current_price = Decimal(str(price))
 
+            previous_close = info.get('previousClose')
+            if previous_close is not None:
+                stock.previous_close = Decimal(str(previous_close))
+
             if not isinstance(info.get("marketCap"), int): #defensive check as market cap may sometimes give null
                 stock.market_cap = None
             stock.pe_ratio = info.get('trailingPE')

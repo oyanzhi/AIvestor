@@ -22,6 +22,7 @@ class Stock(models.Model):
     dcf_intrinsic_value = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
 
     current_price = models.DecimalField(max_digits=12, decimal_places=2)
+    previous_close = models.FloatField(null=True, blank=True)
     valuation_score = models.IntegerField(null=True, blank=True)
     valuation = models.CharField(max_length=20, choices=[
         ("Undervalued", "Undervalued"),
