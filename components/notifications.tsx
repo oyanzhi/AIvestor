@@ -78,7 +78,6 @@ export default function NotificationList({ token }: { token: string | null }) {
                                     <td className="px-4 py-2">{noti.subject}</td>
                                     <td className="px-4 py-2">{noti.email_type}</td>
                                     <td className="px-4 py-2">{new Date(noti.sent_at).toLocaleString()}</td>
-                                    <td className="px-4 py-2">{noti.user.email}</td>
                                 </tr>
                             ))
                         )}
