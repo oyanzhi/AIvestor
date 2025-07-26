@@ -33,8 +33,8 @@ function LoginPage() {
                     <p className="text-sm text-center text-gray-300 mt-4">
                         Don’t have an account? <Link href="/register" className="text-cyan-400 hover:underline">Register here</Link>
                     </p>
+                    <GoogleLogin onSuccess={handleSuccess} onError={handleFailure}/>
                 </div>
-                <GoogleLogin onSuccess={handleSuccess} onError={handleFailure}/>
             </main>
             
             <Footer />
