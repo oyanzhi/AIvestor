@@ -17,7 +17,7 @@ function LoginPage() {
         console.log(credentialResponse.credential);
         //testing
         try {
-            const response = await fetch("https://aivestor-wnxv.onrender.com/loginaccountapp/googlelogin", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/loginaccountapp/googlelogin/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
