@@ -181,7 +181,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
     };
 
     const getNameFromTicker = async (stockSymbol: string): Promise<string | null> => {
-        const res = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/search-name?symbol=${encodeURIComponent(stockSymbol)}`);
+        const res = await fetch(`http://127.0.0.1:8000/portfolio/search-name?symbol=${encodeURIComponent(stockSymbol)}`);
         if (!res.ok) return null;
         const result = await res.json();
         return result.name || null;

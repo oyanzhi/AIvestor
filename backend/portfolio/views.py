@@ -65,8 +65,12 @@ class SearchNameView(APIView):
 
         try:
             ticker = Ticker(stock_symbol)
-            info = ticker.info
-            name = info.get("longName") or info.get("shortName") or None
+            profile = ticker.summary_profile
+
+            if not isinstance(profile , dict) or stock_symbol not in profile:
+                return Response({"error": "No data found for the given symbol"}, status=status.HTTP_404_NOT_FOUND)
+
+            name = profile[stock_symbol].get("longBusinessSummary") or "Unknown"
 
             # Make sure data exists for the symbol
             if not name:
