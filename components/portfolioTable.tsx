@@ -119,7 +119,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
       const response = await fetch("https://aivestor-wnxv.onrender.com/portfolio/addstock", {
         method: "POST",
         headers: {
-          "Authorization": `Token ${token}`,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

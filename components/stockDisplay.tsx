@@ -8,37 +8,44 @@ type StockInfo = {
     ticker: string;
     sector: string;
     industry: string;
-    currentPrice: number;
-    previousClose: number;
-    marketCap: string;
-    peRatio: number;
-    forwardPE: number;
-    pegRatio: number;
-    pbRatio: number;
-    priceToSales: number;
-    dcfValue: number;
+
+    current_price: number;
+    previous_close: number;
+    market_cap: string;
+
+    pe_ratio: number;
+    forward_pe: number;
+    peg_ratio: number;
+    pb_ratio: number;
+    price_to_sales: number;
+    dcf_intrinsic_value: number;
     valuation: string;
+
     roe: number;
     roa: number;
-    grossMargin: number;
-    operatingMargin: number;
-    netMargin: number;
-    earningsGrowth: number;
-    revenueGrowth: number;
-    freeCashFlowGrowth: number;
+    gross_margin: number;
+    operating_margin: number;
+    net_margin: number;
+
+    earnings_growth: number;
+    revenue_growth: number;
+    free_cash_flow_growth: number;
+
     beta: number;
     volatility: number;
-    debtToAsset: number;
-    riskLevel: string;
-    freeCashFlow: number;
-    operatingCashFlow: number;
-    capex: number;
-    cashOnHand: number;
-    totalDebt: number;
-    sharesOutstanding: number;
-    floatShares: number;
-    shortInterest: number;
-    shortRatio: number;
+    debt_to_asset_ratio: number;
+    risk_level: string;
+
+    free_cash_flow: number;
+    operating_cash_flow: number;
+    capital_expenditures: number;
+    cash: number;
+    total_debt: number;
+
+    shares_outstanding: number;
+    float_shares: number;
+    shares_short: number;
+    short_ratio: number;
 };
 
 export default function StockDisplay({ token }: {token: string| null}) {
@@ -94,7 +101,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
             const res = await fetch(`https://aivestor-wnxv.onrender.com/stocks/getstock?symbol=${encodeURIComponent(resolvedTicker)}`, {
                 method: "GET",
                 headers: {
-                    "Authorization": `Token ${token}`,
+                    "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
             });
@@ -104,12 +111,13 @@ export default function StockDisplay({ token }: {token: string| null}) {
             setName("");
             setTicker("");
             setStock(data);
+            
             // Fetch historical data for the chart
             try {
-                const histRes = await fetch(`https://aivestor-wnxv.onrender.com/stocks/gethistory/?symbol=${encodeURIComponent(resolvedTicker)}`, {
+                const histRes = await fetch(`https://aivestor-wnxv.onrender.com/stocks/gethistory?symbol=${encodeURIComponent(resolvedTicker)}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Token ${token}`,
+                        "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 });
@@ -150,7 +158,6 @@ export default function StockDisplay({ token }: {token: string| null}) {
 
     return (
         <div className="w-full min-h-screen mt-16 px-6">
-            
         {/* Form */}
         <div className="flex justify-center items-center mb-6 mt-3">
             <form
@@ -168,8 +175,13 @@ export default function StockDisplay({ token }: {token: string| null}) {
                     <div className="bg-white text-black p-4 rounded-xl shadow">
                         <h1 className="text-2xl font-bold">{stock.name} ({stock.ticker})</h1>
                         <p className="text-sm text-gray-500">{stock.sector} / {stock.industry}</p>
-                        <p className="text-xl mt-2">${stock.currentPrice.toFixed(2)} <span className="text-sm text-gray-500">(Prev Close: ${stock.previousClose})</span></p>
-                        <p className="text-sm text-gray-600">Market Cap: {stock.marketCap}</p>
+                        <p className="text-xl mt-2">
+                            ${stock.current_price !== undefined ? Number(stock.current_price).toFixed(2) : "N/A"}
+                            <span className="text-sm text-gray-500">
+                                (Prev Close: {stock.previous_close !== undefined ? `$${Number(stock.previous_close).toFixed(2)}` : "N/A"})
+                            </span>
+                        </p>
+                        <p className="text-sm text-gray-600">Market Cap: {stock.market_cap}</p>
                         <p className="text-sm text-gray-600">52W High/Low: TBD</p>
                         <p className="text-sm text-gray-600">Dividend Yield: TBD</p>
                     </div>
@@ -177,49 +189,49 @@ export default function StockDisplay({ token }: {token: string| null}) {
                     <HistoricalChart data={historyData} />
 
                     <MetricSection title="Valuation" metrics={{
-                        "PE Ratio": stock.peRatio,
-                        "Forward PE": stock.forwardPE,
-                        "PEG Ratio": stock.pegRatio,
-                        "PB Ratio": stock.pbRatio,
-                        "Price to Sales": stock.priceToSales,
-                        "DCF Value": stock.dcfValue,
+                        "PE Ratio": stock.pe_ratio,
+                        "Forward PE": stock.forward_pe,
+                        "PEG Ratio": stock.peg_ratio,
+                        "PB Ratio": stock.pb_ratio,
+                        "Price to Sales": stock.price_to_sales,
+                        "DCF Value": stock.dcf_intrinsic_value,
                         "Valuation Label": stock.valuation,
                     }} />
 
                     <MetricSection title="Profitability" metrics={{
                         "ROE": stock.roe,
                         "ROA": stock.roa,
-                        "Gross Margin": stock.grossMargin,
-                        "Operating Margin": stock.operatingMargin,
-                        "Net Margin": stock.netMargin,
+                        "Gross Margin": stock.gross_margin,
+                        "Operating Margin": stock.operating_margin,
+                        "Net Margin": stock.net_margin,
                     }} />
 
                     <MetricSection title="Growth" metrics={{
-                        "Earnings Growth": stock.earningsGrowth,
-                        "Revenue Growth": stock.revenueGrowth,
-                        "Free Cash Flow Growth": stock.freeCashFlowGrowth,
+                        "Earnings Growth": stock.earnings_growth,
+                        "Revenue Growth": stock.revenue_growth,
+                        "Free Cash Flow Growth": stock.free_cash_flow_growth,
                     }} />
 
                     <MetricSection title="Risk" metrics={{
                         "Beta": stock.beta,
                         "Volatility": stock.volatility,
-                        "Debt/Asset Ratio": stock.debtToAsset,
-                        "Risk Level": stock.riskLevel,
+                        "Debt/Asset Ratio": stock.debt_to_asset_ratio,
+                        "Risk Level": stock.risk_level,
                     }} />
 
                     <MetricSection title="Cash Flow" metrics={{
-                        "Free Cash Flow": stock.freeCashFlow,
-                        "Operating Cash Flow": stock.operatingCashFlow,
-                        "CapEx": stock.capex,
-                        "Cash on Hand": stock.cashOnHand,
-                        "Total Debt": stock.totalDebt,
+                        "Free Cash Flow": stock.free_cash_flow,
+                        "Operating Cash Flow": stock.operating_cash_flow,
+                        "CapEx": stock.capital_expenditures,
+                        "Cash on Hand": stock.cash,
+                        "Total Debt": stock.total_debt,
                     }} />
 
                     <MetricSection title="Shares Info" metrics={{
-                        "Shares Outstanding": stock.sharesOutstanding,
-                        "Float Shares": stock.floatShares,
-                        "Short Interest": stock.shortInterest,
-                        "Short Ratio": stock.shortRatio,
+                        "Shares Outstanding": stock.shares_outstanding,
+                        "Float Shares": stock.float_shares,
+                        "Short Interest": stock.shares_short,
+                        "Short Ratio": stock.short_ratio,
                     }} />
                 </div>
             )}
