@@ -14,8 +14,6 @@ function LoginPage() {
     const router = useRouter();
     
     const handleSuccess = async (credentialResponse: CredentialResponse) => {
-        console.log(credentialResponse.credential);
-        //testing
         try {
             const response = await fetch("https://aivestor-wnxv.onrender.com/loginaccountapp/googlelogin/", {
                 method: "POST",
