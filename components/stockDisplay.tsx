@@ -128,7 +128,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
             setTicker("");
             setStock(data);
             
-            // Fetch historical data for the chart
+            // Fetch historical data for the chart 
             await fetchHistoricalData(resolvedTicker, selectedPeriod);
             alert("Stock search successfull!")
         } catch (e) {
