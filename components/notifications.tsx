@@ -69,7 +69,7 @@ export default function NotificationList({ token }: { token: string | null }) {
                             <th className="px-4 py-2 border-b">Subject</th>
                             <th className="px-4 py-2 border-b">Type</th>
                             <th className="px-4 py-2 border-b">Sent At</th>
-                            <th className="px-4 py-2 border-b">To (Email)</th>
+                            <th className="px-4 py-2 border-b">Content</th>
                         </tr>
                     </thead>
                     <tbody>
