@@ -30,7 +30,7 @@ export default function NotificationList({ token }: { token: string | null }) {
 
         const fetchNotifications = async () => {
             try {
-                const response = await fetch("https://aivestor-wnxv.onrender.com/getnotifications/", {
+                const response = await fetch("https://aivestor-wnxv.onrender.com/notifications/getnotifications/", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,
