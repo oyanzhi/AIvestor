@@ -42,7 +42,12 @@ class GetHistoricalDataView(APIView):
 
         try:
             stock = yf.Ticker(symbol)
-            hist = stock.history(period=period, interval=interval)  # or "1y", etc.
+            if interval in ["1m", "5m"]:
+                end = datetime.datetime.now()
+                start = end - datetime.timedelta(days=7)
+                hist = yf.Ticker(symbol).history(start=start, end=end, interval=interval)
+            else:
+                hist = stock.history(period=period, interval=interval)
             history_data = [
                 {
                     "date": date.strftime("%Y-%m-%d"),

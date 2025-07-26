@@ -12,6 +12,7 @@ type StockInfo = {
 
     current_price: number;
     previous_close: number;
+    predicted_closing_price: number;
     market_cap: string;
 
     pe_ratio: number;
@@ -54,6 +55,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
     const [name, setName] = useState("");
     const [ticker, setTicker] = useState("");
     const [loading, setLoading] = useState(false);
+    const [chartLoading, setChartLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [historyData, setHistoryData] = useState<{ date: string; close: number }[]>([]);
     const [selectedPeriod, setSelectedPeriod] = useState("6mo");
@@ -140,6 +142,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
 
         setSelectedPeriod(period);
         setHistoryData([]);
+        setChartLoading(true);
 
         let actualPeriod = period;
         let interval = "1d"; // default
@@ -159,8 +162,11 @@ export default function StockDisplay({ token }: {token: string| null}) {
             setHistoryData(data.historyData || []);
         } catch (err) {
             console.error("Historical fetch failed", err);
+        } finally{
+            setChartLoading(false);
         }
-        };
+    };
+
     const getSymbolFromName = async (stockName: string): Promise<string | null> => {
         const res = await fetch(`https://aivestor-wnxv.onrender.com/portfolio/search-symbol?name=${encodeURIComponent(stockName)}`);
         if (!res.ok) return null;
@@ -217,6 +223,35 @@ export default function StockDisplay({ token }: {token: string| null}) {
                             <span className="text-sm text-gray-400 ml-2">
                                 (Prev Close: {stock.previous_close !== undefined ? `$${Number(stock.previous_close).toFixed(2)}` : "N/A"})
                             </span>
+
+                            {stock.predicted_closing_price !== undefined && stock.current_price !== undefined && (
+                                (() => {
+                                    const predicted = Number(stock.predicted_closing_price);
+                                    const current = Number(stock.current_price);
+                                    const change = predicted - current;
+                                    const percentChange = (change / current) * 100;
+                                    const isUp = change > 0;
+                                    const isDown = change < 0;
+
+                                    const colorClass = isUp
+                                        ? "text-green-400"
+                                        : isDown
+                                        ? "text-red-400"
+                                        : "text-yellow-300";
+
+                                    const arrow = isUp ? "▲" : isDown ? "▼" : "●";
+
+                                    return (
+                                        <p className={`text-sm mt-1 ${colorClass} flex items-center gap-1`}>
+                                            Predicted Next-Day Close:{" "}
+                                            <strong>${predicted.toFixed(2)}</strong>
+                                            <span className="text-xs font-medium">
+                                                {arrow} {Math.abs(change).toFixed(2)} ({Math.abs(percentChange).toFixed(2)}%)
+                                            </span>
+                                        </p>
+                                    );
+                                })()
+                            )}
                         </p>
                         <div className="flex flex-wrap gap-6 text-sm text-gray-300 mt-4">
                             <span>Market Cap: <strong>{stock.market_cap}</strong></span>
@@ -254,7 +289,14 @@ export default function StockDisplay({ token }: {token: string| null}) {
                             </button>
                         ))}
                     </div>
-                    <HistoricalChart data={historyData} />
+
+                    {chartLoading ? (
+                        <div className="bg-gray-800 p-6 rounded-2xl shadow-md w-full max-w-4xl flex justify-center items-center h-[300px]">
+                            <span className="text-gray-400 text-sm animate-pulse">Loading chart...</span>
+                        </div>
+                    ) : (
+                        <HistoricalChart data={historyData} />
+                    )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-15">
                         <MetricSection title="Valuation" metrics={{

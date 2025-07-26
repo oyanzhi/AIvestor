@@ -13,6 +13,7 @@ class StockSerializer(serializers.ModelSerializer):
 
             'current_price',
             'previous_close',
+            'predicted_closing_price',
             'market_cap',
 
             'pe_ratio',
