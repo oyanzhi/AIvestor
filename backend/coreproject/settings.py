@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'profileUpdateRequest',
     'notifications',
     'stocks',
-    'portfolio'
+    'portfolio',
+    'forum'
 ]
 
 REST_FRAMEWORK = {

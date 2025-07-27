@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from stocks.models import Stock
 
+
 # Create your models here.
 class stockHolding(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -11,7 +12,7 @@ class stockHolding(models.Model):
     added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'stock') #prevent duplication of pair
-    
+        unique_together = ("user", "stock")  # prevent duplication of pair
+
     def __str__(self):
         return f"{self.user.username} owns {self.quantity} of {self.stock.ticker}"

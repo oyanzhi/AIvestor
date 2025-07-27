@@ -9,7 +9,7 @@ import StockWatchList from '../../components/stockwatchlist';
 function AIPicks() {
     const router = useRouter();
     const [authCheck, setAuthCheck] = useState(false);
-    
+
     useEffect(() => {
         const authToken = sessionStorage.getItem("token");
         if (!authToken) {
@@ -26,10 +26,10 @@ function AIPicks() {
     return (
         <div className="flex flex-col min-h-screen bg-deepblue">
             {/* NavBar */}
-            <MainNavBar/>
+            <MainNavBar />
 
             {/* Content */}
-            <StockWatchList token = {sessionStorage.getItem("token")}/>
+            <StockWatchList token={sessionStorage.getItem("token")} />
 
         </div>
     )
