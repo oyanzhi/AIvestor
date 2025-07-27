@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from notifications.mail import send_welcome_email, send_verification_email
 from .models import AccountDatabase
+from django.http import HttpResponseRedirect
+from django.conf import settings
 
 
 class RegisterAccountAppView(APIView):
@@ -38,13 +40,12 @@ class VerifyAccountView(APIView):
             return Response({"message": "Invalid Verification Code"}, status=status.HTTP_400_BAD_REQUEST)
         
         if user.is_verified:
-            return Response({"message": "Already Verified"}, status=status.HTTP_200_OK)
+            return HttpResponseRedirect(f"{settings.FRONTEND_DOMAIN}/login")
         
-        if user.verification_code == code:
-            user.is_verified = True
-            user.verification_code = None
-            user.save()
-            return Response({"message": "User Verified"}, status=status.HTTP_200_OK)
+        user.is_verified = True
+        user.verification_code = None
+        user.save()
+        return HttpResponseRedirect(f"{settings.FRONTEND_DOMAIN}/login")
         
 
         return Response({"message": "Invalid Verifcation"}, status=status.HTTP_400_BAD_REQUEST)
