@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Stock = {
     ticker: string;
@@ -110,13 +110,21 @@ export default function StockWatchList({ token }: { token: string | null }) {
                     </thead>
                     <tbody>
                         {tickerlist.map(({ ticker, predictedclosing }) => (
-                            <tr key={ticker} className="text-white">
+                            <tr key={ticker} className="text-gray-400">
                                 <td className="px-25 py-3 border-t border-b">{ticker}</td>
                                 <td className="px-25 py-5 border-t border-b">{predictedclosing}</td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {tickerlist.map(({ticker, predictedclosing}) => (
+                                <tr key={ticker} className="text-white">
+                                    <td className="px-25 py-3 border-t border-b">{ticker}</td>
+                                    <td className="px-25 py-5 border-t border-b">{predictedclosing}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
