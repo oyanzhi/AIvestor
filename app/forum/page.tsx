@@ -140,6 +140,7 @@ export default function ForumPage() {
                         >
                             <div className="flex flex-col items-center justify-center bg-gray-900 px-3 rounded-l-xl select-none text-gray-400">
                                 <button
+                                    type="button"
                                     disabled={voteLoadingId === post.id}
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -156,6 +157,7 @@ export default function ForumPage() {
                                 </button>
                                 <span className="font-semibold text-lg">{post.votes ?? 0}</span>
                                 <button
+                                    type="button"
                                     disabled={voteLoadingId === post.id}
                                     onClick={(e) => {
                                         e.stopPropagation();

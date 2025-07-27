@@ -127,6 +127,7 @@ EMAIL_HOST_USER = os.getenv("emailAddress")
 EMAIL_HOST_PASSWORD = os.getenv("emailPassword")
 DEFAULT_FROM_EMAIL = 'AIvestor ' + os.getenv("emailAddress")
 DEFAULT_SUPPORT_EMAIL = os.getenv("emailAddress")
+BACKEND_DOMAIN = "https://aivestor-wnxv.onrender.com"
 FRONTEND_DOMAIN = "https://aivestor.vercel.app"
 
 # Database
