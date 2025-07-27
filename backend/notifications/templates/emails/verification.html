@@ -1,0 +1,7 @@
+{% extends "emails/base.html" %}
+
+{% block content %}
+    <p>Hi {{ user.display_name|default:user.username }},</p>
+    <p>Please Click the Following Link to Verify.</p>
+    <a href="{{ verification_link }}">Verify Account</a>
+{% endblock %}

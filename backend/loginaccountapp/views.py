@@ -31,6 +31,9 @@ class LoginAccountAppView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data["user"]
 
+            if not user.is_verified:
+                return Response({"message": "Account Not Verified. Please check your inbox."}, status=status.HTTP_401_UNAUTHORIZED)
+
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
 
