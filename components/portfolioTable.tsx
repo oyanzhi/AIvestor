@@ -13,7 +13,7 @@ type PortfolioStock = {
   riskLevel: "Low" | "Medium" | "High";
 };
 
-export default function PortfolioTable({ token }: {token: string| null}) {
+export default function PortfolioTable({ token }: { token: string | null }) {
   const [portfolio, setPortfolio] = useState<PortfolioStock[]>([]);
   const [name, setName] = useState("");
   const [ticker, setTicker] = useState("");
@@ -35,7 +35,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
             "Content-Type": "application/json",
           },
         });
-        
+
         if (!response.ok) {
           throw new Error("Failed to load portfolio");
         }
@@ -95,7 +95,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     let resolvedTicker = ticker.trim().toUpperCase();
     let resolvedName = name.trim();
 
-     // User entered stock name only
+    // User entered stock name only
     if (name && !ticker) {
       const tickerFromName = await getSymbolFromName(resolvedName);
       if (!tickerFromName) {
@@ -156,7 +156,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
     }
   };
 
-  const handleSell =  async () => {
+  const handleSell = async () => {
     setError(null);
     setSellLoading(true);
 
@@ -243,14 +243,14 @@ export default function PortfolioTable({ token }: {token: string| null}) {
   };
   return (
     <div className="w-full min-h-screen mt-16 px-6">
-      
+
       {/* Form */}
       <div className="flex justify-center items-center mb-6 mt-3">
         <form
           onSubmit={(e) => { e.preventDefault(); handleAdd(); }}
           className="flex flex-wrap gap-4 items-end"
         >
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" /> 
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-800 text-white w-40" />
           <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-800 text-white w-28" />
           <input type="number" value={shares === 0 ? "" : shares} onChange={(e) => setShares(Number(e.target.value))} required placeholder="Shares" className="p-2 rounded bg-gray-800 text-white w-24" />
           <input type="number" step="0.01" value={boughtPrice === 0 ? "" : boughtPrice} onChange={(e) => setBoughtPrice(Number(e.target.value))} required placeholder="Bought Price" className="p-2 rounded bg-gray-800 text-white w-32" />
@@ -287,7 +287,7 @@ export default function PortfolioTable({ token }: {token: string| null}) {
                 <td className="px-4 py-2">${stock.totalCost.toFixed(2) ?? "N/A"}</td>
                 <td className="px-4 py-2">${stock.marketValue.toFixed(2) ?? "N/A"}</td>
                 <td className={`px-4 py-2 font-semibold ${stock.marketValue > stock.totalCost ? "text-green-500" : "text-red-500"}`}>
-                  
+
                   {(((stock.marketValue - stock.totalCost) / stock.totalCost) * 100).toFixed(2)}%
                 </td>
                 <td className={`px-4 py-2 font-semibold ${stock.valuation === "Overvalued" ? "text-red-500" : stock.valuation === "Fairly valued" ? "text-yellow-400" : "text-green-400"}`}>

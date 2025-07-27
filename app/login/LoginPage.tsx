@@ -23,7 +23,7 @@ function LoginPage() {
                     </p>
                 </div>
             </main>
-            
+
             <Footer />
         </div>
     );

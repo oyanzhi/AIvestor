@@ -26,8 +26,8 @@ function Logout() {
   }
 }
 
-function MainNavBar({noshow = []}: MainNavBarProps) {
-    return (
+function MainNavBar({ noshow = [] }: MainNavBarProps) {
+  return (
     <aside className="fixed w-full h-16 bg-contrastdeepblue border-b border-[#000635] flex items-center justify-between px-6 shadow">
       {/* Left: Brand */}
       <HomeButton todashboard={true} />
@@ -49,9 +49,8 @@ function MainNavBar({noshow = []}: MainNavBarProps) {
         {!noshow.includes("alerts") && (
           <NavButton href="/dashboard" Icon={BellAlertIcon} label="Alerts" />
         )}
-        {/* Extra feature, to be implemented for ms3 */}
         {!noshow.includes("forum") && (
-          <NavButton href="/dashboard" Icon={ChatBubbleLeftRightIcon} label="Forum" />
+          <NavButton href="/forum" Icon={ChatBubbleLeftRightIcon} label="Forum" />
         )}
         {!noshow.includes('settings') && (
           <NavButton href="/profilesetup" Icon={Cog6ToothIcon} label="Settings" />

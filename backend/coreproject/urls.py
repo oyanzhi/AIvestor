@@ -29,5 +29,6 @@ urlpatterns = [
     path('stockmodelrequest/', include('stockmodelrequest.urls')),
     path('profileUpdateRequest/', include('profileUpdateRequest.urls')),
     path('stocks/', include('stocks.urls')),
-    path('portfolio/', include('portfolio.urls'))
+    path('portfolio/', include('portfolio.urls')),
+    path('forum/', include('forum.urls'))
 ]

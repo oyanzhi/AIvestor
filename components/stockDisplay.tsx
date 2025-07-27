@@ -50,7 +50,7 @@ type StockInfo = {
     short_ratio: number;
 };
 
-export default function StockDisplay({ token }: {token: string| null}) {
+export default function StockDisplay({ token }: { token: string | null }) {
     const [stock, setStock] = useState<StockInfo | null>(null);
     const [name, setName] = useState("");
     const [ticker, setTicker] = useState("");
@@ -127,7 +127,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
             setName("");
             setTicker("");
             setStock(data);
-            
+
             // Fetch historical data for the chart 
             await fetchHistoricalData(resolvedTicker, selectedPeriod);
             alert("Stock search successfull!")
@@ -153,17 +153,17 @@ export default function StockDisplay({ token }: {token: string| null}) {
 
         try {
             const res = await fetch(`https://aivestor-wnxv.onrender.com/stocks/gethistory?symbol=${ticker}&period=${actualPeriod}&interval=${interval}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
             });
             const data = await res.json();
             setHistoryData(data.historyData || []);
         } catch (err) {
             console.error("Historical fetch failed", err);
-        } finally{
+        } finally {
             setChartLoading(false);
         }
     };
@@ -189,19 +189,19 @@ export default function StockDisplay({ token }: {token: string| null}) {
 
     return (
         <div className="w-full min-h-screen pt-24 px-4 sm:px-8">
-        {/* Form */}
-        <div className="flex justify-center mb-10 ">
-            <form
-                onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
-                className="flex flex-wrap gap-4 items-center bg-gray-800 p-4 rounded-xl shadow-md"
-            >
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-900 text-white w-40 placeholder-gray-400 border border-gray-700" /> 
-                <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-900 text-white w-28 placeholder-gray-400 border border-gray-700" />
-                <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Searching..." /> : "Search"}</button>
-            </form>
-        </div>
+            {/* Form */}
+            <div className="flex justify-center mb-10 ">
+                <form
+                    onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+                    className="flex flex-wrap gap-4 items-center bg-gray-800 p-4 rounded-xl shadow-md"
+                >
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Stock Name" className="p-2 rounded bg-gray-900 text-white w-40 placeholder-gray-400 border border-gray-700" />
+                    <input value={ticker} onChange={(e) => setTicker(e.target.value)} placeholder="Symbol" className="p-2 rounded bg-gray-900 text-white w-28 placeholder-gray-400 border border-gray-700" />
+                    <button type="submit" className="bg-buttonblue hover:bg-buttonhoverblue text-white px-4 py-2 rounded-xl font-semibold transition">{loading ? <LoadingIndicator text="Searching..." /> : "Search"}</button>
+                </form>
+            </div>
 
-        {stock && (
+            {stock && (
                 <div className="max-w-7xl mx-auto space-y-12">
                     <div className="bg-gray-800  text-white p-6 rounded-xl shadow-md space-y-2">
                         <h1 className="text-2xl font-bold tracking-wide">{stock.name} ({stock.ticker})</h1>
@@ -216,7 +216,7 @@ export default function StockDisplay({ token }: {token: string| null}) {
 
                                 return (
                                     <span className={`ml-0.5 text-sm font-medium ${isPositive ? "text-green-400" : "text-red-400"} flex items-center`}>
-                                    {isPositive ? "▲" : "▼"} {Math.abs(change).toFixed(2)} ({Math.abs(changePercent).toFixed(2)}%)
+                                        {isPositive ? "▲" : "▼"} {Math.abs(change).toFixed(2)} ({Math.abs(changePercent).toFixed(2)}%)
                                     </span>
                                 );
                             })()}
@@ -237,8 +237,8 @@ export default function StockDisplay({ token }: {token: string| null}) {
                                     const colorClass = isUp
                                         ? "text-green-400"
                                         : isDown
-                                        ? "text-red-400"
-                                        : "text-yellow-300";
+                                            ? "text-red-400"
+                                            : "text-yellow-300";
 
                                     const arrow = isUp ? "▲" : isDown ? "▼" : "●";
 
@@ -264,15 +264,15 @@ export default function StockDisplay({ token }: {token: string| null}) {
                                     {stock.valuation}
                                 </span>
                             </span>
-                            
+
                             <span className="text-gray-300">
                                 Risk Level:{" "}
                                 <span className={`${stock.risk_level === "High" ? "text-red-500" : stock.risk_level === "Medium" ? "text-yellow-400" : "text-green-400"}`}>
                                     {stock.risk_level}
                                 </span>
                             </span>
-                            
-                        </div>    
+
+                        </div>
                     </div>
 
                     <div className="flex gap-2 mb-4">
@@ -280,11 +280,10 @@ export default function StockDisplay({ token }: {token: string| null}) {
                             <button
                                 key={p.value}
                                 onClick={() => fetchHistoricalData(stock?.ticker ?? "", p.value)}
-                                className={`px-3 py-1 rounded text-sm font-medium ${
-                                    selectedPeriod === p.value
+                                className={`px-3 py-1 rounded text-sm font-medium ${selectedPeriod === p.value
                                         ? "bg-blue-600 text-white"
                                         : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                                }`}
+                                    }`}
                             >
                                 {p.label}
                             </button>

@@ -43,7 +43,7 @@ function LandingPage() {
     return (
         <div>
             {/* LogInsideBar */}
-            <LoginNavBar/>
+            <LoginNavBar />
 
             {/* Introduction Section */}
             <section className="flex flex-col items-center justify-center bg-deepblue min-h-screen pt-20">
