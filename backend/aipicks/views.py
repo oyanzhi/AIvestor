@@ -80,7 +80,8 @@ class FetchAIRecommendations(APIView):
         recommendations = Stock.objects.exclude(id__in=in_watchlist).filter(
             previous_close__isnull=False,
             predicted_closing_price__isnull=False,
-            expected_percentage_change_in_price__isnull=False
+            expected_percentage_change_in_price__isnull=False,
+            expected_percentage_change_in_price__gt=0
         ).order_by(
             "-expected_percentage_change_in_price"
         )[:5]
