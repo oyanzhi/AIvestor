@@ -6,10 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from stocks.services import get_or_create_stock
 from .models import Watchlist
 from stocks.models import Stock
-from .watchlistserializer import WatchlistSerializer
-from stocks.serializers import StockSerializer
-import math
-
+from .watchlistserializer import WatchlistSerializer, AIPicksSerializer
 
 # Create your views here.
 class AddWatchlist(APIView):
@@ -88,7 +85,7 @@ class FetchAIRecommendations(APIView):
             "-expected_percentage_change_in_price"
         )[:5]
 
-        serialized = StockSerializer(recommendations, many=True)
+        serialized = AIPicksSerializer(recommendations, many=True)
 
         return Response(serialized.data, status=status.HTTP_200_OK)
 
