@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from registeraccountapp.models import AccountDatabase
 from django.contrib.auth.hashers import make_password
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class ProfileUpdateTestCase(APITestCase):
@@ -13,11 +13,12 @@ class ProfileUpdateTestCase(APITestCase):
             username="test", email="aloysius7m@gmail.com", password="testpassword123"
         )
         self.url = "/profileUpdateRequest/update/"
-        self.token = Token.objects.create(user=self.user)
+        refresh = RefreshToken.for_user(self.user)
+        self.access_token = str(refresh.access_token)
 
     # helper to test authenticated user
     def auth_header(self):
-        return {"HTTP_AUTHORIZATION": f"Token {self.token.key}"}
+        return {"HTTP_AUTHORIZATION": f"Bearer {self.access_token}"}
 
     # TEST 1
     def test_successful_profile_update(self):
