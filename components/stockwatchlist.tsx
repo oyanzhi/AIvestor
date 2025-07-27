@@ -17,7 +17,7 @@ export default function StockWatchList({ token }: { token: string | null }) {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/aipicks/fetchwatchlist/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/fetchwatchlist/", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -51,7 +51,7 @@ export default function StockWatchList({ token }: { token: string | null }) {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/aipicks/fetchairecommendations/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/fetchairecommendations/", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -90,7 +90,7 @@ export default function StockWatchList({ token }: { token: string | null }) {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/aipicks/addwatchlist/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/addwatchlist/", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -192,7 +192,7 @@ export default function StockWatchList({ token }: { token: string | null }) {
                     <thead>
                         <tr className="text-gray-400">
                             <th scope="col" className="px-25 py-3 border-b text-center">Ticker</th>
-                            <th scope="col" className="px-25 py-3 border-b text-center">Expected Percentage Change In Price</th>
+                            <th scope="col" className="px-25 py-3 border-b text-center">Expected Percentage Change In Price (%)</th>
                         </tr>
                     </thead>
                     <tbody>
