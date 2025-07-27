@@ -126,7 +126,7 @@ def update_all_stock_metrics(verbose=False):
 
             if previous_close and previous_close != 0.0:
                 try:
-                    change = (stock.predicted_closing_price - previous_close) / previous_close * 100
+                    change = (stock.predicted_closing_price - Decimal(previous_close)) / Decimal(previous_close) * 100
 
                     if math.isfinite(float(change)):
                         stock.expected_percentage_change_in_price = change

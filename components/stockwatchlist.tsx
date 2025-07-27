@@ -127,7 +127,7 @@ export default function StockWatchList({ token }: { token: string | null }) {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/aipicks/removewatchlist/", {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/removewatchlist/", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
