@@ -27,6 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-k&9u%zbe@pd=j+!7!#tg$m85c(vnjks9j+(_ilo@8_cmo=gufs'
 
+GOOGLE_CLIENT_ID = os.getenv("googleClientID")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
