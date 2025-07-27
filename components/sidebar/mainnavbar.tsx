@@ -55,10 +55,6 @@ function MainNavBar({ noshow = [] }: MainNavBarProps) {
         {!noshow.includes('settings') && (
           <NavButton href="/profilesetup" Icon={Cog6ToothIcon} label="Settings" />
         )}
-        {/* Extra feature, to be implemented for ms3 */}
-        {!noshow.includes("admin") && (
-          <NavButton href="/dashboard" Icon={UserGroupIcon} label="Admin" />
-        )}
         <NavButton href="/" Icon={ArrowRightEndOnRectangleIcon} label="Logout" side={Logout()} />
       </nav>
     </aside>
