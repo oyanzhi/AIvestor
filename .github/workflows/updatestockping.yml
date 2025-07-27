@@ -1,0 +1,18 @@
+name: Scheduled Stock Update Ping
+# This workflow is triggered at a scheduled interval of every 15 minutes
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string.
+    # /15 denotes that it will run once every 15 minutes
+    - cron:  '0 */4 * * *'
+
+jobs:
+  pinger_job:
+    name: A job to ping and update stocks details
+    runs-on: ubuntu-latest
+    env:
+      URL: ${{ secrets.UPDATE_STOCK }}
+      METHOD: POST  # the method used to make the request. It is GET by default
+    steps:
+      - id: ping
+        uses: sisodiya2421/pinger@master
