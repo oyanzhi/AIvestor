@@ -32,7 +32,7 @@ class StockPredict:
 
     def predict(self, symbol):
 
-        seq = yf.download(symbol, end=self.end, start=self.start)
+        seq = yf.download(symbol, end=self.end, start=self.start, auto_adjust=False)
 
         seq = seq.tail(7)
 
