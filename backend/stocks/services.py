@@ -132,7 +132,7 @@ def update_all_stock_metrics(verbose=False):
                         stock.expected_percentage_change_in_price = change
                     else:
                         stock.expected_percentage_change_in_price = None
-                except e:
+                except Exception as e:
                     stock.expected_percentage_change_in_price = None
 
             else:
