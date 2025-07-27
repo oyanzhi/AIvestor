@@ -109,11 +109,9 @@ export default function StockWatchList({ token }: { token: string | null }) {
 
             setInput("");
             fetchWatchlist();
-            console.log(tickerlist)
             return;
 
         } catch (error) {
-            console.error(error);
             alert("Failed to Fetch Stock");
             setInput("");
             return;
