@@ -123,6 +123,8 @@ def update_all_stock_metrics(verbose=False):
             if predicted_price is not None:
                 stock.predicted_closing_price = Decimal(str(predicted_price))
 
+            stock.expected_percentage_change_in_price = (predicted_price - previous_close) / previous_close * 100
+
             stock.save()
             if verbose:
                 print(f"✅ Updated {stock.ticker}")

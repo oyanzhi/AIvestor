@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'notifications',
     'stocks',
     'portfolio',
-    'forum'
+    'forum',
+    'aipicks'
 ]
 
 REST_FRAMEWORK = {

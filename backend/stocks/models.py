@@ -37,6 +37,7 @@ class Stock(models.Model):
     predicted_closing_price = models.DecimalField(
         max_digits=12, decimal_places=2, null=True, blank=True
     )
+    expected_percentage_change_in_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     valuation_score = models.IntegerField(null=True, blank=True)
     valuation = models.CharField(
         max_length=20,
