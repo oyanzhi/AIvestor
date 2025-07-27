@@ -28,7 +28,7 @@ function Logout() {
 
 function MainNavBar({ noshow = [] }: MainNavBarProps) {
   return (
-    <aside className="fixed w-full h-16 bg-contrastdeepblue border-b border-[#000635] flex items-center justify-between px-6 shadow">
+    <aside className="fixed w-full h-16 z-50 bg-contrastdeepblue border-b border-[#000635] flex items-center justify-between px-6 shadow">
       {/* Left: Brand */}
       <HomeButton todashboard={true} />
 
