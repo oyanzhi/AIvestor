@@ -397,7 +397,7 @@ def get_or_create_stock(ticker):
             pb_ratio=info.get("priceToBook"),
             dividend_yield=info.get("dividendYield"),
             beta=info.get("beta"),
-            debt_to_asset_ratio=calculate_debt_to_asset_ratio(info),
+            debt_to_asset_ratio=calculate_debt_to_asset_ratio(yf_stock, info),
             free_cash_flow=info.get("freeCashflow"),
             volatility=estimate_volatility(yf_stock),
         )
