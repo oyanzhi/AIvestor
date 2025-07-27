@@ -46,6 +46,3 @@ class VerifyAccountView(APIView):
         user.verification_code = None
         user.save()
         return HttpResponseRedirect(f"{settings.FRONTEND_DOMAIN}/login")
-        
-
-        return Response({"message": "Invalid Verifcation"}, status=status.HTTP_400_BAD_REQUEST)
