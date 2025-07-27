@@ -30,6 +30,6 @@ urlpatterns = [
     path('profileUpdateRequest/', include('profileUpdateRequest.urls')),
     path('stocks/', include('stocks.urls')),
     path('portfolio/', include('portfolio.urls')),
-    path('notifications/', include("notifications.urls"))
+    path('notifications/', include("notifications.urls")),
     path('forum/', include('forum.urls'))
 ]
