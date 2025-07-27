@@ -8,6 +8,7 @@ from .models import Watchlist
 from stocks.models import Stock
 from .watchlistserializer import WatchlistSerializer
 from stocks.serializers import StockSerializer
+import math
 
 
 # Create your views here.
