@@ -56,7 +56,7 @@ def send_verification_email(user):
     from_email = settings.DEFAULT_FROM_EMAIL
     to = [user.email]
 
-    verification_link = f"{settings.FRONTEND_DOMAIN}/verify/?code={user.verification_code}"
+    verification_link = f"{settings.FRONTEND_DOMAIN}/registeraccountapp/verifyaccount/?code={user.verification_code}"
 
     context = {
         "user": user,

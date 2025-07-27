@@ -105,6 +105,8 @@ class GoogleSignInView(APIView):
                     oauth_provider = "google",
                     oauth_provider_id = sub,
                     is_oauth_user = True,
+                    is_verified = True,
+                    verification_code = None 
                 )
         
         token = RefreshToken.for_user(user)
