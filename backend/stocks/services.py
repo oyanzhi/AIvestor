@@ -5,6 +5,7 @@ import yfinance as yf
 import pandas as pd
 from decimal import Decimal, InvalidOperation
 from ml.predict import StockPredict
+import math
 
 
 def update_all_stock_metrics(verbose=False):
@@ -123,8 +124,19 @@ def update_all_stock_metrics(verbose=False):
             if predicted_price is not None:
                 stock.predicted_closing_price = Decimal(str(predicted_price))
 
-            if previous_close is not 0.0:
-                stock.expected_percentage_change_in_price = (stock.predicted_closing_price - previous_close) / previous_close * 100
+            if previous_close and previous_close != 0.0:
+                try:
+                    change = (stock.predicted_closing_price - previous_close) / previous_close * 100
+
+                    if math.isfinite(float(change)):
+                        stock.expected_percentage_change_in_price = change
+                    else:
+                        stock.expected_percentage_change_in_price = None
+                except e:
+                    stock.expected_percentage_change_in_price = None
+
+            else:
+                stock.expected_percentage_change_in_price = None
 
             stock.save()
             if verbose:
