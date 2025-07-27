@@ -57,7 +57,7 @@ function LandingPage() {
                         Your personal AI investment assistant.
                     </p>
 
-                    <video controls className="w-full rounded-lg shadow-lg">
+                    <video data-testid="introvid" controls className="w-full rounded-lg shadow-lg">
                         <source src="/introductionvideo.mp4" type="video/mp4" />
                     </video>
                 </div>
