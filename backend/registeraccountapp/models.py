@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+import uuid
+
 
 # Manager
 class AccountDatabaseManager(BaseUserManager):
@@ -11,7 +13,7 @@ class AccountDatabaseManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
-        user.save(using=self.db)
+        user.save(using=self._db)
         return user
 
     # currently super users are not used yet but can be created
@@ -53,6 +55,8 @@ class AccountDatabase(AbstractBaseUser):
     oauth_provider = models.CharField(max_length=50, blank=True, null=False)
     oauth_provider_id = models.CharField(max_length=255, blank=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp of when the account was created
+    is_verified = models.BooleanField(default=False)
+    verification_code = models.UUIDField(default=uuid.uuid4, unique=True)
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="Last Login")
     is_active = models.BooleanField(default=True, verbose_name="Is Active")
     is_staff = models.BooleanField(default=False, verbose_name="Is Staff")

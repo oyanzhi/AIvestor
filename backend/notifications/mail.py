@@ -50,3 +50,29 @@ def send_welcome_email(user):
     msg.send()
 
     save_email(user, subject, text_content, html_content, email_type="New Account Created")
+
+def send_verification_email(user):
+    subject = "AIvestor Account Verification"
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to = [user.email]
+
+    verification_link = f"{settings.FRONTEND_DOMAIN}/verify/?code={user.verification_code}"
+
+    context = {
+        "user": user,
+        "verification_link": verification_link,
+        "support_email": settings.DEFAULT_SUPPORT_EMAIL,
+    }
+
+    text_content = render_to_string("emails/verification.txt", context)
+    html_content = render_to_string("emails/verification.html", context)
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+    save_email(user, subject, text_content, html_content, email_type="Account Verification")
+
+
+
+

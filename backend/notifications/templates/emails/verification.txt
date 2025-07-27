@@ -1,0 +1,11 @@
+Hi {{ user.display_name|default:user.username }},
+
+You have successfully created an account with us!
+
+Please Click the Following Link to Verify.
+
+{{ verification_link }}
+
+If you have any questions, contact us at {{ support_email }}.
+
+– The AIvestor Team
