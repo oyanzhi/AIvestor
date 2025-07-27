@@ -143,7 +143,17 @@ export default function PostPage() {
         }
     }
 
-    if (loading) return <div className="text-center mt-10 text-white">Loading...</div>;
+    if (loading) {
+        return (
+            <div className="flex flex-col min-h-screen bg-deepblue text-white">
+                <MainNavBar />
+                <main className="flex-grow w-full p-6 pt-24 pb-24 flex items-center justify-center">
+                    <p className="text-white text-center">Loading...</p>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
     if (error || !post) return <div className="text-center mt-10 text-red-400">{error || "Post not found"}</div>;
 
     const sortedComments = [...post.comments].sort((a, b) => {

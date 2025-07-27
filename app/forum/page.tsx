@@ -96,7 +96,17 @@ export default function ForumPage() {
         return 0;
     });
 
-    if (loading) return <p className="text-white text-center mt-10">Loading posts...</p>;
+    if (loading) {
+        return (
+            <div className="flex flex-col min-h-screen bg-deepblue text-white">
+                <MainNavBar />
+                <main className="flex-grow w-full p-6 pt-24 pb-24 flex items-center justify-center">
+                    <p className="text-white text-center">Loading posts...</p>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
     if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
 
     return (
@@ -140,7 +150,6 @@ export default function ForumPage() {
                         >
                             <div className="flex flex-col items-center justify-center bg-gray-900 px-3 rounded-l-xl select-none text-gray-400">
                                 <button
-                                    type="button"
                                     disabled={voteLoadingId === post.id}
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -157,7 +166,6 @@ export default function ForumPage() {
                                 </button>
                                 <span className="font-semibold text-lg">{post.votes ?? 0}</span>
                                 <button
-                                    type="button"
                                     disabled={voteLoadingId === post.id}
                                     onClick={(e) => {
                                         e.stopPropagation();
