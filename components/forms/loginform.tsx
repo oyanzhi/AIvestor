@@ -41,7 +41,9 @@ function LoginForm() {
                 alert("You have successfully log in!");
             } else {
                 const errorData = await response.json(); //error data
-                if (errorData.non_field_errors) {
+                if (errorData.message === "Account Not Verified. Please check your inbox.") {
+                    alert("Your Account is not Verified yet. Please Check your email.");
+                } else if (errorData.non_field_errors) {
                     alert("Invalid Username or Password. Please try again.");
                 } else {
                     alert("Unknown Error Occured. Please try again.");
