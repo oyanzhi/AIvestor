@@ -14,6 +14,7 @@ class StockSerializer(serializers.ModelSerializer):
             "current_price",
             "previous_close",
             "predicted_closing_price",
+            "expected_percentage_change_in_price",
             "market_cap",
             "pe_ratio",
             "forward_pe",
