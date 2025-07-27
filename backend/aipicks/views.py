@@ -15,10 +15,12 @@ class AddWatchlist(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        tickersymbol = request.data.get("tickersymbol").upper().strip()
+        tickersymbol = request.data.get("tickersymbol")
 
         if not tickersymbol:
             return Response({"message": "Missing Ticker"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        tickersymbol = tickersymbol.upper().strip()
         
         try:
             stock_entry = get_or_create_stock(tickersymbol)
@@ -32,6 +34,30 @@ class AddWatchlist(APIView):
             return Response({"message": "Successfully added to watchlist.", "entry": serialized.data}, status=status.HTTP_200_OK)
         
         return Response({"message": "Ticker already in watchlist"}, status=status.HTTP_200_OK)
+
+
+class RemoveWatchlist(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        tickersymbol = request.data.get("tickersymbol")
+
+        if not tickersymbol:
+            return Response({"message": "Missing Ticker"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        tickersymbol = tickersymbol.upper().strip()
+
+        try:
+            stock = Stock.objects.get(ticker=tickersymbol)
+        except Stock.DoesNotExist:
+            return Response({"message": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        deleted, _ = Watchlist.objects.filter(user=request.user, stock=stock).delete()
+
+        if deleted:
+            return Response({"message": "Successfully Removed from Watchlist"}, status=status.HTTP_200_OK)
+        
+        return Response({"message": "Stock Not In Watchlist"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class FetchWatchlist(APIView):

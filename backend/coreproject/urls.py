@@ -31,5 +31,6 @@ urlpatterns = [
     path('stocks/', include('stocks.urls')),
     path('portfolio/', include('portfolio.urls')),
     path('notifications/', include("notifications.urls")),
-    path('forum/', include('forum.urls'))
+    path('forum/', include('forum.urls')),
+    path('aipicks/', include('aipicks.urls'))
 ]

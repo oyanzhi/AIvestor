@@ -1,74 +1,165 @@
 "use client";
-import { useState } from 'react';
-
-type Stock = {
-    ticker: string;
-    predictedclosing: number;
-}
+import { useState, useEffect } from 'react';
 
 export default function StockWatchList({ token }: { token: string | null }) {
-    const [tickerlist, setTickerList] = useState<Stock[]>([]);
+    const [tickerlist, setTickerList] = useState<{ ticker: string, expected_percentage_change_in_price: number }[]>([]);
+    const [recommendations, setRecommendations] = useState<{ ticker: string, expected_percentage_change_in_price: number }[]>([]);
     const [input, setInput] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
     };
 
+    useEffect(() => {
+        const fetchWatchlist = async () => {
+            if (!token) {
+                alert("Invalid Login Credentials.");
+                return;
+            }
+
+            try {
+                const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/fetchwatchlist/", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    alert("Failed to fetch Watchlist.");
+                    return;
+                }
+
+                const data = await response.json();
+
+                setTickerList(data.map((stock: any) => ({
+                    ticker: stock.ticker,
+                    expected_percentage_change_in_price: stock.expected_percentage_change_in_price
+
+                })));
+            } catch (error) {
+                alert("Error fetching Watchlist");
+            }
+        }
+
+        fetchWatchlist();
+    }, [token])
+
+    useEffect(() => {
+        const fetchRecommendations = async () => {
+            if (!token) {
+                alert("Invalid Login Credentials.");
+                return;
+            }
+
+            try {
+                const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/fetchairecommendations/", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    alert("Failed to fetch AI Recommendations.");
+                    return;
+                }
+
+                const data = await response.json();
+
+                setRecommendations(data.map((stock: any) => ({
+                    ticker: stock.ticker,
+                    expected_percentage_change_in_price: stock.expected_percentage_change_in_price
+
+                })));
+            } catch (error) {
+                alert("Error fetching Recommendations");
+            }
+        }
+
+        fetchRecommendations();
+    }, [token])
+
     const addTicker = async () => {
         const trimticker = input.trim().toUpperCase();
+
         if (!token) {
             alert("You're not loggined in. Feature Only Available on Login.");
             return;
         }
-        if (!tickerlist.some((s) => s.ticker === trimticker)) {
-            try {
-                const response = await fetch("https://aivestor-wnxv.onrender.com/stockmodelrequest/predictstocklist/", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ tickersymbol: [trimticker] })
-                })
 
-                if (!response.ok) {
-                    alert("Invalid Ticker");
-                    setInput("");
-                    return;
-                }
+        try {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/addwatchlist/", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ tickersymbol: trimticker })
+            });
 
-                const result = await response.json();
-                const price = result[trimticker];
+            const data = await response.json();
 
-                if (price === undefined) {
-                    alert("No Result");
-                    setInput("");
-                    return;
-                }
-
-                setTickerList(prev => [...prev, { ticker: trimticker, predictedclosing: price }]);
+            if (!response.ok) {
+                alert(data.message);
                 setInput("");
                 return;
-            } catch (error) {
-                alert("Failed to Fetch Prediction");
-                setInput("");
-                return;
-            }
-        }
-        alert("Ticker Already Added.");
-        setInput("");
-        return;
-    }
+            };
 
-    const removeTicker = () => {
-        const trimticker = input.trim().toUpperCase();
-        if (tickerlist.some((s) => s.ticker === trimticker)) {
-            setTickerList((prev) => prev.filter(x => x.ticker !== trimticker));
+            const newEntry = {
+                ticker: data.entry.stock.ticker,
+                expected_percentage_change_in_price: data.entry.stock.expected_percentage_change_in_price
+            };
+
+            setTickerList((prev) => [...prev, newEntry]);
+            setInput("");
+            return;
+
+        } catch (error) {
+            alert("Failed to Fetch Stock");
             setInput("");
             return;
         }
-        alert("Not In Watchlist")
-        setInput("");
+    };
+
+    const removeTicker = async () => {
+        const trimticker = input.trim().toUpperCase();
+
+        if (!token) {
+            alert("You're not loggined in. Feature Only Available on Login.");
+            return;
+        }
+
+        try {
+            const response = await fetch("https://aivestor-wnxv.onrender.com/aipicks/removewatchlist/", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ tickersymbol: trimticker })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message);
+                setInput("");
+                return;
+            };
+
+            setTickerList((prev) => prev.filter((item) => item.ticker !== trimticker));
+            alert("Ticker Removed.");
+            setInput("");
+            return;
+        } catch (error) {
+            alert("Failed to Remove from Watchlist.");
+            setInput("");
+            return;
+        }
+
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,25 +189,48 @@ export default function StockWatchList({ token }: { token: string | null }) {
                 </p>
             </div>
 
-            {/* Table */}
+            {/* Watchlist */}
+            <h2 className="text-white text-xl font-bold mt-8 mb-2 text-center">AI Recommends</h2>
             <div className="w-full flex justify-center">
                 <table className="table-auto border-separate border-spacing-y-2">
                     <thead>
                         <tr className="text-gray-400">
                             <th scope="col" className="px-25 py-3 border-b">Ticker</th>
-                            <th scope="col" className="px-25 py-3 border-b">Predicted Next-Day Closing Price</th>
+                            <th scope="col" className="px-25 py-3 border-b">Expected Percentage Change In Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {tickerlist.map(({ ticker, predictedclosing }) => (
+                        {recommendations.map(({ ticker, expected_percentage_change_in_price }) => (
                             <tr key={ticker} className="text-white">
                                 <td className="px-25 py-3 border-t border-b">{ticker}</td>
-                                <td className="px-25 py-5 border-t border-b">{predictedclosing}</td>
+                                <td className="px-25 py-5 border-t border-b">{expected_percentage_change_in_price.toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            {/* Recommendations */}
+            <h2 className="text-white text-xl font-bold mt-8 mb-2 text-center">Your Watchlist</h2>
+            <div className="w-full flex justify-center">
+                <table className="table-auto border-separate border-spacing-y-2">
+                    <thead>
+                        <tr className="text-gray-400">
+                            <th scope="col" className="px-25 py-3 border-b">Ticker</th>
+                            <th scope="col" className="px-25 py-3 border-b">Expected Percentage Change In Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tickerlist.map(({ ticker, expected_percentage_change_in_price }) => (
+                            <tr key={ticker} className="text-white">
+                                <td className="px-25 py-3 border-t border-b">{ticker}</td>
+                                <td className="px-25 py-5 border-t border-b">{expected_percentage_change_in_price.toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     )
 }
