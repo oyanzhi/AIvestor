@@ -56,7 +56,7 @@ class AccountDatabase(AbstractBaseUser):
     oauth_provider_id = models.CharField(max_length=255, blank=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp of when the account was created
     is_verified = models.BooleanField(default=False)
-    verification_code = models.UUIDField(default=uuid.uuid4) #assumed uniqueness
+    verification_code = models.UUIDField(default=uuid.uuid4, null=True) #assumed uniqueness
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="Last Login")
     is_active = models.BooleanField(default=True, verbose_name="Is Active")
     is_staff = models.BooleanField(default=False, verbose_name="Is Staff")
