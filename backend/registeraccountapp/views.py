@@ -15,8 +15,8 @@ class RegisterAccountAppView(APIView):
         if serializer.is_valid():
             user = serializer.save()
 
-            send_welcome_email(user)
             send_verification_email(user)
+            send_welcome_email(user)
 
             return Response(
                 {"message": "Registration Successful! Please Check Your Email for Verification."}, status=status.HTTP_201_CREATED
