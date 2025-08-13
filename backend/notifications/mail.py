@@ -3,13 +3,14 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from .models import NotificationsDatabase
 
+
 def save_email(user, subject, body_text, body_html, email_type):
     NotificationsDatabase.objects.create(
         user=user,
         subject=subject,
         body_text=body_text,
         body_html=body_html,
-        email_type=email_type
+        email_type=email_type,
     )
 
 
@@ -32,6 +33,7 @@ def send_profile_updated_email(user):
 
     save_email(user, subject, text_content, html_content, email_type="Profile Update")
 
+
 def send_welcome_email(user):
     subject = "AIvestor Account Creation"
     from_email = settings.DEFAULT_FROM_EMAIL
@@ -49,7 +51,10 @@ def send_welcome_email(user):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-    save_email(user, subject, text_content, html_content, email_type="New Account Created")
+    save_email(
+        user, subject, text_content, html_content, email_type="New Account Created"
+    )
+
 
 def send_verification_email(user):
     subject = "AIvestor Account Verification"
@@ -71,8 +76,6 @@ def send_verification_email(user):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-    save_email(user, subject, text_content, html_content, email_type="Account Verification")
-
-
-
-
+    save_email(
+        user, subject, text_content, html_content, email_type="Account Verification"
+    )

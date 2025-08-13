@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class AipicksConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'aipicks'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "aipicks"

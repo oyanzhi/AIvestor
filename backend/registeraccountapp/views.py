@@ -21,9 +21,13 @@ class RegisterAccountAppView(APIView):
             send_welcome_email(user)
 
             return Response(
-                {"message": "Registration Successful! Please Check Your Email for Verification."}, status=status.HTTP_201_CREATED
+                {
+                    "message": "Registration Successful! Please Check Your Email for Verification."
+                },
+                status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class VerifyAccountView(APIView):
     permission_classes = [AllowAny]
@@ -32,16 +36,22 @@ class VerifyAccountView(APIView):
         code = request.query_params.get("code")
 
         if not code:
-            return Response({"message": "Missing Verification Code"}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                {"message": "Missing Verification Code"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
             user = AccountDatabase.objects.get(verification_code=code)
         except AccountDatabase.DoesNotExist:
-            return Response({"message": "Invalid Verification Code"}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                {"message": "Invalid Verification Code"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         if user.is_verified:
             return HttpResponseRedirect(f"{settings.FRONTEND_DOMAIN}/login")
-        
+
         user.is_verified = True
         user.verification_code = None
         user.save()

@@ -16,11 +16,12 @@ class ForumPostListCreateView(generics.ListCreateAPIView):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context.update({"request": self.request}) 
+        context.update({"request": self.request})
         return context
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
 
 # Retrieve a specific post
 class ForumPostDetailView(generics.RetrieveAPIView):
@@ -55,7 +56,7 @@ class ForumCommentListCreateView(APIView):
 class VoteCreateUpdateView(APIView):
     def post(self, request):
         user = request.user
-        value = request.data.get("value") 
+        value = request.data.get("value")
         content_type_id = request.data.get("content_type")
         object_id = request.data.get("object_id")
 

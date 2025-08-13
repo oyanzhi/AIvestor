@@ -14,23 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 
+
 def redirect_root(request):
     return redirect("https://aivestor.vercel.app")
 
+
 urlpatterns = [
-    path('', redirect_root),
-    path('admin/', admin.site.urls),
-    path('registeraccountapp/', include('registeraccountapp.urls')),
-    path('loginaccountapp/', include('loginaccountapp.urls')),
-    path('stockmodelrequest/', include('stockmodelrequest.urls')),
-    path('profileUpdateRequest/', include('profileUpdateRequest.urls')),
-    path('stocks/', include('stocks.urls')),
-    path('portfolio/', include('portfolio.urls')),
-    path('notifications/', include("notifications.urls")),
-    path('forum/', include('forum.urls')),
-    path('aipicks/', include('aipicks.urls'))
+    path("", redirect_root),
+    path("admin/", admin.site.urls),
+    path("registeraccountapp/", include("registeraccountapp.urls")),
+    path("loginaccountapp/", include("loginaccountapp.urls")),
+    path("stockmodelrequest/", include("stockmodelrequest.urls")),
+    path("profileUpdateRequest/", include("profileUpdateRequest.urls")),
+    path("stocks/", include("stocks.urls")),
+    path("portfolio/", include("portfolio.urls")),
+    path("notifications/", include("notifications.urls")),
+    path("forum/", include("forum.urls")),
+    path("aipicks/", include("aipicks.urls")),
 ]
